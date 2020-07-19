@@ -5,7 +5,7 @@ export const NoticesComponent = () => {
 return (
   <div>
     The following open source packages are used in the eagerwords application.
-    Please refer to <a href="https://github.com/azadbolour/eagerwords/blob/master/NOTICES.txt">open source notices </a> for links to specific licenses.
+    Please refer to <a href="https://github.com/azadbolour/eagerwords.com/blob/master/NOTICES.txt">open source notices </a> for links to specific licenses.
 
     <table>
       <tbody>
