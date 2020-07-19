@@ -1,4 +1,10 @@
 
+# IMPORTTANT
+
+Lags behind the changes in the API.
+
+TODO. Upgrade to be consistent with the laest eagerwords API.
+
 # Benchmarking Sub-Project for Boardgame
 
 ## Overview

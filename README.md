@@ -48,8 +48,7 @@ this particular  game to be played well on it with touch.
 
 The steps needed to set up the development and deployment environments for the
 application are generally scripted in the Dockerfiles used for packaging and
-deployment of the application in the _docker_ directories of haskell-server and
-scala-server. 
+deployment of the application in the _docker_ directory of scala-server. 
 
 To get started with development, follow the same steps listed in the Dockerfiles
 on your development machine. You may start by consulting the README.md file in
