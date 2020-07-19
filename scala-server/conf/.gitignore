@@ -1,0 +1,2 @@
+# application.conf has secrets - so gitignore for now.
+application.conf

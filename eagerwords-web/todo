@@ -1,0 +1,496 @@
+
+[Open Source]
+
+- Take a look at the github master branch and make sure no specific
+  data exists.
+
+- Save local copy of project including .git.
+
+- Create a clean master branch in a new repo:
+
+    https://freek.dev/1547-remove-all-history-from-a-github-repository
+
+    Create an empty intially private repository eagerwords.com on github.
+
+    Clone the existing repo.
+
+    Remove the .git directory.
+
+    git init
+
+    git add .
+    git commit -m "First commit"
+
+    # nuke history on GitHub (irreversable)
+    git remote add origin git@github.com:USERNAME/REPOSITORY.git
+    git push -u --force origin master
+
+- Mirror the repo. eagerwords.com.
+
+    https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository
+
+  Make sure all branches are accessible.
+
+- Remove obsolete branches.
+
+- Save the few important branches on local machine.
+
+- Remove history.
+
+- Remove Haskell code and references to Haskell in the docs.
+
+- Document ongoing changes in Haskell docker infrastructure.
+
+[Deployment]
+
+- Server logs should be mapped to a file in the host OS to make it easy
+  to check.
+
+- Use specific version of node and specific versions of javascript 
+  dependencies to build the UI bundle so it is reproducible.
+
+   https://classic.yarnpkg.com/blog/2016/11/24/offline-mirror/
+
+- Make sure the database file is mapped from the host file system.
+
+- add eagerwords.com to allowed origins in application.conf.
+
+- Check S3 buckets and cloudfront configuration to jog your memory.
+  get bucket-policy.json from the olf boardgame-ui. Make sure it works.
+
+- Fix issues with images.
+
+- Add indexes.
+
+- Try t3.large 2 vCpu and 8 MG. 3 year contract is $9,000.00. t3a.large
+  additional 10%. Understand price of converibles and converting. Adding
+  another $340.00 for convertible.
+
+  https://calculator.aws/#/createCalculator
+
+  Using 16GB increases the base (non-convertible) process to 1235.00.
+  So this is a btter deal assuming that 2 vCPUs are sufficient.
+  vCPU is basically a hyperthreaded core.
+
+  Going up to 4 vCPU is safer. That increases the price to $1763.
+
+- Figure out how much storage you need. 10GB for db should be sufficient.
+  Add another 10GB for the OS. And 10 GB for other stuff. 30GB should be enough.
+
+    SSD 12c/GB/month
+
+- Figure out the backup stratgy.
+
+  https://aws.amazon.com/blogs/aws/aws-backup-automate-and-centrally-manage-your-backups/
+
+- Rather than email properties file, just put the properties in
+  application.conf.
+
+- Create secure support account for eagerwords after creating 
+  email service in gmail for eagerwords.com. Use it to send emails.
+
+- Test UI calls from amazon cloudfront to server AWS machine.
+
+- Test dockerization on EC2 machine.
+
+- Test UI deployed to AWS against EC2 server.
+
+- Add known issues to github issues. On the open source project - start 
+  issues from scratch.
+
+[Necessary for Beta]
+
+- All existing tests should pass. If too hard to make them pass, comment out
+  add a todo item to refactor them later.
+  Make sure LoginTest is up-to-date and passes.
+
+- Add status bar to auth components - check for recoverable message and put
+  there. Test a recoverable error.
+
+- Differentiate between test/dev application.conf and production.
+  Document production configuration.
+
+    https://www.playframework.com/documentation/2.8.x/ProductionConfiguration
+      -Dconfig.file=/opt/conf/prod.conf
+      include "application.conf"
+      key.to.override=blah
+
+- Error boundary toast page, must provide a useful way to get back on track.
+  Are we retrying too much in case of error? For example, an undefined this?
+
+  Undersnad the use of ToastComponent. Sent message to Allen.
+
+  But realy the ErrorBoundary component should redirect back to the landing
+  page after setting loggedOut redux state. Should test it by planting an error.
+
+- Fix F12 console warning: Each child in a list should have a unique "key" prop.
+  Check the render method of BoardComponent. Warnings about memory leaks.
+
+  http://localhost:3000/ellipses-small.png (Resource size is not correct - typo
+  in the Manifest?)
+
+[Pairing With UX]
+
+- Using nvm to fix the version of node.
+
+- Need onHide for modals. But it should not do anything because 
+  we need to reset.
+
+- For all games, the word list should not overshoot the initial size of
+  the game area as a whole.
+
+- Perhaps logout and help should be hrefs?
+
+- Button color - standard button color is blue. We have it as green. OK?
+
+- Resizing the browser should not change the structure of the page at all.
+  Some of it may go of screen.
+
+  Will puuting this in index.css do the trick:
+
+  html {
+    position: relative;
+    min-width: 1024px;
+    min-height: 768px;
+    height: 100%;
+}
+
+- Extremes testing - largest value for all the game paraneters, smallest value
+  for all the game parameters. Dimension 17 overflows the bounded space. Who
+  detremines the overall dimensions of the page? The enclosing border should
+  not overflow. Also no space between successive columns. Also 17 machine
+  play is slow and leads to flashing. May want increase delay before spinner
+  to 1/2 second.
+
+- undefined 'this' error leads to 190 retries slowly being added - 
+  who calls retries? How to fix?
+
+- Nice to have maybe: A new game is started each time you go through the
+  location bar in play.Should the same game be shown? currentGameId in game
+  redux?? 
+
+- Center the game on the page and remove excess white space in the game area
+  to the right.
+
+- Suspend is off for guest. It should just not show.
+
+- Logo
+
+- Exact sizing. No changes with browser window size changes.
+
+- Extend divs to used space only.
+
+- Modals should not take any space if not shown. Control the top space on page.
+
+[Bugs]
+
+- Play page should show all its elements in browser when rendered.
+  Bottom cut off.
+
+- An undefined 'this' leads to 190 errors appearing spaced in time.
+
+- Signing up with an already-signed-up email - you get both the 
+  error decorator - but within it you get the Eula. Should not 
+  present Eula in case of an error. Use decorator and test again.
+
+- When a completed game after multiple passes is shown, the message is bot took
+  a pass, and he user can continue the game! Check game completion on
+  resumption. Board and tray should be disabled for a completed game.
+
+[Priority]
+
+- Make a pass through the entire code base, updating the documentation.
+
+- Fix URGENT todos.
+
+- Add in legal content.
+
+- Document props for each component.
+
+- Make sure mock errors work everywhere in the UI. Check HomeComponent
+  in particular.
+
+- Update doc comments everywhere after conversion to Vow.
+  GameService, GameHandler.
+ 
+[Simple Cleanup]
+
+- Turn off clientId and token when an unrecoverable error occurs.
+
+- Timeouts are unrecoverable - they should be long: 1 minute.
+
+- Better placement of validation messages in sign up page. Too far apart.
+
+
+[Cleanup]
+
+- Make sure we fail fast in case of exceptions in server side Module
+  initialization.
+
+- Use best practices for styling components - define classes in a companion 
+  module to each component.
+
+- what environment file is used for integration tests??
+  For now they are all the same. TODO. Should distinguish and document.
+
+- GameController needs all the exception processing of the kernel controller.
+  So unprocessable of Kernel controller needs to be public and used by other 
+  controllers. Add that to GameController.
+
+- Add LoggedOutException. And use in KernelServiceImpl checkLogin.
+  Include on client side.
+
+  loginExpired should be renamed to loggedOut everywhere callbacks etc.
+
+- Check error from isLoggedIn and if expired then show loginExpired. 
+  More specific than unrecoverable. Test it.
+
+[Legal]
+
+- Add to the terms of service. In rare circumstances, may not be able to resume a
+  game. Add to terms of service.
+
+- Landing page and Games page include generic footer.
+  They should all be modals - since our pages are dynamic and going
+  off to a static page we lose our state.
+
+  https://www.gnu.org/graphics/license-logos.en.html
+
+- For guest entry, add a checkbox to confirming knowldge of terms of service.
+
+- Make sure the wording of acceptance checkbox is consistent 
+  with legal recommendations. 
+
+- Sign Up would have to show a modal dialog with the terms of service.
+  After the email and link is entered, include a link to the Eula, and 
+  disable signup until they have clicked the link and checked acceptance.
+  Might as well put the acceptance checkbox at the top of the modal.
+
+  Include anchors to various sections of the Eula in TOC on top of 
+  the modal.
+
+- Will have to provide credit to the libraries used in in the application
+  itself. Have to check on that.
+
+[Look and Feel Enhancements]
+
+- In settings form, mark the default value of each parameter in the
+  dropdown.
+
+- In play component, a legend for the small color-coded word play indicators,
+  can be provided by simply adding the square of that color to the left of each
+  player name in the score component.
+
+- game.getCompletedPlayPieces should just return a Result. 
+  Eliminate the throws.
+
+  Use it after each move to see if a legal play exists and enable 
+  Commit Word accordingly. Show the word and score for the word being contructed.
+  Need a function in game to get the score using piecePoints - reduce over
+  array.
+
+  your move ... Play Word Button - word - score together
+
+- Perhaps change the wording of the swap drop button when a tray letter 
+  begins to move to indicate more clearly it can be dropped there.
+  
+- Better to have a simple square for the swap drop.
+
+[Missing Functions]
+
+- Guest should be tracked by client id (a security measure). If a guest tries to
+  act on a timed out game they should be told it timed out. The game will have
+  been removed from the system.
+
+- Bringing up a different window of the same browser, the fact that the user is
+  logged in is not recognized. For now this is by design to keep things simple.
+  But needs to be documented or if aggregious fixed, unless it opens a different
+  can of worms.
+
+- Acknowledgments.
+
+[Comprehensive Testing]
+
+- Test that if action takes longer than 1/4 second you get the spinner.
+
+- Test with mouse vs touch dnd backends. See TODO URGENT comment in PlayComponent.
+  May need some fixing.
+
+- In integration tests: resign, get the game back, try to commit a play
+  should get an error. Same with server-side test.
+
+- Test resign and cancel from the UI for both registered user and guest.
+
+- Test manually. Guest goes directly to Play page to play
+  a game. No suspent, forget, resign for guest. Guest does not see Games page.  
+  Guest can just exit the game at any time, and go back to the landing page.
+
+- Make sure that user can go into the play, settings, and games page directly if
+  still logged in. And conversely that they cannot get into any page if logged out. 
+
+- Check for browser-level context menu issues - any problems with going back,
+  etc?? 
+
+- Test user stays in the Play page when resigned.
+
+- Test error processing from machine play by simulating error.
+
+- Test logged out processing.
+
+- Test unrecoverable error processing.
+
+- Make sure server side does not allow operations on termintaed games.
+  Add to tests.
+
+- Test timeout and errors in PlayComponent using the decorator.
+
+- Test game ending with swap. 
+
+- Integration test failure. Only when run together. Investigate later.
+
+- run-integration-tests - all of them together - gets loginConformation without
+  initialization error. Running each one by itself did not get the error
+
+  retest after converting testbase1.js to async/await.
+
+- Test. Home - gotoGames - if no longer logged in alert.
+
+- Test login expiration.
+
+- Test going to the games page when login has expired.
+
+- Fix UI tests.
+
+- Get the UI tests to run again. UI-only test of the service layer.
+
+[Nice to Have]
+
+- Best to include testing component in every component to make sure 
+  unrecoverable errors look OK. But at least test user errors.
+  User-controlled display of testing component using a magic password.
+
+- consistent naming of alertMessage - statusMessage?? 
+
+- After a resign and show later, the tray pieces should not be draggable. They
+  are already not droppable on the board. But that is only half the issue.
+
+- Nice to have. Move to the list to its own column - for small games - less than 9
+
+- Nice to have. For 15 and 17 default should be tiny squares.
+
+- Name the connected components so they can be searched for.
+
+- Sign Out not logout.
+
+- Clean up validations - only show message after an edit is completed where 
+  possible, or use best practices.
+
+- Validation should be integrated with BareTextField.
+
+- create and use a gmail account for eagerwords.com instead of
+  support@bolour.com.
+
+- Unregistering the user. Confirm that all data will be lost.
+
+- No suspend for guest in server. Error. InvalidGuestAction - name of action.
+  No resume for guest. Same. Add to tests on both sides.
+
+- Case insensitive token.
+
+- Server Validations. Play validation 
+  
+  https://www.playframework.com/documentation/2.6.1/api/java/play/data/validation/Constraints.EmailValidator.html
+  https://alvinalexander.com/java/jwarehouse/play-framework-2.3/framework/src/play/src/main/scala/play/api/data/validation/Validation.scala.shtml
+
+- Implement logout, in GamesComponent and in HomeComponent.
+
+- Auth in the server needs to be a separate project.
+  Separate out AuthController from KernelController.
+  Abstract out repetitious code in AuthController.
+  Separate out AuthService 
+
+  Kernel becomes minimal.
+
+- Save the login evidence across location bar refreshes.
+
+- Make a pass through the entire code base and document everything.
+
+- Can't turn off processing mode behind modal dialog
+  for unrecoverable error. A race condition it looks like.
+
+- Error boundary does not say what the error was. It is an unrecoverable
+  error and should be treated like all unrecoverable errors with a reset.
+
+- Use bootstrap modal consistently everywhere.
+
+- Add cancel to the confirm login and signup. 
+
+- Cannot copy and paste error in ModalNotifier. Change to allow.
+  Use react-copy-to-clipboard.
+
+- Eula should be available from eveywhere as a modal.
+
+- Dennis. Error reporting - title should be the message
+
+  Text should be an explanation and how to fix with data used for the call that
+  produced the error repeated, so the user can see if they made a spelling
+  mistake.
+
+- Do comprehensive UI logging only in dev and test.
+
+- Unrecoverable errors need to be more user-friendly and specialized.
+  No need for we are sorry if it is a user error bt still needs to be reset.
+
+- Change unrecoverable to just error. The entire error text should be given.
+  No generic text - no we are sorry - only do it for system errors.
+  A user error that requitres going back to the landing page is treated
+  similarly.
+
+  A user error that does not require a change goes to the alert area.
+
+- test coming back to the landing page after logging in need to save the store
+
+- asynchronous send email
+
+- Use bootstrap components for inputs, e.g., dropdowns in the settings
+  component (only if easy).
+
+[Other Server Enhancements]
+
+- Allowed origins also needs to be configurable at runtime.
+  Produnction application.conf remove allowed origins and allowed hosts.
+  They should be given at run time.
+
+- For production - add play secret, and other securiry settings.
+
+- Re-enable and configure CSRF filter. See the application.conf for configuration.
+  It is disabled there: play.filters.disabled+=play.filters.csrf.CSRFFilter
+
+[Other]
+
+- Certificate management changes on AWS to their own certificate authority and 
+  may require some tweaks to the the AWS CloudFront configurations. Will happen
+  March 2021.
+
+     https://www.amazontrust.com/repository/
+     https://aws.amazon.com/blogs/security/how-to-prepare-for-aws-move-to-its-own-certificate-authority/
+
+- Make the repository public.
+
+[Future]
+
+- Delete game.
+
+- Suggestion box for words to be added to the dictionary. 
+
+- UI settings (square size) should also be available in the Play component, 
+  and dynamically change the UI characteristics.
+
+- Remove game cache - more trouble than it is worth. Just get games from the
+  database. Better design for eventual serverless architecture.
+  But remove guest games when done - or when harvested.
+
+- In play component change background to white for sqaures already used 
+  in plays.
+
+

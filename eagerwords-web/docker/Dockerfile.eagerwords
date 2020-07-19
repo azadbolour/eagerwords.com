@@ -1,0 +1,55 @@
+
+#
+# OS + node + immutable dependencies.
+# TODO. Not operational as of 8/18/2020.
+#
+
+#
+# Begin with ubuntu version 18.04.
+#
+FROM ubuntu:bionic
+RUN apt-get update
+
+#
+# Get basic utilities.
+#
+RUN apt-get install -y dialog apt-utils wget curl software-properties-common python-software-properties zip unzip build-essential git
+
+#
+# Install node.
+#
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get update \
+  && apt-get install -y nodejs
+
+# Install yarn.
+
+#
+# Clone the repository.
+#
+RUN cd .. \
+    && git clone https://github.com/azadbolour/eagerwords \
+    && cd eagerwords \
+    && git checkout master
+
+# 
+# TODO. Install all dependencies of the master branch,
+# so the build will be reproducible.
+#
+# Easy with yarn offline configuration - follow instructions here:
+#    https://classic.yarnpkg.com/blog/2016/11/24/offline-mirror/.
+# 
+# Do an initial yarn install.
+#
+
+#
+# Copy the eagerwords package to the external file system.
+#
+
+# The code can change with bug fixes and enhancements, but the
+# dependencies already encountered remain the same.
+
+#
+# The entry point will be a shell script that pulls the latest
+# from git and does a yarn build.
+#

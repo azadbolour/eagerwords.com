@@ -1,0 +1,125 @@
+
+- To render static html in the public folder:
+
+    <Route path="/privacy" render={() => <Redirect to={{pathname: "Privacy.html"}}/>} />
+
+- Render needs to be a pure function in class-based components. Cannot use 
+  side-effecting calls such as a redirect in render. 
+
+  In functional components, side-effecting calls are done by using useEffect.
+
+- Naming convention. Distinguish functions injected by mapDispatchToProps by
+  prepending their names with "dispatch": e.g., dispatchGameStarted.
+
+- Good intro to react forms starting from scratch:
+
+    https://medium.com/@agoiabeladeyemi/the-complete-guide-to-forms-in-react-d2ba93f32825
+
+- Naming of redux store slices. The function combineReducers takes an
+  object whose properties are the individual reducers. The names of 
+  the properties are used as the names of the slices in the store's state
+  corresponding to each reducer.
+
+- https://redux.js.org/advanced/middleware/
+
+- https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html
+
+- What is a redux middleware? It is an interceptor of redux's dispatch function:
+  a decorator function. There can be a chain of middlewares, each wrapping the
+  one below, where the base of the chain is dispatch.
+
+- Dispatch is a function of an action. But in reality it is a function that
+  takes a store and an action and dispatches the action to the store's reducers.
+
+- A redux middelware adds another parameter, called "next", which is the next
+  middleware to be called in the chain (or dispatch itself).
+
+- Example of a middleware:
+
+  const logger = store => next => action => {
+    console.log('dispatching', action)
+    let result = next(action)
+    console.log('next state', store.getState())
+    return result
+  }
+
+- The function applyMiddleware takes a chain of interceptors like the logger
+  interceptor above and creates what is called an 'enhancer', which causes
+  dispatch to be intercepted by the middlewares embedded in the enhancer. 
+
+  The full signature of createStore is:
+
+    createStore(reducer, preloadedState, enhancer)
+
+  The enhancer abstracts a chain of interceptors.
+
+- A component can inject its sagas into the saga registry like this:
+
+    useInjectSaga({ key, saga })
+
+- A saga can register an interest in a dispatched action like this:
+
+    yield takeLatest(LOAD_REPOS, getRepos)
+
+  Here LOAD_REPOS is an action type, and getRepos is the saga function.
+
+- When the action is dispatched, the interested sagas are run.
+
+- A saga yields a series values some of which are promises. The saga middleware
+  looks for promises in the yield values, and awaits the completion of each
+  promise.
+
+- To keep track of sagas to be run by the saga middleware, the redux store data
+  structure is extended by a property called injectedSagas. The function
+  'useInjectSaga' adds a saga to the store's injected sagas. There is also a
+  function ejectSaga to remove a saga from the store's list.  Details TBD.
+
+- One advantage of using sagas is that the saga infrastructure takes care of
+  cancelling in-flight async actions when a component is unmounted. In the
+  absence of measures to cancel in-flight actions when the component is
+  unmounted, the async block can retain a reference to the component and attempt 
+  to act on an obsolete component. This will raise a warning from react, 
+  and unless the async block actually exits so that its reference to the component
+  can be garbage-collected, the obsolete component becomes leaked memory.
+
+- Using multiple reducers. Redux has a single reducer. To use several reducers,
+  the function combineReducers(reducers) is used. The 'reducers' argument is an
+  object, which has a property for each reducer to be combined. This is the 
+  generic way in which a set of reducers is represented in redux. We'll call
+  this the 'reducers' data structure.
+
+- Adding reducers dynamically. To change the reducer used by a store, you use
+  the function store.replaceReducer(reducer). The reducer again is a single
+  reducer, which may be the result of combinbing mutltiple reducers as above. 
+
+  React boilerplate extends the redux store object with a property called
+  'injectedReducers', representing reducers that are added dynamically.  The
+  value of this property is a list of reducers represented in a 'reducers' data
+  structure.
+  
+  The boilerplate then provides a function 'injectReducer' which adds a reducer
+  to the injected reducers, and replaces the store's root reducer by merging
+  injected reducers into the application's reducers list (see reducers.js).
+
+  export default function createReducer(injectedReducers = {}) {
+    const rootReducer = combineReducers({
+      global: globalReducer,
+      language: languageProviderReducer,
+      router: connectRouter(history),
+      ...injectedReducers,
+    });
+
+    return rootReducer;
+  }
+
+  The result then replaces the store's root reducer.
+
+  Not clear to me yet is whether/how injected reducers can be removed from the
+  store.
+
+- Passing parameters to push for history:
+
+  https://stackoverflow.com/questions/44121069/how-to-pass-params-with-history-push-link-redirect-in-react-router-v4
+  https://javamastermind.com/2020/01/16/react-navigation-manage-session-history/
+
+

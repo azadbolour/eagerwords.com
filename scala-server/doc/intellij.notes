@@ -1,0 +1,10 @@
+
+- Increase stack size for compiler process for automatic derivation 
+  of json type classes by circe.
+
+  Preferences | Build, Execution, Deployment | Compiler | 
+  User-local build process VM options (overrides Shared options): -Xss128m
+
+  See also .sbpopts - though for intellij a larger stack size is needed.
+
+

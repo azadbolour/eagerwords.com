@@ -1,0 +1,40 @@
+
+The following open source packages are used in the eagerwords application.
+
+react                   MIT     https://github.com/facebook/react/blob/master/LICENSE
+react-dnd               MIT     https://github.com/react-dnd/react-dnd/blob/main/LICENSE
+connected-react-router  MIT     https://github.com/supasate/connected-react-router/blob/master/LICENSE.md
+react-router-dom        MIT     https://github.com/ReactTraining/react-router/blob/master/LICENSE
+react-redux             MIT     https://github.com/reduxjs/react-redux/blob/master/LICENSE.md
+redux                   MIT     https://github.com/reduxjs/redux/blob/master/LICENSE.md
+react-list              MIT     https://github.com/coderiety/react-list/blob/master/LICENSE
+react-modal             MIT     https://github.com/reactjs/react-modal/blob/master/LICENSE
+react-testing-library   MIT     https://github.com/testing-library/react-testing-library/blob/master/LICENSE
+bootstrap               MIT     https://getbootstrap.com/docs/4.0/about/license/
+react-bootstrap         MIT     https://github.com/react-bootstrap/react-bootstrap/blob/master/LICENSE
+react-bootstrap-table   MIT     https://github.com/react-bootstrap-table/react-bootstrap-table2/blob/master/LICENSE
+semantic-ui-css         MIT     https://github.com/Semantic-Org/Semantic-UI-CSS/blob/master/LICENSE
+emantic-ui-react        MIT     https://github.com/Semantic-Org/Semantic-UI-React/blob/master/LICENSE.md
+style-loader            MIT     https://github.com/webpack-contrib/style-loader/blob/master/LICENSE
+uuid                    MIT     https://github.com/uuidjs/uuid/blob/master/LICENSE.md
+valid-url               MIT     https://github.com/ogt/valid-url/blob/master/LICENSE
+yup                     MIT     https://github.com/jquense/yup/blob/master/LICENSE.md
+detect-it               MIT     https://github.com/rafgraph/detect-it/blob/master/LICENSE
+history                 MIT     https://github.com/ReactTraining/history/blob/master/LICENSE
+immer                   MIT     https://github.com/immerjs/immer/blob/master/LICENSE
+validator               MIT     https://www.npmjs.com/package/validator
+redux-localstorage      MIT     https://github.com/elgerlambert/redux-localstorage/blob/master/LICENSE.md
+
+Typesafe Akka [family]  Apache  https://doc.akka.io/docs/akka/current/project/licenses.html
+Typesafe slick          BSD     https://github.com/slick/slick/blob/master/LICENSE.txt
+Google guava            Apache  https://github.com/google/guava/blob/master/COPYING
+javax.inject            Apache  https://github.com/javax-inject/javax-inject
+javax.mail              GPL/CDDL https://github.com/javaee/javamail/blob/master/LICENSE.txt
+scalatest               Apache  https://github.com/scalatest/scalatest/blob/3.2.x-new/LICENSE
+slf4j                   MIT     http://www.slf4j.org/license.html
+h2database              MPL/EPL http://www.h2database.com/html/license.html
+io.spray                Apache  https://github.com/spray/spray/blob/master/LICENSE
+sqlite-jdbc             Apache  https://github.com/xerial/sqlite-jdbc/blob/master/LICENSE
+io.circe [family]       Apache  https://github.com/circe/circe/blob/master/LICENSE
+
+

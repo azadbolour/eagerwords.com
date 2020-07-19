@@ -1,0 +1,33 @@
+
+# Map static resources from the /public folder to the /assets URL path
+# TODO. Fix depecated versioned.
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
+GET     /static/*file                   controllers.Assets.versioned(path="/public/static", file: Asset)
+
+# Note. Calls that just get data but need a body use POST,
+# since some client frameworks disallow body in GET.
+
+GET     /base/hand-shake                controllers.KernelController.handShake
+
+# API calls for users authenticated passwordless by email and tokens.
+POST    /auth/initsignup                controllers.KernelController.initSignUp()
+POST    /auth/confirmsignup             controllers.KernelController.confirmSignUp()
+POST    /auth/initlogin                 controllers.KernelController.initLogin()
+POST    /auth/confirmlogin              controllers.KernelController.confirmLogin()
+POST    /auth/loggedin                  controllers.KernelController.isLoggedIn()
+POST    /auth/logout                    controllers.KernelController.logout()
+
+POST    /game/settings/save             controllers.GameController.saveUserGameSettings()
+POST    /game/settings/get              controllers.GameController.getUserGameSettings()
+POST    /game/game                      controllers.GameController.startGame
+POST    /game/commit-play/:gameId       controllers.GameController.commitPlay(gameId: String)
+POST    /game/machine-play/:gameId      controllers.GameController.machinePlay(gameId: String)
+POST    /game/swap-piece/:gameId        controllers.GameController.swapPiece(gameId: String)
+POST    /game/suspend/:gameId           controllers.GameController.suspendGame(gameId: String)
+POST    /game/resume/:gameId            controllers.GameController.resumeGame(gameId: String)
+POST    /game/cancel/:gameId            controllers.GameController.cancelGame(gameId: String)
+POST    /game/resign/:gameId            controllers.GameController.resignGame(gameId: String)
+POST    /game/close/:gameId             controllers.GameController.closeGame(gameId: String)
+POST    /game/fullgame/:gameId          controllers.GameController.getFullGame(gameId: String)
+POST    /game/all                       controllers.GameController.getUserGames()
+POST    /game/unfinished                controllers.GameController.getUnfinishedUserGames()

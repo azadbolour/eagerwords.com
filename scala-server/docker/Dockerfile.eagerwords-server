@@ -1,0 +1,81 @@
+
+#
+# Install eagerwords server and set up the environment for it to run.
+#
+
+#
+# Parent image.
+#
+ARG BASE=azadbolour/jvm:1.0
+
+FROM $BASE
+
+# 
+# This dockerfile will be placed by the corresponding build script 
+# at the distribution package directory of the application. 
+#
+# The only files that can be used in a docker build are those that appear 
+# below the current working directory of the build.
+#
+# That includes the dockerfile itself and any files to be copied into the image.
+#
+# Placing the dockerfile at the root of the distribution package allows the working 
+# directory of docker build to be changed to the package root, so that the
+# distribution can be copied into the image and installed there.
+#
+
+ENV HTTP_PORT 6587
+
+#
+# The Play server's pid (lock) file.
+#
+# ENV PID_FILE
+
+#
+# The application's distribution package is copied
+# from the host machine to here.
+#
+ENV PACKAGE_DIR=/opt/data/eagerwords/package
+
+#
+# The distribution package includes the app's zipped play package,
+# and a few specific startup scripts. Copy these into the container.
+#
+RUN mkdir -p $PACKAGE_DIR/script
+
+RUN apt-get update \
+      && apt-get -y install sudo
+
+#
+# Copy the distribution zip file into the image.
+#
+# Note that build script that invokes this dockerfile
+# changes directory to the root of the application's
+# distribution package.
+#
+COPY *.zip $PACKAGE_DIR
+
+#
+# Note - copies get-dynamic-params.sh for getting secrets dynamically.
+# TODO. Make sure get-dynamic-params.sh obtains secrets dynamically - not hard-coded.
+# Hard-coded secrets will remain in some docker layer even if removed later.
+# Must check here that, e.g., PLAY_SECRET is not the default.
+#
+
+#
+# Copy the scripts used to run the application into the image.
+#
+COPY script/* $PACKAGE_DIR/script/
+
+#
+# Set up the base environment.
+#
+# Make sure to docker run with --workdir="" flag to start in the WORKDIR
+# specified here.
+#
+WORKDIR $PACKAGE_DIR/script
+ENV PATH $PATH:.
+
+RUN ./install.sh $PACKAGE_DIR
+
+ENTRYPOINT ["./run-server.sh"]

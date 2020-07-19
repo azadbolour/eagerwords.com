@@ -1,0 +1,11 @@
+# See: https://medium.com/better-programming/using-environment-variables-in-reactjs-9ad9c5322408
+
+# The api type.
+REACT_APP_API=client
+
+# The backend server url.
+REACT_APP_SERVER_URL=http://localhost:xxxx
+
+# For testing without having to receive emails. Must match server-side configuration parameters.
+REACT_APP_MOCK_EMAIL=
+REACT_APP_MOCK_TOKEN=

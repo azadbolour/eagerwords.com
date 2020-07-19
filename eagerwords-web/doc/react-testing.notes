@@ -1,0 +1,39 @@
+
+- TODO. move @testng-library-jest to dev ependencies?
+
+- Use Jest + react-testing-library - 
+
+- you name widget by using the naming convention 
+
+  data-test<unique-name>
+
+- The renderer will return a bunch of functions and values you can use
+  to work with the rendered widget.
+
+- https://testing-library.com/docs/react-testing-library/api
+
+- render returns all te available queries against what ws rendered
+
+- getByTestId 
+
+- expect comes from jest
+
+- Reasonable intro:
+
+    https://www.youtube.com/watch?v=3e1GHCA3GP0
+
+- OK code:
+
+  https://blog.bitsrc.io/testing-react-applications-with-react-testing-library-da66aaef740a
+
+- many examples
+
+  https://blog.sapegin.me/all/react-testing-3-jest-and-react-testing-library/
+
+- another examples
+
+  https://dev.to/itnext/how-you-can-use-react-testing-library-to-test-component-surface-49pm
+
+- more info
+
+  https://medium.com/better-programming/how-to-do-the-basics-in-react-testing-library-c52cdb3a7726

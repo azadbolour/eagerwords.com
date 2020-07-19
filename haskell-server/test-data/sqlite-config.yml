@@ -1,0 +1,33 @@
+#
+# Configuration parameters for the game server.
+#
+
+# Deployment environment. Dev, Test, Prod - case-sensitive.
+deployEnv: Dev
+
+# The port on which the server listens for API calls.
+serverPort: 6587
+
+dbConfig:
+  # Type of database system.
+  dbmsType: Sqlite
+  # The database server host.
+  dbHost: ''
+  # The database server port.
+  dbPort: 0
+  # The database name.
+  dbName: 'database/game-sqlite.db'
+  # The database user.
+  dbUser: ''
+  # The database password. TODO. Security for db password.
+  dbPassword: ''
+
+# Maximum number of active game.
+maxActiveGames: 100
+
+# Minutes after which game will be timed out.
+maxGameMinutes: 30
+
+# Path to the dictionary directory.
+# Defaults to the data directory of the Haskell application is used.
+dictionaryDir: 'dict'

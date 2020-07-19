@@ -1,0 +1,10 @@
+
+
+alias mk-packager="build-packager-image.sh azadbolour 0.9.5"
+alias run-packager="run-packager-container.sh --tag 0.9.5"
+alias ps-packager="docker ps -a | grep eagerwords-packager"
+
+alias mk-server="build-server-image.sh azadbolour 0.9.5"
+alias run-server="./run-here.sh"
+alias ps-server="docker ps -a | grep eagerwords-server"
+

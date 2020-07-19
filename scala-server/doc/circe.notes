@@ -1,0 +1,16 @@
+
+- Derivation of type classes for deeply-nested data structures like Board
+  in this project can lead to stack overflow.
+
+  For sbt increased stack size by adding -J-Xss64m to the project's .sbpopts.
+
+  For intellij - Preferences | Build, Execution, Deployment | Compiler | 
+  User-local build process VM options (overrides Shared options): -Xss128m
+
+  Note that stack size for intellij needs to be larger.
+
+- Circe does not automatically derive type classes for enumerations.
+  Use sealed abtract class and objects instead for now.
+
+- Unfortunately it looks as if circe can lead to stack overflow in 
+  intellij compiles even with huge stack sizes.

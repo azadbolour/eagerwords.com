@@ -1,0 +1,96 @@
+
+
+Changes made for guest in Scala code - need to be reflected in the Haskell code. 
+
+- StartGameRequest - change to use Option[String] for userId.
+
+- GameControllerSpec. 
+  Updated to take Option.
+  Added a test for user id of None.
+
+- GameBase - uses Option of internal user id.
+
+- Service saveGame - make sure it is the only point for saving - then
+  skip saving if userId is None.
+
+- GameBasicInfo - remove userId - not needed - was getting the internal id
+  anyway. Also in corresponding DTO remove conversion if needed.
+
+---
+
+- We can put config in resources as well.
+
+- (cd ../dict && ./unzip-masked-words.sh)
+  goes to pre-build for eagerwords
+
+  also this
+
+  (cd haskell-server/test-data \
+  && cp sqlite-config.yml test-config.yml)
+
+  also the production config
+
+  assuming project and executable have the same name for now
+
+  get the dict from the resources directory
+
+
+- rather than test-data config - use a config directory
+
+- pre-build.sh - will do any special processing and will put a config file
+
+- put all data including config in a resources directory.
+
+- Test dockerization on tiny projects first. Faster to test. Helps 
+  clean up the scripts and make them generic.
+
+- Update both docker README files. Or maybe unify.
+
+- Upgrade Scala docker scripts as per latest haskell scripts.
+  Initially just extract the insller from the tar ball.
+  All else is done in the installer.
+
+- Use bin, config, and data directories under install directory.
+
+- Make sure config.yml is used properly in installation.
+
+- Once the packager container is built, use docker commkt to create a new image 
+  that includes the compiled Haskell dependencies. Then you can use that image
+  as the base for further packaging. Just have to replace the eagerwords source
+  in that image. That will speed up subsequent packaging.
+
+    https://docs.docker.com/engine/reference/commandline/commit/
+
+- A great deal is being logged by default in Haskell. Need to allow logging to
+  be configured.  And reduce volume of database logging.
+
+- Catch exception from Persistent at the service layer and convert to
+  InternalError. At that level we are dealing with ExceptT, so our catch will be
+  catchE. The only issue is that SqlError, the error I was getting seems to be
+  specific to a database. Maybe comes from the driver.
+  
+  How to catch all exceptions coming from Persistent at the service layer
+  independently of the database?
+
+  I have not worked out the details. Catching all exceptions cleanly is a
+  somewhat involved topic:
+
+  https://www.schoolofhaskell.com/user/snoyberg/general-haskell/exceptions/catching-all-exceptions
+
+  Catching Persistent exceotion is blogged here:
+
+  https://github.com/yesodweb/yesod-cookbook/blob/master/cookbook/Handling-Persistence-Exception.md
+
+  According to this article you need a "do" block for each transaction, and a
+  catch for each entire "do" block, converting the exception to one of ours. But
+  only catch SqlError and alike.
+
+  At the higher level you have an ExceptT so you would have to do a catchE for
+  SqlError and alike.
+
+  Note: throwError, catchError are based on e -> ma
+        throwE, catchE are based on e -> ExceptT e m a
+        throw, catch are just based on a 
+
+- Streamline docker for Haskell - similar to latest Scala.
+

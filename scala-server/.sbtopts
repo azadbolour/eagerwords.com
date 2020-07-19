@@ -1,0 +1,2 @@
+# Needed for automatic derivation of json type classes by circe.
+-J-Xss64m

@@ -1,0 +1,42 @@
+
+#
+# Begin with ubuntu version 18.04.
+#
+FROM ubuntu:bionic
+RUN apt-get update
+
+#
+# Get basic utilities.
+#
+RUN apt-get install -y apt-utils wget curl zip unzip git
+
+#
+# Set up the base environment.
+#
+ENV WORKSPACE /home/me/dev/
+RUN mkdir -p $WORKSPACE/eagerwords \
+  && echo `pwd`&& echo $PATH && whoami
+
+#
+# Copy the eagerwords source tree into the image.
+# The source tree will have been cloned by using the script clone-tag.sh.
+# And docker is run from the parent of that clone.
+# We clone externally to avoid git credentail issues in creating the image.
+#
+COPY eagerwords $WORKSPACE/eagerwords
+
+WORKDIR $WORKSPACE
+
+#
+# Install the Haskell tool stack.
+#
+RUN curl -sSL https://get.haskellstack.org/ | sh
+
+WORKDIR $WORKSPACE/haskell-server
+
+#
+# Build the Haskell server.
+#
+RUN stack setup
+
+ENTRYPOINT ["./mkdistribution.sh"]

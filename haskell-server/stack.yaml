@@ -1,0 +1,16 @@
+# resolver: ghc-7.10.3
+# resolver: nightly-2016-04-14
+# resolver: lts-6.35  # for ghc 7.10.3 # This was the last good one. But having issues on my MAC.
+# resolver: lts-10.3  # for ghc 8.2.2
+# resolver: lts-7.16 # GHC 8.0.1
+resolver: lts-14.12 # GHC 8.6.5
+
+packages:
+  - '.'
+
+extra-deps:
+  - servant-errors-0.1.3.1@sha256:775cf28693fa957b87ca68bf0445659941cde3158ec56cef4458008a559e00e9,2540
+    # - servant-0.6.1
+    # - servant-client-0.6.1
+    # - servant-server-0.6.1
+    # - logging-effect-1.2.0

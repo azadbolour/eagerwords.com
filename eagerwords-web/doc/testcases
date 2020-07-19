@@ -1,0 +1,134 @@
+
+Authentication Test Cases
+
+In all cases end with a happy login and go to the games page.
+
+Test Case 1 - Happy signup and login
+OK
+
+Test Case 2 - Wrong token for signup
+OK
+
+Test Case 3 - Wrong token for login
+OK
+
+Test case 4 - Timeout on signup init - happy repeat
+              Unrecoverable error - ditto
+
+Test case 5 - Timeout of signup confirm simulated - happy repeat
+              Signup confirm took too long - happy repeat
+              Same for unrecoverable err - simulated
+
+Test case 6 - similar to 4-5 but for login
+
+Test case 7 - Login expires by the time we get to games.
+
+Test case 8 - Repeated login should be harmless.
+
+Test case 9 - Repeated sign-up should be an error.
+
+Test case 10 - Try to login without having signed up.
+OK
+
+Test case 11 - Sign up and go immediately to the game2 page.
+               Then refresh. 
+
+We get not logged in.
+The problem is that refresh takes us back to index, and we lose our redux store.
+Maybe leave this for later. You need to persist the store.
+https://github.com/rt2zz/redux-persist
+
+They have some sample code there.
+
+https://github.com/rt2zz/redux-persist/issues/363
+
+
+The authState was not updated after signUp - both client and token are null.
+
+It says not logged in. isLoggedIn from the server was successful - 
+so the server does not know logged in after going to home page from 
+signing up
+
+The login record is there and looks good in the database, expiration 
+is later than now.
+
+Server recieved:
+
+AuthEvidence(782d6a1e-49ff-4bd0-9c0d-990a500c0d3d,3715b325-a608-41f7-9d9b-9bcada0ebf6d)
+
+The login record in the database is
+
+f95401c0-fdf7-41bb-a22e-f08d887ac113|
+azadbolour@bolour.com|
+782d6a1e-49ff-4bd0-9c0d-990a500c0d3d|
+3715b325-a608-41f7-9d9b-9bcada0ebf6d|
+1|
+1591327131|
+1591319930
+
+So the client id and token are good.
+
+apiResult - log the actual return response
+
+scala server - isLoggedIn log every step of islogged in - including times
+
+Basic Test Cases to Check Manually and through Integration Tests
+
+- Logout of the UI.
+
+- Reset the test database.
+
+- Log into the UI.
+
+  - Should see no games
+
+- Play - Start a game and resign.
+
+- Exit Play.
+
+    - Should see the resigned game as completed with correct scores.
+
+- Play - Start a game and cancel. Should exit to Games.
+
+    - Should not see the new game in the list. Only the resigned game.
+
+- Play - Start a game and suspend.
+
+- Exit Play.
+
+    - Should see the resigned and suspended games.
+
+- Logout.
+
+- Log back in.
+
+    - Should see the two games.
+
+- Resume the suspended game. 
+
+    - Should see it in Play.
+
+- Play a few more words in the suspended game. And suspend again.
+
+- Exit Play. 
+
+    - Should still see the suspended game.
+
+- Resume and finish the game. Exit Play.
+
+    - Should see the finshed game as completed.
+
+- Suspend another game - resume it and resign. Exit.
+
+    - Should see it that game completed.
+
+- Change all settings.
+
+- Play and make sure the settings took effect.
+
+- Logout and log back in.
+
+- Make sure the saved settings are restored. Change one of them.
+
+- Play another game and make sure the expected settings are used.
+

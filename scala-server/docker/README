@@ -1,0 +1,186 @@
+
+Dockerization of the Scala Server
+
+There are two docker images: the packager and the server. 
+
+The packager is used to build and package the application from source.
+Its output is a tar ball that includes the Play distribution package
+in zip form, a few scripts needed to start the application, and
+the docker file to be used to build to dockerize the server.
+
+The server runs the eagerwords server application. When the server docker
+image is built, the eagerwords package created in the packager is installed
+in the image. When the server docker is run, it serves the eagerwords
+scala/Play application.
+
+The packager and the server are independent of each other as docker images.
+So the packager uses a mapped volume to output the produced tar ball to the host
+machine, and the server has to copy the tar ball and install it in its build
+phase.
+
+By convention the host directory /opt/data/eagerwords/package (known as the
+PACKAGE_DIR) is used as the output of the packager and the input of the
+server build process in both the host machine and the docker images.
+
+Commands
+
+Assume we are building version 0.5.0 of the server.
+
+Make sure $WORKSPACE/scala-server/build.sbt and $WORKSPACE/eagerwords-web/package.json
+have this version (to keep the source and the docker images versions consistent).
+
+Make sure all changes are pushed to the repository.
+
+Tag the repository with the version of the application (in this case 0.5.0):
+
+```
+    git tag -a 0.5.0 -m 'beta'
+    git push origin 0.5.0
+```
+
+Build the package docker image.
+
+    build-packager-image.sh azadbolour 0.5.0
+
+Remove any existing packager containers.
+
+    docker ps -a
+    docker stop ...
+    docker rm ...
+
+Run the packager container. Outputs the distribution to /opt/data/eagerwords/package/.
+
+    run-packager-container.sh --tag 0.5.0
+
+To see output:
+
+    tail -f nohup.out
+
+Wait for it to exit. To see its status:
+
+    docker ps -a
+
+Check that the distribution tar ball was produced:
+
+    ls -lt /opt/data/eagerwords/package/eagerwords.tar
+
+Build the server docker image.
+
+    build-server-image.sh azadbolour 0.5.0
+
+Check that the server docker image was produced:
+
+    docker images | grep azadbolour/eagerwords-server | grep 0.5.0
+
+Test the server container. Update the script run-here.sh to use version 0.5.3,
+then:
+
+    run-here.sh 
+
+The port number is provided in the script $WORKSPACE/scala-server/run-server.sh. 
+For the purposes of this scenario consider it hard-coded to 6597. The host is
+the DNS host or IP address through which the game application is to be
+accessed. The game can then be accessed at:
+
+    $host:6597/eagerwords
+
+Go into the test container.
+
+    docker exec -it $containerid bash
+
+Check installation directory inside the container.
+
+    ls -lt /usr/local/eagerwords/eagerwords
+
+Remove the test container.
+
+    docker stop $containerid
+    docker rm $containerid
+
+Push to Docker Hub.
+
+    docker login --username=... [docker.io]
+    docker push azadbolour/eagerwords-server:0.5.0
+
+Note. On the MAC command login has issues and often does not work even it
+reports successful. You can use the docker gui to login. You may also have to
+remove ~/.docker/config.json which caches some data.
+
+Pull to the deployment machine.
+
+    docker pull azadbolour/eagerwords-server:0.5.0
+    
+Deploy.
+    
+    run-server-container.sh --tag 0.5.0 --allowed-host "$host:6597"
+
+Deploy using a different port.
+
+    run-server-container.sh --tag 0.5.0 --allowed-host "$host:9005" --http-port 9005
+
+Details
+
+In a docker build, the only files that may be copied into an image are files
+that are below the current working directory of the build in the host system.
+Therefore, in order to be able to copy from PACKAGE_DIR, the builder script 
+for the server changes directory to the PACKAGE_DIR.
+
+The directory structure within the distribution tar ball looks like:
+
+/opt/data/eagerwords/package
+  scala-server-<version>.zip
+  docker/
+    Dockerfile.eagerwords-server
+  script/
+    install.sh
+    run-server.sh
+    ...
+
+The installation of the package by the builder of the server image causes 
+the following directory structure within the server docker image:
+
+/usr/local/eagerwords/
+  scala-server-<version>/ unzipped package
+  eagerwords/ (symbolic link to scala-server-<version>
+    bin/
+    lib/
+    etc/
+    ...
+  script
+    install.sh
+    run-server.sh
+    ...
+
+Play security requires an allowed origins parameter to be provided when starting
+up the server. This is a list of host:port combinations where client code originates
+from that the play server will allow to access it through http. This is currently
+not configurable at runtime for our docker setup.
+
+Play security also provides an allowed hosts parameter that limits the host
+system where the application can get started.
+
+The run script of the eagerwords container includes a --allowed-host parameter
+that just takes one host:port combination and provides it to the server. This is
+currently configurable at runtime for our docker setup. See the script run-here.sh.
+
+## Troubleshooting
+
+- Log into the server machine - ssh -i file user@machine.
+
+- Find the container id - docker ps -a
+
+- Go into the container - docker exec -it <container-id> bash
+
+- Check /tmp directory for system log files.
+
+- Check application log directory, e.g.: 
+
+    ls -lt /usr/local/eagerwords/scala-server-0.9.5/logs/eagerwords/
+
+## Fargate
+
+An attempt to deploy to AWS Fargate circa 2018 failed because of
+networking issues caused by fargate.
+
+The file aws-task.json specifies that attempt. Kept for historical
+purposes.
