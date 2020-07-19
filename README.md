@@ -9,9 +9,6 @@ manually suspended, or it may be automatically timed out and suspended after a
 period of inactivity. In both cases, the game is saved for a logged-in user and
 can be resumed at a later time.
 
-The current 0.5.0 implementation is incomplete. The roadmap plan is completion 
-and public deployment by June 2020.
-
 Please note that in the current incomplete version, some documentation may be
 lagging behind the code base.
 
@@ -26,11 +23,7 @@ drag and drop letters to form words on a square board.
 
 ## Scope
 
-This project is intended as a test bed for the development and deployment
-of production quality applications by using different programming languages,
-their ecosystems, and devops tools.
-
-It defines a board game API, and client and server implementations for it. The
+The project  defines a board game API, and client and server implementations for it. The
 precursor to EagerWords (the github _baordgame_ project) included two server
 implementations of the API, one in Haskell and one in Scala. At present
 EagerWords includes just a Scala implementation. While not yet in our road plan,
@@ -116,9 +109,13 @@ Under construction. (Will be at http://www.bolour.com/eagerwords/index.html).
 
 ## Credits
 
-Thanks to Allen Haim for advice on Javascript development.
+Thanks to the folks at alleycat (https://alleycat.cc/) for assistance in React
+development.
 
-Thanks to Dennis Allard for hosting the application at oceanpark.com.
+Thanks to Raccardo Fiorentino and Eric Vautier for support in UI design.
+
+Thanks to Dennis Allard for assistance in testing, and for hosting 
+an earlier version of the the application at oceanpark.com.
 
 Thanks to the Moby project for the English dictionary:
 
