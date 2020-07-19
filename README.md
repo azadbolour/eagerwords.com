@@ -3,8 +3,8 @@
 
 EagerWords is the second version of the Azad Bolour's crossword game and
 includes a number of enhancements on the first version (_boardgame_ project on
-github). The major enhancement is a optional user login (supported by the Okta
-authentication service). For logged-in users all games are saved. A game may be
+github). The major enhancement is a optional passwordless user 
+authentication. For logged-in users all games are saved. A game may be
 manually suspended, or it may be automatically timed out and suspended after a
 period of inactivity. In both cases, the game is saved for a logged-in user and
 can be resumed at a later time.

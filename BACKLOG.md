@@ -161,8 +161,6 @@
   Either complete the mock UI api (call it stub) caller or get rid of it. 
   Need to decide if keeping it is worth the effort for UI unit tests.
 
-- Player email and user id have to be unique. Test with Okta.
-
 ## Dicionary Errors
 
 - Button to notify developers about dictionary mistakes - English word rejected
@@ -175,10 +173,6 @@
   http://scala-slick.org/doc/3.0.0/schemas.html#index-13
       
   def idx = index("idx_a", (k1, k2), unique = true)
-
-## Authentication 
-
-- To the extent possible customize the signin and the signup pages used by Okta.
 
 ## Recovery
 
