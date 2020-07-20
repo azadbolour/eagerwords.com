@@ -1,45 +1,9 @@
 
 [Open Source]
 
-- Take a look at the github master branch and make sure no specific
-  data exists.
+- Create eagerwords.com terminal.
 
-- Save local copy of project including .git.
-
-- Create a clean master branch in a new repo:
-
-    https://freek.dev/1547-remove-all-history-from-a-github-repository
-
-    Create an empty intially private repository eagerwords.com on github.
-
-    Clone the existing repo.
-
-    Remove the .git directory.
-
-    git init
-
-    git add .
-    git commit -m "First commit"
-
-    # nuke history on GitHub (irreversable)
-    git remote add origin git@github.com:USERNAME/REPOSITORY.git
-    git push -u --force origin master
-
-- Mirror the repo. eagerwords.com.
-
-    https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository
-
-  Make sure all branches are accessible.
-
-- Remove obsolete branches.
-
-- Save the few important branches on local machine.
-
-- Remove history.
-
-- Remove Haskell code and references to Haskell in the docs.
-
-- Document ongoing changes in Haskell docker infrastructure.
+- Make repo public.
 
 [Deployment]
 

@@ -147,10 +147,12 @@ const testingControlMap = (comp) => {return {
 export const TestingControls = (props) => {
   let comp = props.comp;
   let controlNames = props.controls;
-  let testingControls = controlNames.map(name => testingControlMap(comp)[name]);
+  // let testingControls = controlNames.map(name => testingControlMap(comp)[name]);
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
-      {testingControls}
+      {controlNames.includes(testingControlName.unrecoverable) && <UnrecoverableCheckBox comp={comp}/>}
+      {controlNames.includes(testingControlName.timeout) && <TimeoutCheckBox comp={comp}/>}
+      {controlNames.includes(testingControlName.loginExpired) && <LoginExpiredCheckBox comp={comp}/>}
     </div>
   )
 };

@@ -10,12 +10,12 @@
     {
       "src": "ellipses-small.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "41x41"
     },
     {
       "src": "ellipses.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "41x41"
     }
   ],
   "start_url": ".",
