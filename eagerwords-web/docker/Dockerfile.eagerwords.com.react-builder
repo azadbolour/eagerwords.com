@@ -10,7 +10,8 @@ ARG PROJECT=eagerwords.com
 #
 # Get basic utilities.
 #
-RUN apt-get install -y dialog apt-utils wget curl software-properties-common python-software-properties zip unzip build-essential git
+RUN apt-get install -y dialog apt-utils wget curl software-properties-common zip unzip build-essential git
+# RUN apt-get install -y dialog apt-utils wget curl software-properties-common python-software-properties zip unzip build-essential git
 
 #
 # Install node.
