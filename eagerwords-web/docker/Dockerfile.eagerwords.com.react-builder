@@ -1,24 +1,8 @@
 
-#
-# Begin with ubuntu version 18.04.
-#
-FROM ubuntu:bionic
-RUN apt-get update
-
+ARG BASE=azadbolour/nodejs:13
 ARG PROJECT=eagerwords.com
 
-#
-# Get basic utilities.
-#
-RUN apt-get install -y dialog apt-utils wget curl software-properties-common zip unzip build-essential git
-# RUN apt-get install -y dialog apt-utils wget curl software-properties-common python-software-properties zip unzip build-essential git
-
-#
-# Install node.
-#
-RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
-RUN apt-get update \
-  && apt-get install -y nodejs
+FROM $BASE
 
 ENV WORKSPACE /home/me/dev/
 RUN mkdir -p $WORKSPACE/${PROJECT} \
@@ -28,7 +12,7 @@ RUN mkdir -p $WORKSPACE/${PROJECT} \
 COPY ${PROJECT} $WORKSPACE/${PROJECT}
 
 # Get the dependencies.
-RUN cd $WORKSPACE/${PROJECT}/eagerwords-web && npm install
+RUN cd $WORKSPACE/${PROJECT}/eagerwords-web && npm install && npm audit fix
 
 WORKDIR $WORKSPACE/${PROJECT}/eagerwords-web
 

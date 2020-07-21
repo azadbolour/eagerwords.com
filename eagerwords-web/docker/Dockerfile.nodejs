@@ -1,0 +1,22 @@
+
+#
+# Begin with ubuntu version 18.04.
+#
+FROM ubuntu:bionic
+RUN apt-get update
+
+ARG PROJECT=eagerwords.com
+
+#
+# Get basic utilities.
+#
+RUN apt-get install -y dialog apt-utils wget curl software-properties-common zip unzip build-essential git
+# RUN apt-get install -y dialog apt-utils wget curl software-properties-common python-software-properties zip unzip build-essential git
+
+#
+# Install node.
+#
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+RUN apt-get update \
+  && apt-get install -y nodejs
+
