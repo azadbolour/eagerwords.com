@@ -1,0 +1,34 @@
+
+#
+# Begin with ubuntu version 18.04.
+#
+FROM ubuntu:bionic
+RUN apt-get update
+
+ARG PROJECT=eagerwords.com
+
+#
+# Get basic utilities.
+#
+RUN apt-get install -y dialog apt-utils wget curl software-properties-common python-software-properties zip unzip build-essential git
+
+#
+# Install node.
+#
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+RUN apt-get update \
+  && apt-get install -y nodejs
+
+ENV WORKSPACE /home/me/dev/
+RUN mkdir -p $WORKSPACE/${PROJECT} \
+  && echo `pwd`&& echo $PATH && whoami
+
+# The source tree will have been cloned by the script that invokes the build.
+COPY ${PROJECT} $WORKSPACE/${PROJECT}
+
+# Get the dependencies.
+RUN cd $WORKSPACE/${PROJECT}/eagerwords-web && npm install
+
+WORKDIR $WORKSPACE/${PROJECT}/eagerwords-web
+
+ENTRYPOINT [".build.sh"]

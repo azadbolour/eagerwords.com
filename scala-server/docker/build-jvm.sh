@@ -11,5 +11,5 @@ fi
 repository=jvm
 dockerfile=Dockerfile.${repository}
 
-docker build --no-cache --force-rm=true -f ${dockerfile} --build-arg BASE=${baseImage} -t ${namespace}/${repository}:${tag} .
+docker build --no-cache --force-rm=true -f ${dockerfile} --build-arg -t ${namespace}/${repository}:${tag} .
 
