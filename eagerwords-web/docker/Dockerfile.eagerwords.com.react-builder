@@ -1,8 +1,9 @@
 
 ARG BASE=azadbolour/nodejs:13
-ARG PROJECT=eagerwords.com
 
 FROM $BASE
+
+ARG PROJECT=eagerwords.com
 
 ENV WORKSPACE /home/me/dev/
 RUN mkdir -p $WORKSPACE/${PROJECT} \
