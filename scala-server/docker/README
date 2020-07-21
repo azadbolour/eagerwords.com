@@ -6,7 +6,7 @@ There are two docker images: the packager and the server.
 The packager is used to build and package the application from source.
 Its output is a tar ball that includes the Play distribution package
 in zip form, a few scripts needed to start the application, and
-the docker file to be used to build to dockerize the server.
+the docker file to be used to build the dockerized server.
 
 The server runs the eagerwords server application. When the server docker
 image is built, the eagerwords package created in the packager is installed
@@ -72,7 +72,7 @@ Check that the server docker image was produced:
 
     docker images | grep azadbolour/eagerwords-server | grep 0.5.0
 
-Test the server container. Update the script run-here.sh to use version 0.5.3,
+Test the server container. Update the script run-here.sh to use version 0.5.0,
 then:
 
     run-here.sh 

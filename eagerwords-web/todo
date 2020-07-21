@@ -1,27 +1,47 @@
 
 [Deployment]
 
-- Server logs should be mapped to a file in the host OS to make it easy
-  to check.
-
-- Use specific version of node and specific versions of javascript 
-  dependencies to build the UI bundle so it is reproducible.
-
-   https://classic.yarnpkg.com/blog/2016/11/24/offline-mirror/
-
-- Make sure the database file is mapped from the host file system.
-
-- add eagerwords.com to allowed origins in application.conf.
+- Change all docker scripts to use eagerwords.com instead of eagerwords.
 
 - Check S3 buckets and cloudfront configuration create bucket-policy.json
+
+- Dockerize the building of the React UI bundle.  See the incomplete docker file
+  in the docker directory.
+
+  Use the same pattenn as the scala packager.
+
+  Use specific version of node to build the UI bundle so it is reproducible.
+
+  Update the docker file for building the bundle. Map build directory to the
+  host machine. 
+
+  https://computingforgeeks.com/how-to-install-latest-nodejs-on-ubuntu-debian-linux/
+
+- Map server logs to a file in the host OS to make it easy to check.
+
+- Map the database file to the host machine. 
+
+- Test log and database persistence upon server shutdown.
+
+- Include all necessary configurations in application.conf.
+
+  Rather than email properties file, just put the properties in application.conf.
+
+  Add eagerwords.com to allowed origins in application.conf.
+
+  Differentiate between test/dev application.conf and production.
+  Document production configuration.
+
+    https://www.playframework.com/documentation/2.8.x/ProductionConfiguration
+      -Dconfig.file=/opt/conf/prod.conf
+      include "application.conf"
+      key.to.override=blah
 
 - Add database indexes.
 
 - Figure out the backup stratgy.
 
   https://aws.amazon.com/blogs/aws/aws-backup-automate-and-centrally-manage-your-backups/
-
-- Rather than email properties file, just put the properties in application.conf.
 
 - Create secure support account for eagerwords after creating 
   email service in gmail for eagerwords.com. Use it to send emails.
@@ -39,27 +59,13 @@
 - Add status bar to auth components - check for recoverable message and put
   there. Test a recoverable error.
 
-- Differentiate between test/dev application.conf and production.
-  Document production configuration.
-
-    https://www.playframework.com/documentation/2.8.x/ProductionConfiguration
-      -Dconfig.file=/opt/conf/prod.conf
-      include "application.conf"
-      key.to.override=blah
-
 - Error boundary toast page, must provide a useful way to get back on track.
   Are we retrying too much in case of error? For example, an undefined this?
 
-  Undersnad the use of ToastComponent. Sent message to Allen.
+  Understand the use of ToastComponent. Sent message to Allen.
 
   But realy the ErrorBoundary component should redirect back to the landing
   page after setting loggedOut redux state. Should test it by planting an error.
-
-- Fix F12 console warning: Each child in a list should have a unique "key" prop.
-  Check the render method of BoardComponent. Warnings about memory leaks.
-
-  http://localhost:3000/ellipses-small.png (Resource size is not correct - typo
-  in the Manifest?)
 
 [Pairing With UX]
 
@@ -109,6 +115,8 @@
 
 - Modals should not take any space if not shown. Control the top space on page.
 
+- Better placement of validation messages in sign up page. Too far apart.
+
 [Bugs]
 
 - Play page should show all its elements in browser when rendered.
@@ -125,6 +133,8 @@
   resumption. Board and tray should be disabled for a completed game.
 
 [Priority]
+
+- Open source once beta is up.
 
 - Make a pass through the entire code base, updating the documentation.
 
@@ -145,9 +155,6 @@
 - Turn off clientId and token when an unrecoverable error occurs.
 
 - Timeouts are unrecoverable - they should be long: 1 minute.
-
-- Better placement of validation messages in sign up page. Too far apart.
-
 
 [Cleanup]
 
