@@ -1,8 +1,4 @@
 
-[Open Source]
-
-- Make repo public.
-
 [Deployment]
 
 - Server logs should be mapped to a file in the host OS to make it easy
@@ -17,48 +13,22 @@
 
 - add eagerwords.com to allowed origins in application.conf.
 
-- Check S3 buckets and cloudfront configuration to jog your memory.
-  get bucket-policy.json from the olf boardgame-ui. Make sure it works.
+- Check S3 buckets and cloudfront configuration create bucket-policy.json
 
-- Fix issues with images.
-
-- Add indexes.
-
-- Try t3.large 2 vCpu and 8 MG. 3 year contract is $9,000.00. t3a.large
-  additional 10%. Understand price of converibles and converting. Adding
-  another $340.00 for convertible.
-
-  https://calculator.aws/#/createCalculator
-
-  Using 16GB increases the base (non-convertible) process to 1235.00.
-  So this is a btter deal assuming that 2 vCPUs are sufficient.
-  vCPU is basically a hyperthreaded core.
-
-  Going up to 4 vCPU is safer. That increases the price to $1763.
-
-- Figure out how much storage you need. 10GB for db should be sufficient.
-  Add another 10GB for the OS. And 10 GB for other stuff. 30GB should be enough.
-
-    SSD 12c/GB/month
+- Add database indexes.
 
 - Figure out the backup stratgy.
 
   https://aws.amazon.com/blogs/aws/aws-backup-automate-and-centrally-manage-your-backups/
 
-- Rather than email properties file, just put the properties in
-  application.conf.
+- Rather than email properties file, just put the properties in application.conf.
 
 - Create secure support account for eagerwords after creating 
   email service in gmail for eagerwords.com. Use it to send emails.
 
-- Test UI calls from amazon cloudfront to server AWS machine.
+- Test UI calls from amazon cloudfront to server AWS machine with docker server.
 
-- Test dockerization on EC2 machine.
-
-- Test UI deployed to AWS against EC2 server.
-
-- Add known issues to github issues. On the open source project - start 
-  issues from scratch.
+- Add known issues to github issues. 
 
 [Necessary for Beta]
 
@@ -95,7 +65,7 @@
 
 - Using nvm to fix the version of node.
 
-- Need onHide for modals. But it should not do anything because 
+- Do we need onHide for modals. But it should not do anything because 
   we need to reset.
 
 - For all games, the word list should not overshoot the initial size of
@@ -128,13 +98,8 @@
   who calls retries? How to fix?
 
 - Nice to have maybe: A new game is started each time you go through the
-  location bar in play.Should the same game be shown? currentGameId in game
+  location bar in play. Should the same game be shown? currentGameId in game
   redux?? 
-
-- Center the game on the page and remove excess white space in the game area
-  to the right.
-
-- Suspend is off for guest. It should just not show.
 
 - Logo
 
@@ -269,8 +234,6 @@
   But needs to be documented or if aggregious fixed, unless it opens a different
   can of worms.
 
-- Acknowledgments.
-
 [Comprehensive Testing]
 
 - Test that if action takes longer than 1/4 second you get the spinner.
@@ -364,8 +327,6 @@
   https://www.playframework.com/documentation/2.6.1/api/java/play/data/validation/Constraints.EmailValidator.html
   https://alvinalexander.com/java/jwarehouse/play-framework-2.3/framework/src/play/src/main/scala/play/api/data/validation/Validation.scala.shtml
 
-- Implement logout, in GamesComponent and in HomeComponent.
-
 - Auth in the server needs to be a separate project.
   Separate out AuthController from KernelController.
   Abstract out repetitious code in AuthController.
@@ -390,8 +351,6 @@
 - Cannot copy and paste error in ModalNotifier. Change to allow.
   Use react-copy-to-clipboard.
 
-- Eula should be available from eveywhere as a modal.
-
 - Dennis. Error reporting - title should be the message
 
   Text should be an explanation and how to fix with data used for the call that
@@ -403,12 +362,8 @@
 - Unrecoverable errors need to be more user-friendly and specialized.
   No need for we are sorry if it is a user error bt still needs to be reset.
 
-- Change unrecoverable to just error. The entire error text should be given.
+- The entire error text should be provided in the modal.
   No generic text - no we are sorry - only do it for system errors.
-  A user error that requitres going back to the landing page is treated
-  similarly.
-
-  A user error that does not require a change goes to the alert area.
 
 - test coming back to the landing page after logging in need to save the store
 
