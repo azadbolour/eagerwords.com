@@ -17,4 +17,4 @@ RUN cd $WORKSPACE/${PROJECT}/eagerwords-web && npm install && npm audit fix
 
 WORKDIR $WORKSPACE/${PROJECT}/eagerwords-web
 
-ENTRYPOINT [".build.sh"]
+ENTRYPOINT ["./build.sh"]
