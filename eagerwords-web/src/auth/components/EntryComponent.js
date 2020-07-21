@@ -148,6 +148,7 @@ class EntryComponent extends Component {
     let showConfirmed = modeEnabled && mode === modes.confirm;
     let showHome = modeEnabled && mode === modes.home;
     let clientId = this.state.clientId;
+    let it = this;
 
     console.log(`showStart: ${stringify(showStart)}`);
     console.log(`showConfirmed: ${stringify(showConfirmed)}`);
@@ -190,7 +191,7 @@ class EntryComponent extends Component {
           {!showHome && <Header as="h3" textAlign="center" style={{color: 'DarkGoldenRod'}}>{header}</Header>}
         </div>
 
-        <ServiceProcessingDecorator comp={this}>
+        <ServiceProcessingDecorator comp={it}>
           <div>
             <div>
               {showStart && <div>

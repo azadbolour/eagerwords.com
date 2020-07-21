@@ -14,6 +14,8 @@ export const EulaComponent = (props) => {
   let title = 'EagerWords Terms of Service';
   let acceptance = 'I accept the Terms of Service';
 
+  console.log(`EulaComponent - rendering - title: ${title}`);
+
   // TODO. Can make this a generic modal - ModalPresenterWithCancel.
   // See NotificationComponents.
   return (

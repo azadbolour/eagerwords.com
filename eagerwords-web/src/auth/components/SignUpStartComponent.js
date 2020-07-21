@@ -173,10 +173,13 @@ class SignUpStartComponent extends Component {
     let invalidEmailMessage = this.state.invalidEmailMessage;
     let invalidNicknameMessage = this.state.invalidNicknameMessage;
 
+    // In prod build, <this.Comp> is undefined inside the JSX. Not in dev mode!
+    let it = this;
+
     return (
       <div>
-        <this.InvalidsModal/>
-        <this.EulaModal/>
+        <it.InvalidsModal/>
+        <it.EulaModal/>
       <div>
         <br />
         <BareTextInput
@@ -220,13 +223,15 @@ class SignUpStartComponent extends Component {
       testingControlName.unrecoverable,
       testingControlName.timeout
     ];
+    // In prod build, <this.Comp> is undefined inside the JSX. Not in dev mode!
+    let it = this;
     return (
       <ServiceProcessingDecorator
-        comp={this}
+        comp={it}
         testingControls={testingControls}
-        errorCallback={() => this.props.done(null)}
+        errorCallback={() => it.props.done(null)}
       >
-        <this.RequestSignUp/><br />
+        <it.RequestSignUp/><br />
       </ServiceProcessingDecorator>
     )
   };

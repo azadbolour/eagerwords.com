@@ -256,13 +256,14 @@ class SettingsComponent extends Component {
   render() {
     let errorCallback = () => this.props.onUnrecoverableError();
     let loginExpiredCallback = () => this.props.loginExpired();
+    let it = this;
 
     return (
       <div>
         <Header as="h1" textAlign="center" style={{color: 'Green'}}>Game Settings</Header>
 
         <ServiceProcessingDecorator
-          comp={this}
+          comp={it}
           errorCallback={() => errorCallback()}
           loginExpiredCallback={() => loginExpiredCallback()}
         >

@@ -60,6 +60,7 @@ class SignInConfirmComponent extends Component {
       testingControlName.unrecoverable,
       testingControlName.timeout
     ];
+    let it = this;
 
     return (
       <div>
@@ -67,9 +68,9 @@ class SignInConfirmComponent extends Component {
           <Header as="h4" textAlign="center" style={{color: 'DarkGoldenRod'}}>Sign In Confirmation</Header>
         </div>
         <ServiceProcessingDecorator
-          comp={this}
+          comp={it}
           testingControls={testingControls}
-          errorCallback={() => this.props.done(null, null)}
+          errorCallback={() => it.props.done(null, null)}
         >
           <br />
           <label>

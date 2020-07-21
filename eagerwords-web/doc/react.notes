@@ -1,4 +1,25 @@
 
+- Issue. Got the following error from the minified production build - but not 
+  from the development mode.
+
+  Element type is invalid: expected a string (for built-in components) 
+  or a class/function (for composite components) but got: undefined.
+
+  Consider a component class Comp, and an inner component SubComp, defined inside
+  the class of Comp for use in the render method of comp.
+
+  In the JSX for render method of Comp, I was using the following syntax to 
+  refer to SubComp:
+
+      <this.SubComp/>
+
+  This worked in dev mode but failed in the production build.
+
+  The solution as usual was to assign this to 'it', and to use 'it' in
+  the JSX:
+
+    <it.SubComp>
+
 - To render static html in the public folder:
 
     <Route path="/privacy" render={() => <Redirect to={{pathname: "Privacy.html"}}/>} />

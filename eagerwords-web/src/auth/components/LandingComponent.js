@@ -133,12 +133,15 @@ class LandingComponent extends Component {
     let show = this.state.showGuestEula;
     let EulaTextComponent = this.props.EulaTextComponent;
 
+    console.log(`GuestEulaModal - show: ${show}`);
+
     let closer = () => this.props.enterAsGuest();
 
     let canceller = () => this.setState((state) => {
         return {...state, showGuestEula: false}
       });
 
+    console.log(`rendering EulaComponent`);
     return (
       <EulaComponent show={show} closer={closer} canceller={canceller} EulaTextComponent={EulaTextComponent}/>
     )
@@ -150,23 +153,26 @@ class LandingComponent extends Component {
       testingControlName.timeout
     ];
 
+    // In prod build, <this.Comp> is undefined inside the JSX. Not in dev mode!
+    let it = this;
+
     return (
       <div>
-      <this.GuestEulaModal/>
+      <it.GuestEulaModal/>
       <ServiceProcessingDecorator
-        comp={this}
+        comp={it}
         testingControls={testingControls}
         errorCallback={() => this.props.done(null)}
       >
         <div style={{display: 'flex', flexDirection: 'row'}}>
-          <this.RequestSignUp/>
+          <it.RequestSignUp/>
           <br/>
-          <this.RequestGuestEntry/>
+          <it.RequestGuestEntry/>
           <br/>
         </div>
         <br/>
         <br/>
-        <this.RequestLogin/>
+        <it.RequestLogin/>
         <br/>
       </ServiceProcessingDecorator>
     </div>

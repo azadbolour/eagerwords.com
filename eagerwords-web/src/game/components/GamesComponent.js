@@ -302,6 +302,7 @@ class GamesComponent extends Component {
 
     let userName = this.props.nickname;
     let loginEvidence = this.props.loginEvidence;
+    let it = this;
 
     let logoutCallback = () => {
       // TODO. Call logout service method.
@@ -318,13 +319,13 @@ class GamesComponent extends Component {
 
     return (
       <div>
-        <this.HelpModal/>
+        <it.HelpModal/>
         <GameHeader loginEvidence={loginEvidence} onLogout={logoutCallback} onHelp={() => this.helpCallback()}/>
         <Header as="h3" textAlign="center" style={{color: 'DarkGoldenRod'}}>Eager Words - Welcome {userName}!</Header>
         <div>{space}</div>
 
         <ServiceProcessingDecorator
-          comp={this}
+          comp={it}
           errorCallback={() => errorCallback()}
           loginExpiredCallback={() => loginExpiredCallback()}
         >

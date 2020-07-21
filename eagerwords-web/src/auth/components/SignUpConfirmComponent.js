@@ -50,6 +50,7 @@ class SignUpConfirmComponent extends Component {
       testingControlName.unrecoverable,
       testingControlName.timeout
     ];
+    let it = this;
 
     return (
       <div>
@@ -58,9 +59,9 @@ class SignUpConfirmComponent extends Component {
         </div>
 
         <ServiceProcessingDecorator
-          comp={this}
+          comp={it}
           testingControls={testingControls}
-          errorCallback={() => this.props.done(null)}
+          errorCallback={() => it.props.done(null)}
         >
           <br />
           <label>

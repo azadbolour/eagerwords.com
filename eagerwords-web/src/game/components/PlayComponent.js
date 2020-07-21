@@ -352,20 +352,21 @@ class PlayComponent extends React.Component {
     let canRevert = running && playStarted;
     let canSuspend = running && !this.props.isGuest;
     let rulesOpen = this.rulesOpen;
+    let it = this;
 
     return (
       <div>
         <div style={{display: 'flex', flexDirection: 'row', backgroundColor: 'LightGrey', padding: '3px'}}>
           <ButtonToolbar aria-label="header">
-            <PlayButton disabled={!canCommit} onClick={this.commitPlay}>Commit Word</PlayButton>{space}
-            <PlayButton disabled={!canRevert} onClick={this.revertPlay}>Undo</PlayButton>{space}
+            <PlayButton disabled={!canCommit} onClick={it.commitPlay}>Commit Word</PlayButton>{space}
+            <PlayButton disabled={!canRevert} onClick={it.revertPlay}>Undo</PlayButton>{space}
             <Dropdown>
               <PlayDropdownToggle id="dropdown-end" disabled={!canEnd} style={{height: '100%'}}>End</PlayDropdownToggle>
               <Dropdown.Menu>
-                <PlayMenuItem disabled={!canSuspend} onClick={this.suspendGame}>Suspend</PlayMenuItem>
-                <PlayMenuItem disabled={!running} onClick={this.resignGame}>Resign</PlayMenuItem>
-                <PlayMenuItem disabled={!running} onClick={this.cancelGame}>Forget</PlayMenuItem>
-                <PlayMenuItem disabled={!finished} onClick={() => this.props.onQuit()}>Quit</PlayMenuItem>
+                <PlayMenuItem disabled={!canSuspend} onClick={it.suspendGame}>Suspend</PlayMenuItem>
+                <PlayMenuItem disabled={!running} onClick={it.resignGame}>Resign</PlayMenuItem>
+                <PlayMenuItem disabled={!running} onClick={it.cancelGame}>Forget</PlayMenuItem>
+                <PlayMenuItem disabled={!finished} onClick={() => it.props.onQuit()}>Quit</PlayMenuItem>
               </Dropdown.Menu>
             </Dropdown>{space}
             <span style={{width: '390px'}}/>
@@ -447,32 +448,33 @@ class PlayComponent extends React.Component {
     let dndBackend = this.state.dndBackend;
     let numWords = this.wordsPlayed().length;
     let hideContents = this.state.rulesIsOpen;
+    let it = this;
 
     return (
       <DndProvider backend={dndBackend}>
-        <this.RulesModal/>
+        <it.RulesModal/>
         <ServiceProcessingDecorator
-          comp={this}
+          comp={it}
           errorCallback={() => errorCallback()}
           loginExpiredCallback={() => loginExpiredCallback()}
         >
           <Main hidden={hideContents}>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-              <this.PlayMenu />
+              <it.PlayMenu />
               <div style={{display: 'flex', flexDirection: 'row', border: '1px solid GoldenRod',
                   paddingLeft: '15px', paddingTop: '15px', paddingBottom: '15px', marginTop: "8px"}}>
-                <this.Board/>{space}{space}
-                <this.Tray />{space}{space}
+                <it.Board/>{space}{space}
+                <it.Tray />{space}{space}
                 <div style={{display: 'flex', flexDirection: 'column', left: "3px"}}>
                   <SwapBinComponent isTrayPiece={isTrayPiece} enabled={gamePlayCanSwap} onSwap={onSwap} />
                   <div style={styles.playScoreBoxStyle}>
-                    {this.renderScore(userName, userScore)}
-                    {this.renderScore("Bot", machineScore)}
+                    {it.renderScore(userName, userScore)}
+                    {it.renderScore("Bot", machineScore)}
                   </div>
                   <div style={styles.playWordListStyle}>
                     <ReactList
-                      ref={list => this.setWordsComponent(list)} length={numWords} type='uniform'
-                      itemRenderer={ (index, key) => this.renderWord(index, key) }
+                      ref={list => it.setWordsComponent(list)} length={numWords} type='uniform'
+                      itemRenderer={ (index, key) => it.renderWord(index, key) }
                     />
                   </div>
                 </div>
