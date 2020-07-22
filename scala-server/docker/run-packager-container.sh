@@ -20,7 +20,10 @@
 # By default docker on MAC OS disallows this mapping.
 # User docker UI preferences/file sharing to allow it.
 #
-EAGERWORDS_DATA=/opt/data/eagerwords
+
+PROJECT="eagerwords.com"
+
+EAGERWORDS_DATA=/opt/data/${PROJCT}
 PACKAGE_DIR=${EAGERWORDS_DATA}/package
 
 while [ $# -gt 0 ]; do
@@ -43,7 +46,7 @@ sudo chmod 777 ${PACKAGE_DIR}
 sudo rm -rf ${PACKAGE_DIR}/*
 
 NAMESPACE=azadbolour
-REPOSITORY=eagerwords-packager
+REPOSITORY=${PROJECT}.packager
 
 # Remove existing distribution containers to avoid name clash.
 ../../remove-container.sh ${REPOSITORY} || true

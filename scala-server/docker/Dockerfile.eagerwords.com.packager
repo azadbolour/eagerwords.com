@@ -6,6 +6,8 @@ ARG BASE=azadbolour/jvm:1.0
 
 FROM $BASE
 
+ARG PROJECT=eagerwords.com
+
 #
 # Set up the base environment.
 #
@@ -19,15 +21,11 @@ RUN mkdir -p $WORKSPACE/eagerwords \
 # And docker is run from the parent of that clone.
 # We clone externally to avoid git credential issues in creating the image.
 #
-COPY eagerwords $WORKSPACE/eagerwords
+COPY ${PROJECT} $WORKSPACE/${PROJECT}
 
 WORKDIR $WORKSPACE
 
-# RUN echo `pwd` && ls
-
 ENV PATH $PATH:.
-
-# WORKDIR /tmp
 
 RUN apt-get update \
       && apt-get -y install sudo curl
@@ -41,8 +39,7 @@ RUN echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.lis
     && apt-get update \
     && apt-get install sbt
 
-WORKDIR $WORKSPACE/eagerwords/scala-server
-# RUN echo `pwd` && ls
+WORKDIR $WORKSPACE/${PROJECT}/scala-server
 
 ENTRYPOINT ["./mkdistribution.sh"]
 

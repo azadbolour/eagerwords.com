@@ -25,10 +25,12 @@ fi
 set -e
 set -u
 
+PROJECT="eagerwords.com"
+
 #
 # Use a well-known location for cloning the eagerwords project to use with docker.
 #
-EAGERWORDS_DATA=/opt/data/eagerwords
+EAGERWORDS_DATA=/opt/data/${PROJECT}
 dockerDir=${EAGERWORDS_DATA}/docker
 cloneDir=${dockerDir}/clone
 
@@ -42,7 +44,7 @@ sudo rm -rf ${cloneDir}/*
 #
 ../../clone-tag.sh ${cloneDir} ${tag}
 
-repository=eagerwords-packager
+repository=${PROJECT}.packager
 dockerfile=${cloneDir}/eagerwords/scala-server/docker/Dockerfile.${repository}
 
 # Go to the working directory of docker build - the parent of the clone.

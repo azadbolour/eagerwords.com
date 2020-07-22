@@ -13,7 +13,9 @@ NAMESPACE=$1
 TAG=$2
 BASE_IMAGE=$3
 
-PACKAGE_DIR=/opt/data/eagerwords/package/
+PROJECT="eagerwords.com"
+
+PACKAGE_DIR=/opt/data/${PROJECT}/package/
 
 if [ -z "${NAMESPACE}" -o -z "${TAG}" ]; then
   echo "usage: $0 docker-namespace docker-tag [base-image]"
@@ -29,7 +31,7 @@ if [ ! -d "${PACKAGE_DIR}" ]; then
     exit 1
 fi
 
-TAR_BALL=${PACKAGE_DIR}/eagerwords.tar
+TAR_BALL=${PACKAGE_DIR}/${PROJECT}.tar
 
 if [ ! -f "${TAR_BALL}" ]; then
     echo "eagerwords distribution tarball not found at ${TAR_BALL}"
@@ -40,9 +42,9 @@ set -e
 set -u
 
 cd ${PACKAGE_DIR}
-tar xvf eagerwords.tar
+tar xvf ${PROJECT}.tar
 
-REPOSITORY=eagerwords-server
+REPOSITORY=${PROJECT}.server
 DOCKERFILE=docker/Dockerfile.${REPOSITORY}
 
 #

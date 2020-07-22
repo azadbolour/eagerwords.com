@@ -38,7 +38,9 @@ PACKAGE_DIR="$1"
 # When called in a docker run, this directory would be mapped to a directory 
 # of the same name on the host, making the tarball available on the host.
 #
-DEFAULT_PACKAGE_DIR=/opt/data/eagerwords/package
+PROJECT="eagerwords.com"
+
+DEFAULT_PACKAGE_DIR=/opt/data/${PROJECT}/package
 
 set -u
 set -e
@@ -105,7 +107,7 @@ EOF
 # and used from there.
 #
 
-STAGING=/tmp/eagerwords/staging
+STAGING=/tmp/${PROJECT}/staging
 sudo rm -rf $STAGING
 sudo mkdir -p $STAGING
 sudo chmod 777 $STAGING
@@ -125,9 +127,9 @@ cp -a install.sh run-server.sh get-dynamic-params.sh $SCRIPT_DIR
 #
 DOCKER_DIR=$STAGING/docker
 mkdir -p $DOCKER_DIR
-cp -a docker/Dockerfile.eagerwords-server $DOCKER_DIR
+cp -a docker/Dockerfile.${PROJECT}.server $DOCKER_DIR
 
-TAR_BALL=$PACKAGE_DIR/eagerwords.tar 
+TAR_BALL=$PACKAGE_DIR/${PROJECT}.tar
 cd $STAGING
 tar -cf $TAR_BALL ./*
 

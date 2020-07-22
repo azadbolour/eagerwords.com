@@ -10,6 +10,8 @@ ARG BASE=azadbolour/jvm:1.0
 
 FROM $BASE
 
+ARG PROJECT=eagerwords.com
+
 # 
 # This dockerfile will be placed by the corresponding build script 
 # at the distribution package directory of the application. 
@@ -35,7 +37,7 @@ ENV HTTP_PORT 6587
 # The application's distribution package is copied
 # from the host machine to here.
 #
-ENV PACKAGE_DIR=/opt/data/eagerwords/package
+ENV PACKAGE_DIR=/opt/data/${PROJECT}/package
 
 #
 # The distribution package includes the app's zipped play package,

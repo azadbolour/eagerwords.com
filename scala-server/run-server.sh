@@ -26,7 +26,8 @@ DEFAULT_HTTP_PORT=6597
 # Make sure it is under /var, so the contents get wiped out on system restart.
 # The play pid lock file must be configured to be in this area.
 # That way the pid lock is automatically removed on restarts.
-EAGERWORDS_VAR=/var/run/eagerwords
+PROJECT="eagerwords.com"
+EAGERWORDS_VAR=/var/run/${PROJECT}
 
 #
 # The pid aka lock the play server.
@@ -59,7 +60,7 @@ sudo chmod 777 ${PID_DIR}
 test -d "${PID_DIR}" || errorout "pid directory ${PID_DIR} could not be created"
 
 SERVER=eagerwords
-INSTALL_DIR=/usr/local/${SERVER}
+INSTALL_DIR=/usr/local/${PROJECT}
 SERVER_ROOT=${INSTALL_DIR}/${SERVER}
 
 test -d "${SERVER_ROOT}" || errorout "server root ${SERVER_ROOT} not a directory - $installMessage"

@@ -7,11 +7,13 @@
 # Used to install the board game in docker container.
 #
 
+PROJECT="eagerwords.com"
+
 #
 # Root of the distribution. 
 # Assumes the expanded distribution package has been copied here.
 #
-PACKAGE_DIR=/opt/data/eagerwords/package
+PACKAGE_DIR=/opt/data/${PROJECT}/package
 
 errorout () {
   echo $1
@@ -21,7 +23,7 @@ errorout () {
 test -d "$PACKAGE_DIR" || errorout "no distribution found at: ${PACKAGE_DIR}"
 
 SERVER=eagerwords
-INSTALL=/usr/local/eagerwords
+INSTALL=/usr/local/${PROJECT}
 
 set -e
 set -u

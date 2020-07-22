@@ -69,8 +69,10 @@ if [ -z "$ALLOWED_HOST" ]; then VERSION=${DEFAULT_ALLOWED_HOST}; fi
 PID_DIR=`dirname ${PID_FILE}`
 mkdir -p ${PID_DIR}
 
+PROJECT="eagerwords.com"
+
 NAMESPACE=azadbolour
-REPOSITORY=eagerwords-server
+REPOSITORY=${PROJECT.server
 
 nohup docker run -p ${HTTP_PORT}:${HTTP_PORT} --restart on-failure:5 --name ${REPOSITORY} \
     --workdir="" \
