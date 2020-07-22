@@ -1,6 +1,17 @@
 
 Dockerization of the Scala Server
 
+Note. The scripts described below have evolved over many refactorings.
+They are likely an overkill for the current system,
+and can be somewhat simplified.
+
+One way to simplify is to have the parameters used in different scripts
+be defined in one file (perhaps as env variables) and then use them
+in all scripts, and remove all all defaults.
+
+Another is to combine fold the packaging function into the server
+image so we just have a single docker file and image.
+
 There are two docker images: the packager and the server. 
 
 The packager is used to build and package the application from source.
@@ -48,7 +59,7 @@ Remove any existing packager containers.
     docker stop ...
     docker rm ...
 
-Run the packager container. Outputs the distribution to /opt/data/eagerwords/package/.
+Run the packager container. Outputs the distribution to /opt/data/eagerwords.com/package/.
 
     run-packager-container.sh --tag 0.5.0
 
@@ -62,7 +73,7 @@ Wait for it to exit. To see its status:
 
 Check that the distribution tar ball was produced:
 
-    ls -lt /opt/data/eagerwords/package/eagerwords.tar
+    ls -lt /opt/data/eagerwords.com/package/eagerwords.com.tar
 
 Build the server docker image.
 
@@ -70,7 +81,7 @@ Build the server docker image.
 
 Check that the server docker image was produced:
 
-    docker images | grep azadbolour/eagerwords-server | grep 0.5.0
+    docker images | grep azadbolour/eagerwords.com.server | grep 0.5.0
 
 Test the server container. Update the script run-here.sh to use version 0.5.0,
 then:
@@ -100,7 +111,7 @@ Remove the test container.
 Push to Docker Hub.
 
     docker login --username=... [docker.io]
-    docker push azadbolour/eagerwords-server:0.5.0
+    docker push azadbolour/eagerwords.com.server:0.5.0
 
 Note. On the MAC command login has issues and often does not work even it
 reports successful. You can use the docker gui to login. You may also have to
@@ -108,7 +119,7 @@ remove ~/.docker/config.json which caches some data.
 
 Pull to the deployment machine.
 
-    docker pull azadbolour/eagerwords-server:0.5.0
+    docker pull azadbolour/eagerwords.com.server:0.5.0
     
 Deploy.
     
@@ -127,10 +138,10 @@ for the server changes directory to the PACKAGE_DIR.
 
 The directory structure within the distribution tar ball looks like:
 
-/opt/data/eagerwords/package
+/opt/data/eagerwords.com/package
   scala-server-<version>.zip
   docker/
-    Dockerfile.eagerwords-server
+    Dockerfile.eagerwords.com.server
   script/
     install.sh
     run-server.sh
@@ -139,7 +150,7 @@ The directory structure within the distribution tar ball looks like:
 The installation of the package by the builder of the server image causes 
 the following directory structure within the server docker image:
 
-/usr/local/eagerwords/
+/usr/local/eagerwords.com/
   scala-server-<version>/ unzipped package
   eagerwords/ (symbolic link to scala-server-<version>
     bin/
@@ -175,7 +186,14 @@ currently configurable at runtime for our docker setup. See the script run-here.
 
 - Check application log directory, e.g.: 
 
-    ls -lt /usr/local/eagerwords/scala-server-0.9.5/logs/eagerwords/
+    ls -lt /usr/local/eagerwords.com/scala-server-0.9.5/logs/eagerwords/
+
+- On the MAC directories mapped to the container must be explicitly
+  added to the file sharing preferences of docker. The name of a
+  directory that is linked on the MAC file system is converted by the
+  preferences editor to its canonical non-linked name. And that name
+  is what should be used in mappings. An example is /var which gets
+  converted to /private/var, so /private/var needs to be used in mappings.
 
 ## Fargate
 

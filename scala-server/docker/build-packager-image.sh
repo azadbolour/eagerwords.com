@@ -44,6 +44,9 @@ sudo rm -rf ${cloneDir}/*
 #
 ../../clone-tag.sh ${cloneDir} ${tag}
 
+# env variable APPLICATION_CONF points to the local copy of application.conf to be used.
+# TODO. Copy application.conf to $cloneDir/${PROJECT}/scala-server/conf in host system.
+
 repository=${PROJECT}.packager
 dockerfile=${cloneDir}/${PROJECT}/scala-server/docker/Dockerfile.${repository}
 

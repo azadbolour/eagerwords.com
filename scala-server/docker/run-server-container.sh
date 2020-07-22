@@ -24,6 +24,8 @@
 # Then can use docker run -d to create a detached container.
 # And the logs will be on the host file system.
 
+PROJECT="eagerwords.com"
+
 #
 # These defaults are repeated here and in the run-server script.
 # Keeping them independent for now for simplicity.
@@ -32,7 +34,7 @@ DEFAULT_HTTP_PORT=6597
 # For now we are only allowing one host.
 # TODO. Allow multiple hosts for flexibility in testing.
 DEFAULT_ALLOWED_HOST="127.0.0.1:${DEFAULT_HTTP_PORT}"
-EAGERWORDS_VAR=/var/run/eagerwords
+EAGERWORDS_VAR=/var/run/${PROJECT}
 DEFAULT_PID_FILE=${EAGERWORDS_VAR}/play.pid
 
 while [ $# -gt 0 ]; do
@@ -60,21 +62,22 @@ if [ -z "$HTTP_PORT" ]; then HTTP_PORT=${DEFAULT_HTTP_PORT}; fi
 if [ -z "$PID_FILE" ]; then PID_FILE=${DEFAULT_PID_FILE}; fi
 if [ -z "$ALLOWED_HOST" ]; then VERSION=${DEFAULT_ALLOWED_HOST}; fi
 
+
 #
-# To make it easy to remove a stray pid [lock] file, we map its 
+# To make it easy to remove a stray pid [lock] file, we map its
 # directory to an external directory on the host system.
 # Create the directory if it does not exist, and map it in the
 # docker run below.
 #
 PID_DIR=`dirname ${PID_FILE}`
-mkdir -p ${PID_DIR}
-
-PROJECT="eagerwords.com"
+sudo mkdir -p ${PID_DIR}
+sudo chmod 777 ${PID_DIR}
 
 NAMESPACE=azadbolour
-REPOSITORY=${PROJECT.server
+REPOSITORY=${PROJECT}.server
 
 nohup docker run -p ${HTTP_PORT}:${HTTP_PORT} --restart on-failure:5 --name ${REPOSITORY} \
     --workdir="" \
     -e HTTP_PORT="${HTTP_PORT}" -e ALLOWED_HOST="${ALLOWED_HOST}" -e PID_FILE="${PID_FILE}" \
+    -v ${PID_DIR}:${PID_DIR} \
     ${NAMESPACE}/${REPOSITORY}:${TAG} &
