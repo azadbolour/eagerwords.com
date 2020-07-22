@@ -1,0 +1,23 @@
+
+- Dockerfile.nodejs - For the base image. Just get node and basic utilities here.
+  Reused as the base of the builder ro reduce docker image build times.
+
+- build-nodejs.sh azadbolour 0.8.0 - Use the dockerfile to build an image with
+  nodjs and various utilities.
+
+- Dockerfile.eagerwords.com.react-builder - For the image of the builder.
+
+- build-react-builder-image.sh azadbolour 0.8.0 - Build the docker image of the
+  builder.
+
+- run-react-builder-container.sh --tag 0.8.0 - Run the image to produce a
+  production build.
+
+The productin build is copied to the host directory:
+
+   /opt/data/eagerwords.com/package/eagerwords-web/build/
+
+The package directory /opt/data/eagerwords.com/package/ is mapped to the same
+path in the host file system. 
+
+
