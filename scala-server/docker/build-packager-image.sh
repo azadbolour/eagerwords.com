@@ -45,7 +45,7 @@ sudo rm -rf ${cloneDir}/*
 ../../clone-tag.sh ${cloneDir} ${tag}
 
 repository=${PROJECT}.packager
-dockerfile=${cloneDir}/eagerwords/scala-server/docker/Dockerfile.${repository}
+dockerfile=${cloneDir}/${PROJECT}/scala-server/docker/Dockerfile.${repository}
 
 # Go to the working directory of docker build - the parent of the clone.
 cd ${cloneDir}
