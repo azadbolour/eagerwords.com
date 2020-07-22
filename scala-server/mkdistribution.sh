@@ -54,13 +54,15 @@ if [ -f "${PACKAGE_DIR}" ]; then
   exit -1
 fi
 
-if [ -d "${PACKAGE_DIR}" ]; then
-  found=`find $PACKAGE_DIR -maxdepth 0 -empty`
-  if [ ! -n  "$found" ]; then
-    echo "PACKAGE_DIR $PACKAGE_DIR is not empty - will not clobber"
-    exit -1
-  fi
-fi
+# Only the tarball is of interest in the package directory. No need to clobber.
+
+#if [ -d "${PACKAGE_DIR}" ]; then
+#  found=`find $PACKAGE_DIR -maxdepth 0 -empty`
+#  if [ ! -n  "$found" ]; then
+#    echo "PACKAGE_DIR $PACKAGE_DIR is not empty - will not clobber"
+#    exit -1
+#  fi
+#fi
 
 dirName=`basename $(pwd)`
 
