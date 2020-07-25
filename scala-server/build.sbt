@@ -39,6 +39,7 @@ libraryDependencies += "com.typesafe.slick" %% "slick" % "3.3.2"
 libraryDependencies += "com.h2database" % "h2" % "1.4.185"
 libraryDependencies += "io.spray" %%  "spray-json" % "1.3.3"
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.30.1"
+libraryDependencies += "org.postgresql" % "postgresql" % "42.2.14"
 
 val circeVersion = "0.12.3"
 

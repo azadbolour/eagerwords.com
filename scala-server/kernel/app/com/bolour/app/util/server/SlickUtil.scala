@@ -12,7 +12,7 @@ import java.time.Instant
 import com.typesafe.config.ConfigFactory
 import slick.jdbc.JdbcBackend.Database
 import slick.jdbc.meta.MTable
-import slick.jdbc.{H2Profile, JdbcProfile, SQLiteProfile}
+import slick.jdbc.{H2Profile, JdbcProfile, PostgresProfile, SQLiteProfile}
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -20,6 +20,7 @@ import scala.concurrent.duration._
 object SlickUtil {
   val h2Driver = "org.h2.Driver"
   val sqliteDriver = "org.sqlite.JDBC"
+  val postgresqlDriver = "org.postgresql.Driver"
   // TODO. Add postgres driver.
 
   def configuredDbAndProfile(dbConfigPath: String): (Database, JdbcProfile) = {
@@ -29,6 +30,7 @@ object SlickUtil {
     val profile = driver match {
       case `h2Driver` => H2Profile
       case `sqliteDriver` => SQLiteProfile
+      case `postgresqlDriver` => PostgresProfile
       case _ => throw new IllegalArgumentException(
         s"unsupported jdbc driver: ${driver} in configured db ${dbConfigPath}")
     }
