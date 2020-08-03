@@ -9,7 +9,7 @@ import com.bolour.eagerwords.common.domain.GameState.GameState
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.duration._
-import com.typesafe.config.Config
+import com.typesafe.config.{Config, ConfigFactory}
 import slick.jdbc.JdbcBackend.Database
 import slick.jdbc.JdbcProfile
 import com.bolour.util.CommonUtil.{Email, ID}
@@ -177,6 +177,8 @@ class GameJsonPersisterSlickImpl(val profile: JdbcProfile, db: Database) extends
 }
 
 object GameJsonPersisterSlickImpl {
+
+  val logger = LoggerFactory.getLogger(GameJsonPersisterSlickImpl.getClass)
 
   val dbConfigPrefix = "service.db"
   def confPath(pathInDb: String) =  s"${dbConfigPrefix}.${pathInDb}"

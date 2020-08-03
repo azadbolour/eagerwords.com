@@ -5,8 +5,12 @@ import com.bolour.app.kernel.server.service.KernelService
 import com.bolour.util.StreamUtil.runAndMapStdOut
 import com.bolour.util.email.EmailHelper.mockTokenExtractor
 import org.scalatest.concurrent.ScalaFutures._
+import org.scalatest.time.{Millis, Seconds, Span}
 
 object ServiceTestHelper {
+
+  implicit val patienceConfig =
+    PatienceConfig(timeout = Span(5, Seconds), interval = Span(10, Millis))
 
   def testingSignUp(service: KernelService)(email: String, nickname: String): AuthEvidence = {
     val (clientId, token) = runAndMapStdOut(mockTokenExtractor) {

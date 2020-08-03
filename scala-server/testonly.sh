@@ -9,4 +9,4 @@ fullClass=`find . -name "$testClass.scala" |  \
 `
 echo "testing $fullClass"
 
-sbt "testOnly $fullClass"
+sbt "testOnly $fullClass -- -oF"
