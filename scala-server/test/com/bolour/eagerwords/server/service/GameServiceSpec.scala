@@ -236,7 +236,8 @@ class GameServiceSpec extends FlatSpec with Matchers {
     service.resignGame(gameId).futureValue
     val resignedGame: Game = service.findGameById(gameId).futureValue.get
     resignedGame.state shouldEqual GameState.RESIGNED
-    val initialGameAsResigned = game.copy(state = GameState.RESIGNED)
+    val lastSecond = resignedGame.lastSecond
+    val initialGameAsResigned = game.copy(state = GameState.RESIGNED, lastSecond = lastSecond)
     resignedGame shouldEqual initialGameAsResigned
   }
 
