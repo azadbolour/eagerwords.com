@@ -9,15 +9,14 @@ package com.bolour.util.mail;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-import static com.bolour.util.PropertiesUtil.readProperties;
+import com.typesafe.config.Config;
 
 public class SmtpMailService extends AbstractSmtpMailService implements IMailService {
 
     // TODO. Add logging.
 
-    public SmtpMailService(String propertiesPath) throws Exception {
-        this.properties = readProperties(propertiesPath);
-        init(properties);
+    public SmtpMailService(Config conf) throws Exception {
+        init(conf);
     }
 
     @Override

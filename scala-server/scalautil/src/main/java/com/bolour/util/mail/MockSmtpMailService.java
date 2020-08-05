@@ -8,17 +8,20 @@ package com.bolour.util.mail;
 
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+import com.typesafe.config.Config;
 
 public class MockSmtpMailService extends AbstractSmtpMailService implements IMailService {
 
-    public MockSmtpMailService() throws Exception {
-        Properties properties = new Properties();
-        properties.setProperty(MAIL_SMTP_USER, "nobody");
-        properties.setProperty(MAIL_SMTP_PASSWORD, "none");
-        properties.setProperty(MAIL_SMTP_HOST, "smtp.unknown.com");
-        properties.setProperty(MAIL_SMTP_AUTH, "true");
-        properties.setProperty(MAIL_SMTP_ENABLE_TLS, "true");
-        init(properties);
+    public MockSmtpMailService(Config conf) throws Exception {
+        init(conf);
+
+//        Properties properties = new Properties();
+//        properties.setProperty(MAIL_SMTP_USER, "nobody");
+//        properties.setProperty(MAIL_SMTP_PASSWORD, "none");
+//        properties.setProperty(MAIL_SMTP_HOST, "smtp.unknown.com");
+//        properties.setProperty(MAIL_SMTP_AUTH, "true");
+//        properties.setProperty(MAIL_SMTP_STARTTLS_ENABLE, "true");
+//        init(properties);
     }
 
     @Override

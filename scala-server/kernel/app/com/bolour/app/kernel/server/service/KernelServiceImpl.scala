@@ -50,6 +50,8 @@ class KernelServiceImpl @Inject() (config: Config, secretService: SecretService,
   val dbName = configuredDbName.getOrElse("defaultDb");
   val defaultDbPath = s"${dbConfigPrefix}.${dbName}"
 
+  val mailConfigPrefix = KernelService.confPath("email");
+
   // TODO. Validate service method parameters.
   // To the extent validation code is implementation-independent,
   // implement in the base trait.
@@ -57,7 +59,8 @@ class KernelServiceImpl @Inject() (config: Config, secretService: SecretService,
   val defaultDb = config.getString(defaultDbPath)
   val persister: KernelPersister = KernelPersisterSlickImpl(defaultDb, config, secretService)
   // TODO. URGENT. Inject email service. Make sure tests use mock.
-  val emailService: IMailService = new MockSmtpMailService()
+  val mailConfig: Config = config.getConfig(mailConfigPrefix);
+  val emailService: IMailService = new MockSmtpMailService(mailConfig)
 
   val mockEmail = secretService.getMockEmail
   val mockToken = secretService.getMockToken

@@ -13,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
+import com.typesafe.config.Config;
+
 public class AbstractSmtpMailService implements IMailService {
 
     // TODO. Constants for property names.
@@ -21,13 +23,33 @@ public class AbstractSmtpMailService implements IMailService {
     protected static String MAIL_SMTP_USER = "mail.smtp.user";
     protected static String MAIL_SMTP_PASSWORD = "mail.smtp.password";
     protected static String MAIL_SMTP_HOST = "mail.smtp.host";
-    protected static String MAIL_SMTP_ENABLE_TLS = "mail.smtp.starttls.enable";
+    protected static String MAIL_SMTP_PORT = "mail.smtp.port";
+    protected static String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
     protected static String MAIL_SMTP_AUTH = "mail.smtp.auth";
     protected static String MAIL_PROTOCOL = "smtp";
 
     protected Properties properties;
     protected Session session;
     protected String senderEmail;
+
+    /**
+     * Initialize with a typesafe config tree representing mail smtp parameters
+     * whose paths are consistent with the standard smtp property names.
+     *
+     * @param conf Includes a tree rooted at the path "mail.smtp" that
+     *             contains all the needed mail smtp parameters at path
+     *             locations conforming to their standard naming conventions.
+     */
+    protected void init(Config conf) throws Exception {
+        Properties properties = new Properties();
+        properties.setProperty(MAIL_SMTP_USER, conf.getString(MAIL_SMTP_USER));
+        properties.setProperty(MAIL_SMTP_PASSWORD, conf.getString(MAIL_SMTP_PASSWORD));
+        properties.setProperty(MAIL_SMTP_HOST, conf.getString(MAIL_SMTP_HOST));
+        properties.setProperty(MAIL_SMTP_PORT, conf.getString(MAIL_SMTP_PORT));
+        properties.setProperty(MAIL_SMTP_STARTTLS_ENABLE, conf.getString(MAIL_SMTP_STARTTLS_ENABLE));
+        properties.setProperty(MAIL_SMTP_AUTH, conf.getString(MAIL_SMTP_AUTH));
+        init(properties);
+    }
 
     protected void init(Properties properties) throws Exception {
         this.properties = properties;
