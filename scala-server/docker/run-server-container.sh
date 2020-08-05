@@ -79,5 +79,8 @@ REPOSITORY=${PROJECT}.server
 nohup docker run -p ${HTTP_PORT}:${HTTP_PORT} --restart on-failure:5 --name ${REPOSITORY} \
     --workdir="" \
     -e HTTP_PORT="${HTTP_PORT}" -e ALLOWED_HOST="${ALLOWED_HOST}" -e PID_FILE="${PID_FILE}" \
+    -e DB_HOST -e DB_PORT -e DB_NAME -e DB_USER -e DB_PASS -e DB_TYPE
+    -e MAIL_SMTP_USER -e MAIL_SMTP_PASSWORD -e MAIL_SMTP_HOST -e MAIL_SMTP_PORT \
+    -e MOCK_EMAIL -e MAIL_SMTP_STARTTLS_ENABLE -e MAIL_SMTP_AUTH \
     -v ${PID_DIR}:${PID_DIR} \
     ${NAMESPACE}/${REPOSITORY}:${TAG} &

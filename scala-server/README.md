@@ -54,6 +54,43 @@ applications.
   create the directory of the pid file on the host system. But they expect
   to be permitted to do so.
 
+## Environment Variables
+
+Runtime configuration options defined in application.conf generally have
+associated overriding environment variables. The following environment variables
+are used in application.conf, and are passed to the docker container for the
+server.
+
+- `MOCK_EMAIL`: Mock emails to users - log the message only - do not send.
+
+- `MAIL_SMTP_USER`: The sending user.
+
+- `MAIL_SMTP_PASSWORD`: The sender's password.
+
+- `MAIL_SMTP_HOST`: The host address of the mail server.
+
+- `MAIL_SMTP_PORT`: The port number of the mail server.
+
+- `MAIL_SMTP_STARTTLS_ENABLE`: Use TLS for mail (true/false).
+
+- `MAIL_SMTP_AUTH`: Authorize email transmission (true/false).
+
+- `DB_HOST`: The database server's host address.
+
+- `DB_PORT`: The database server's port number.
+
+- `DB_NAME`: The name of the eagerwords database. By convention this is
+  'eagerwords' for the application, and `eagerwords_test` for tests.
+
+- `DB_USER`: The database user.
+
+- `DB_PASS`: The database password.
+
+- `DB_TYPE`: The DBMS system type: the name of a configuration 
+  block in application.conf specifying the access details for the given
+  type of DBMS. Valid types are: _postgres_, _sqlite_, and _h2mem_.
+
+
 ## To Do
 
 - Change logging calls to debug and set up a run-debug to
