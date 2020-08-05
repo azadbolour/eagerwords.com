@@ -13,6 +13,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.typesafe.config.Config;
 
 public class AbstractSmtpMailService implements IMailService {
@@ -20,17 +23,19 @@ public class AbstractSmtpMailService implements IMailService {
     // TODO. Constants for property names.
     // TODO. Add logging.
 
-    protected static String MAIL_SMTP_USER = "mail.smtp.user";
-    protected static String MAIL_SMTP_PASSWORD = "mail.smtp.password";
-    protected static String MAIL_SMTP_HOST = "mail.smtp.host";
-    protected static String MAIL_SMTP_PORT = "mail.smtp.port";
-    protected static String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
-    protected static String MAIL_SMTP_AUTH = "mail.smtp.auth";
-    protected static String MAIL_PROTOCOL = "smtp";
+    static final String MAIL_SMTP_USER = "mail.smtp.user";
+    protected static final String MAIL_SMTP_PASSWORD = "mail.smtp.password";
+    protected static final String MAIL_SMTP_HOST = "mail.smtp.host";
+    protected static final String MAIL_SMTP_PORT = "mail.smtp.port";
+    protected static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
+    protected static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
+    protected static final String MAIL_PROTOCOL = "smtp";
 
     protected Properties properties;
     protected Session session;
     protected String senderEmail;
+
+    private static Logger logger = LoggerFactory.getLogger(AbstractSmtpMailService.class);
 
     /**
      * Initialize with a typesafe config tree representing mail smtp parameters
@@ -41,21 +46,27 @@ public class AbstractSmtpMailService implements IMailService {
      *             locations conforming to their standard naming conventions.
      */
     protected void init(Config conf) throws Exception {
+        String user = conf.getString(MAIL_SMTP_USER);
+        String password = conf.getString(MAIL_SMTP_PASSWORD);
+        init(conf, user, password);
+    }
+
+    protected void init(Config conf, String user, String password) throws Exception {
         Properties properties = new Properties();
-        properties.setProperty(MAIL_SMTP_USER, conf.getString(MAIL_SMTP_USER));
-        properties.setProperty(MAIL_SMTP_PASSWORD, conf.getString(MAIL_SMTP_PASSWORD));
-        properties.setProperty(MAIL_SMTP_HOST, conf.getString(MAIL_SMTP_HOST));
+        properties.setProperty(MAIL_SMTP_USER, user);
+        properties.setProperty(MAIL_SMTP_PASSWORD, password);
+        String host = conf.getString(MAIL_SMTP_HOST);
+        logger.info("email host: " + host);
+        properties.setProperty(MAIL_SMTP_HOST, host);
         properties.setProperty(MAIL_SMTP_PORT, conf.getString(MAIL_SMTP_PORT));
         properties.setProperty(MAIL_SMTP_STARTTLS_ENABLE, conf.getString(MAIL_SMTP_STARTTLS_ENABLE));
         properties.setProperty(MAIL_SMTP_AUTH, conf.getString(MAIL_SMTP_AUTH));
-        init(properties);
+        init(properties, user, password);
     }
 
-    protected void init(Properties properties) throws Exception {
+    private void init(Properties properties, String user, String password) throws Exception {
         this.properties = properties;
-        String user = properties.getProperty(MAIL_SMTP_USER);
         this.senderEmail = user;
-        String password = properties.getProperty(MAIL_SMTP_PASSWORD);
         this.session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(user, password);

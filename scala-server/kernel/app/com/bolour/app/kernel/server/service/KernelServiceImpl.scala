@@ -12,7 +12,7 @@ import com.bolour.app.kernel.server.domain.{EmailUser, Login, SignUp, User, Vers
 import com.bolour.app.util.server.KernelUtil.stringId
 import com.bolour.util.CommonUtil.Email
 import com.bolour.util.TimeUtil.nowSecs
-import com.bolour.util.mail.{IMailService, MockSmtpMailService}
+import com.bolour.util.mail.{IMailService, MockSmtpMailService, SmtpMailServiceFactory}
 import com.typesafe.config.Config
 import javax.inject.Inject
 import org.slf4j.LoggerFactory
@@ -58,9 +58,9 @@ class KernelServiceImpl @Inject() (config: Config, secretService: SecretService,
 
   val defaultDb = config.getString(defaultDbPath)
   val persister: KernelPersister = KernelPersisterSlickImpl(defaultDb, config, secretService)
-  // TODO. URGENT. Inject email service. Make sure tests use mock.
   val mailConfig: Config = config.getConfig(mailConfigPrefix);
-  val emailService: IMailService = new MockSmtpMailService(mailConfig)
+  // val emailService: IMailService = new MockSmtpMailService(mailConfig)
+  val emailService: IMailService = SmtpMailServiceFactory.create(mailConfig)
 
   val mockEmail = secretService.getMockEmail
   val mockToken = secretService.getMockToken

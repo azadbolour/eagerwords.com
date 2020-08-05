@@ -14,14 +14,10 @@ public class MockSmtpMailService extends AbstractSmtpMailService implements IMai
 
     public MockSmtpMailService(Config conf) throws Exception {
         init(conf);
+    }
 
-//        Properties properties = new Properties();
-//        properties.setProperty(MAIL_SMTP_USER, "nobody");
-//        properties.setProperty(MAIL_SMTP_PASSWORD, "none");
-//        properties.setProperty(MAIL_SMTP_HOST, "smtp.unknown.com");
-//        properties.setProperty(MAIL_SMTP_AUTH, "true");
-//        properties.setProperty(MAIL_SMTP_STARTTLS_ENABLE, "true");
-//        init(properties);
+    public MockSmtpMailService(Config conf, String user, String password) throws Exception {
+        init(conf, user, password);
     }
 
     @Override

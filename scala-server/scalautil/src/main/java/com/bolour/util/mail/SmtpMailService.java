@@ -19,6 +19,10 @@ public class SmtpMailService extends AbstractSmtpMailService implements IMailSer
         init(conf);
     }
 
+    public SmtpMailService(Config conf, String user, String password) throws Exception {
+        init(conf, user, password);
+    }
+
     @Override
     public void sendMail(String recipientEmail, String subject, String text) throws Exception {
         String password = properties.getProperty(MAIL_SMTP_PASSWORD);
