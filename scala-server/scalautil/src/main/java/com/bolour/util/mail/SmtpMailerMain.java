@@ -30,7 +30,8 @@ public class SmtpMailerMain {
         // console.printf("%s\n", user);
         java.util.Arrays.fill(passwordChars, ' ');
         Config conf = ConfigFactory.load();
-        IMailService service = SmtpMailServiceFactory.create(conf, user, password);
+        Config mailConfig = conf.getConfig("service.email");
+        IMailService service = SmtpMailServiceFactory.create(mailConfig, user, password);
         service.sendMail(email, subject, text);
     }
 }
