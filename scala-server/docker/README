@@ -2,15 +2,16 @@
 Dockerization of the Scala Server
 
 Note. The scripts described below have evolved over many refactorings.
-They are likely an overkill for the current system,
-and can be somewhat simplified.
+They are likely an overkill for the current system, and can be simplified.
 
 One way to simplify is to have the parameters used in different scripts
 be defined in one file (perhaps as env variables) and then use them
-in all scripts, and remove all all defaults.
+in all scripts, and remove all defaults.
 
-Another is to combine fold the packaging function into the server
+Another is to fold the packaging function into the server
 image so we just have a single docker file and image.
+
+For now following is what we have.
 
 There are two docker images: the packager and the server. 
 
@@ -121,8 +122,15 @@ Pull to the deployment machine.
 
     docker pull azadbolour/eagerwords.com.server:0.5.0
     
-Deploy.
-    
+Deploy. The container relies on environment variables for secret parameters,
+and for runtime parameters to access the database, and to access the SMTP
+email service. See the README.md file on the root directory (scala-server)
+for the list of environment variables. Generally we use a shell script
+that includes hard-coded non-sensitive parameters, and also includes
+prompts to read secrets and sets the environment variables. See the
+sample script (env.template.sh).
+
+    . env.eagerwords.sh
     run-server-container.sh --tag 0.5.0 --allowed-host "$host:6597"
 
 Deploy using a different port.
