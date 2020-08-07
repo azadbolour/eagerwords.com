@@ -53,5 +53,6 @@ REPOSITORY=${PROJECT}.packager
 
 nohup docker run --restart on-failure:5 --name ${REPOSITORY} \
     --workdir="" \
+    -e TESTING_EMAIL -e TESTING_TOKEN -e ENCRYPTION_KEY -e DB_TYPE=sqlite \
     -v ${EAGERWORDS_DATA}:${EAGERWORDS_DATA} \
     ${NAMESPACE}/${REPOSITORY}:${TAG} &

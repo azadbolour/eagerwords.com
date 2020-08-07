@@ -1,5 +1,0 @@
-#
-# For the momemnt application.conf can include secret - hence gitignore.
-# TODO. Remove secrets to reinstate for CI.
-#
-application.conf

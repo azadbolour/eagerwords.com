@@ -25,3 +25,6 @@ export ENCRYPTION_KEY
 echo -n "play secret: "; stty -echo; read PLAY_SECRET; stty echo
 export PLAY_SECRET
 
+export TESTING_EMAIL="fill-in"
+export TESTING_TOKEN="fill-in"
+

@@ -62,8 +62,8 @@ class KernelServiceImpl @Inject() (config: Config, secretService: SecretService,
   // val emailService: IMailService = new MockSmtpMailService(mailConfig)
   val emailService: IMailService = SmtpMailServiceFactory.create(mailConfig)
 
-  val mockEmail = secretService.getMockEmail
-  val mockToken = secretService.getMockToken
+  val mockEmail = secretService.getTestingEmail
+  val mockToken = secretService.getTestingToken
 
   migrate()
 

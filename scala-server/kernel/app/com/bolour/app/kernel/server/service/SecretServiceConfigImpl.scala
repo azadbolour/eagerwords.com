@@ -11,15 +11,15 @@ import javax.inject.Inject
 
 class SecretServiceConfigImpl @Inject() (config: Config) extends SecretService {
 
-  val emailPath = "test.mockEmail"
-  val tokenPath = "test.mockToken"
+  val emailPath = "testing.email"
+  val tokenPath = "testing.token"
 
   val cipherIV = "cipher.iv"
   val encryptionKeyPath = "encryption.key"
 
-  override def getMockEmail: String = config.getString(emailPath)
+  override def getTestingEmail: String = config.getString(emailPath)
 
-  override def getMockToken: String = config.getString(tokenPath)
+  override def getTestingToken: String = config.getString(tokenPath)
 
   override def getEncryptionKey: String = config.getString(encryptionKeyPath)
 }

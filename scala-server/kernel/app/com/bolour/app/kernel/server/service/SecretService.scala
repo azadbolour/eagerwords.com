@@ -12,13 +12,13 @@ trait SecretService {
     * Known secretly to integration tests and to the test server.
     * Prevents email from being sent in tests.
     */
-  def getMockEmail: String
+  def getTestingEmail: String
 
   /**
     * Get the special authentication token used for integration tests.
     * Known secretly to integration tests and to the test server.
     */
-  def getMockToken: String
+  def getTestingToken: String
 
   /**
     * Get the encryption key.
