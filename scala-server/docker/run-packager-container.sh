@@ -48,6 +48,10 @@ sudo rm -rf ${PACKAGE_DIR}/*
 NAMESPACE=azadbolour
 REPOSITORY=${PROJECT}.packager
 
+export ENCRYPTION_KEY="test enc key"
+export TESTING_EMAIL="nobody@nowhere.com"
+export TESTING_TOKEN="123456"
+
 # Remove existing distribution containers to avoid name clash.
 ../../remove-container.sh ${REPOSITORY} || true
 

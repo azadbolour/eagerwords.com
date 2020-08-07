@@ -60,7 +60,10 @@ Remove any existing packager containers.
     docker stop ...
     docker rm ...
 
-Run the packager container. Outputs the distribution to /opt/data/eagerwords.com/package/.
+Run the packager container.
+
+Running the container builds and tests the application first, and then
+outputs the distribution to /opt/data/eagerwords.com/package/.
 
     run-packager-container.sh --tag 0.5.0
 
