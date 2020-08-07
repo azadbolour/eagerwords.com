@@ -34,18 +34,8 @@ applications.
 
     http://playframework.com/documentation/latest/ApplicationSecret
 
-  In a production environment, secrets will be securely stored in an
-  external vault and securely communicated to the application. 
-  The retrieval of secure parameters is abstracted out in the script
-  `get-dynamic-params.sh`. The wrapper script, `run-server.sh`, used 
-  to start the application gets the dynamic parameters through this
-  script, and provides them to the server via system properties.
-
-  The script `get-dynamic-parameters.sh` needs to be customized to 
-  access the secure vault provided by each specific deployment 
-  environment. This remains a manual step for now. TODO. Automate
-  the provision of different implementations for for
-  `get-dynamic-parameters.sh`.
+  All runtime parameters including secrets are provided to the application 
+  through environment variables used in application.conf. See below.
 
 - The play application uses a lock file while it is up.
   After a crash, the lock file stays put and prevents a restart.
@@ -90,6 +80,9 @@ server.
   block in application.conf specifying the access details for the given
   type of DBMS. Valid types are: _postgres_, _sqlite_, and _h2mem_.
 
+- `ENCRYPTION_KEY`: For encrypting sennsitive fields in the database.
+
+- `PLAY_SECRET`: The play http secret key.
 
 ## To Do
 

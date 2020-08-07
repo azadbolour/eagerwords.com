@@ -47,9 +47,6 @@ errorout () {
   exit 1
 }
 
-# import PLAY_SECRET
-. ./get-dynamic-params.sh
-
 #
 # Make the directory of the pid file if necessary.
 #
@@ -75,7 +72,6 @@ test -d "${SERVER_ROOT}" || errorout "server root ${SERVER_ROOT} not a directory
 JAVA_OPTS="${JAVA_OPTS} -Dhttp.port=${HTTP_PORT}"
 JAVA_OPTS="${JAVA_OPTS} -Dplay.filters.hosts.allowed.0=${ALLOWED_HOST}"
 JAVA_OPTS="${JAVA_OPTS} -Dpidfile.path=${PID_FILE}"
-JAVA_OPTS="${JAVA_OPTS} -Dplay.http.secret.key=${PLAY_SECRET}"
 
 #
 # Assume this script is only run when the application cannot be running.

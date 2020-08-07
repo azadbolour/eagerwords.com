@@ -58,13 +58,6 @@ RUN apt-get update \
 COPY *.zip $PACKAGE_DIR
 
 #
-# Note - copies get-dynamic-params.sh for getting secrets dynamically.
-# TODO. Make sure get-dynamic-params.sh obtains secrets dynamically - not hard-coded.
-# Hard-coded secrets will remain in some docker layer even if removed later.
-# Must check here that, e.g., PLAY_SECRET is not the default.
-#
-
-#
 # Copy the scripts used to run the application into the image.
 #
 COPY script/* $PACKAGE_DIR/script/
