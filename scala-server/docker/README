@@ -131,9 +131,9 @@ email service. See the README.md file on the root directory (scala-server)
 for the list of environment variables. Generally we use a shell script
 that includes hard-coded non-sensitive parameters, and also includes
 prompts to read secrets and sets the environment variables. See the
-sample script (env.template.sh).
+sample script (prod.env.template.sh).
 
-    . env.eagerwords.sh
+    . prod.env.eagerwords.sh
     run-server-container.sh --tag 0.5.0 --allowed-host "$host:6597"
 
 Deploy using a different port.
