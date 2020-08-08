@@ -39,7 +39,7 @@ object SlickUtil {
 
   def tableNames(db: Database): List[String] = {
     val future = db.run(MTable.getTables)
-    val tables = Await.result(future, 1.second)
+    val tables = Await.result(future, 10.second)
     tables.toList map {_.name.name}
   }
 
