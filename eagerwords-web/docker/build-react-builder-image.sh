@@ -6,9 +6,10 @@
 
 namespace=$1
 tag=$2
+serverurl=$3
 
-if [ -z "${namespace}" -o -z "${tag}" ]; then
-  echo "usage: $0 docker-namespace repository-tag"
+if [ -z "${namespace}" -o -z "${tag}" -o -z "$serverurl" ]; then
+  echo "usage: $0 docker-namespace repository-tag server-url"
   exit 1
 fi
 
@@ -38,6 +39,14 @@ dockerfile=${cloneDir}/${PROJECT}/eagerwords-web/docker/Dockerfile.${repository}
 
 # Go to the working directory of docker build - the parent of the clone.
 cd ${cloneDir}
+
+# Add a .env file to the UI source to provide the server url as an env variable.
+
+dotenv=${PROJECT}/eagerwords-web/.env
+cat <<EOF > ${dotenv}
+REACT_APP_API=client
+REACT_APP_SERVER_URL=$serverurl
+EOF
 
 #
 # Use --no-cache so that the latest source will be pulled.

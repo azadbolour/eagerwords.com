@@ -7,13 +7,13 @@
 
 - Dockerfile.eagerwords.com.react-builder - For the image of the builder.
 
-- build-react-builder-image.sh azadbolour 0.8.0 - Build the docker image of the
-  builder.
+- build-react-builder-image.sh azadbolour 0.8.0 'http://localhost:6587' -
+  Build the docker image of the builder.
 
 - run-react-builder-container.sh --tag 0.8.0 - Run the image to produce a
   production build.
 
-The productin build is copied to the host directory:
+The production build is copied to the host directory:
 
    /opt/data/eagerwords.com/package/eagerwords-web/build/
 

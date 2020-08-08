@@ -50,7 +50,7 @@ Tag the repository with the version of the application (in this case 0.5.0):
     git push origin 0.5.0
 ```
 
-Build the package docker image.
+Build the package docker image. No special env necessary.
 
     build-packager-image.sh azadbolour 0.5.0
 
@@ -63,7 +63,8 @@ Remove any existing packager containers.
 Run the packager container.
 
 Running the container builds and tests the application first, and then
-outputs the distribution to /opt/data/eagerwords.com/package/.
+outputs the distribution to /opt/data/eagerwords.com/package/. No special env
+necessary.
 
     run-packager-container.sh --tag 0.5.0
 
@@ -79,7 +80,7 @@ Check that the distribution tar ball was produced:
 
     ls -lt /opt/data/eagerwords.com/package/eagerwords.com.tar
 
-Build the server docker image.
+Build the server docker image. No special env necessary.
 
     build-server-image.sh azadbolour 0.5.0
 
@@ -87,8 +88,9 @@ Check that the server docker image was produced:
 
     docker images | grep azadbolour/eagerwords.com.server | grep 0.5.0
 
-Test the server container. Update the script run-here.sh to use version 0.5.0,
-then:
+Test the server container. Set needed env variables for running the container - see below)
+and update the script run-here.sh to use version 0.5.0,
+then (:
 
     run-here.sh 
 

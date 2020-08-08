@@ -26,7 +26,7 @@ LOCAL_GIT=/usr/local/git
 
 base_path="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/bin"
 echo "base_path=$base_path"
-export PATH="$NPM_PACKAGES/bin:$MY_LOCAL/bin:$JAVA_HOME/bin:$WORKSPACE/script:$M2:$base_path:."
+export PATH="$MY_LOCAL/bin:$JAVA_HOME/bin:$WORKSPACE/script:$M2:$base_path:."
 echo "PATH=$PATH"
 
 alias be='. branch.sh' # branch environment
