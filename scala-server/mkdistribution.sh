@@ -122,7 +122,7 @@ cp -a target/universal/*.zip $STAGING
 #
 SCRIPT_DIR=$STAGING/script
 mkdir -p $SCRIPT_DIR
-cp -a install.sh run-server.sh env.template.sh $SCRIPT_DIR
+cp -a install.sh run-server.sh prod.env.template.sh $SCRIPT_DIR
 
 #
 # Copy the docker file needed to dockerize the server to the staging area.
