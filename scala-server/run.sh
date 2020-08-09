@@ -6,6 +6,11 @@
 . ../prepare.sh
 
 #
+# Get application.conf env variables.
+#
+. env.dev.sh
+
+#
 # Run scala server on given port.
 #
 

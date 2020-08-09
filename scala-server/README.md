@@ -84,6 +84,9 @@ server.
 
 - `PLAY_SECRET`: The play http secret key.
 
+- `OPTIONAL_ORIGIN`: Add an optional origin to allow testing of remote server 
+  from a UI served on your local machine.
+
 ## To Do
 
 - Change logging calls to debug and set up a run-debug to
