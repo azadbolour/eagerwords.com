@@ -13,7 +13,10 @@ RUN mkdir -p $WORKSPACE/${PROJECT} \
 COPY ${PROJECT} $WORKSPACE/${PROJECT}
 
 # Get the dependencies.
-RUN cd $WORKSPACE/${PROJECT}/eagerwords-web && npm install && npm audit fix
+# In an attempt to avoid intermittent npm error: ERR! cb() never called! using cache clean.
+# But it is unclear if it helps - the error still occurs in the docker container. 
+# Just retry several times until the error goes away.
+RUN cd $WORKSPACE/${PROJECT}/eagerwords-web && npm cache clean -f && npm install && npm audit fix
 
 WORKDIR $WORKSPACE/${PROJECT}/eagerwords-web
 

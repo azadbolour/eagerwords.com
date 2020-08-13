@@ -48,15 +48,22 @@ sudo rm -rf ${PACKAGE_DIR}/*
 NAMESPACE=azadbolour
 REPOSITORY=${PROJECT}.packager
 
-export ENCRYPTION_KEY="test enc key"
-export TESTING_EMAIL="nobody@nowhere.com"
-export TESTING_TOKEN="123456"
-
 # Remove existing distribution containers to avoid name clash.
 ../../remove-container.sh ${REPOSITORY} || true
 
+#
+# The following are used by integration tests. So they are required.
+# But for now integration tests are not run in the build and test process.
+# So the following values can be arbitrary for now.
+# TODO. Run integration tests in CI builds.
+# In that case, these values would be secrets.
+# IMPORTANT. Make sure they go to a .gitignored version of this file.
+
+export TESTING_EMAIL="nobody@nowhere.com"
+export TESTING_TOKEN="123456"
+
 nohup docker run --restart on-failure:5 --name ${REPOSITORY} \
     --workdir="" \
-    -e TESTING_EMAIL -e TESTING_TOKEN -e ENCRYPTION_KEY -e DB_TYPE=sqlite \
+    -e TESTING_EMAIL -e TESTING_TOKEN \
     -v ${EAGERWORDS_DATA}:${EAGERWORDS_DATA} \
     ${NAMESPACE}/${REPOSITORY}:${TAG} &

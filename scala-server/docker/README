@@ -64,7 +64,8 @@ Run the packager container.
 
 Running the container builds and tests the application first, and then
 outputs the distribution to /opt/data/eagerwords.com/package/. No special env
-necessary.
+necessary for now. For now needed env variables are hard-coded (see comments
+in the script for details).
 
     run-packager-container.sh --tag 0.5.0
 
@@ -89,8 +90,7 @@ Check that the server docker image was produced:
     docker images | grep azadbolour/eagerwords.com.server | grep 0.5.0
 
 Test the server container. Set needed env variables for running the container - see below)
-and update the script run-here.sh to use version 0.5.0,
-then (:
+and update the script run-here.sh to use version 0.5.0 and run it:
 
     run-here.sh 
 
@@ -107,7 +107,7 @@ Go into the test container.
 
 Check installation directory inside the container.
 
-    ls -lt /usr/local/eagerwords/eagerwords
+    ls -lt /usr/local/eagerwords/eagerwords.com
 
 Remove the test container.
 
@@ -133,9 +133,10 @@ email service. See the README.md file on the root directory (scala-server)
 for the list of environment variables. Generally we use a shell script
 that includes hard-coded non-sensitive parameters, and also includes
 prompts to read secrets and sets the environment variables. See the
-sample script (prod.env.template.sh).
+sample script prod.env.sh.template, which you can customize for
+your environment in a gitignored file prod.env.sh.
 
-    . prod.env.eagerwords.sh
+    . prod.env.sh
     run-server-container.sh --tag 0.5.0 --allowed-host "$host:6597"
 
 Deploy using a different port.
