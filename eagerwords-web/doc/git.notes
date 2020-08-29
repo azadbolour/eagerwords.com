@@ -1,6 +1,0 @@
-
-- Walk the commit graph backwards - shows branches where a commit came from.
-  Useful for finding teh origins of a branch.
-
-  git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-
