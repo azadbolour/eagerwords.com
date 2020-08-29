@@ -20,7 +20,7 @@ export const RulesComponent = (props) => {
         <p>
           In order to enjoy the full benefits of the application you are
           encouraged to register with the site. EagerWords uses passwordless
-          registration based only on your email address.
+          authentication based only on your email address.
         </p>
         <p>
           To register, you provide your email address and a nickname, EagerWords sends a
@@ -73,8 +73,8 @@ export const RulesComponent = (props) => {
           </li>
           <li>
             If there is no activity on a game for N minutes, the game becomes
-            inactive (suspended). A suspended game may be resumed from the <em>Games</em>
-            page, which lists the user's games.
+            inactive (suspended). A suspended game may be resumed from
+            the <em>Games</em> page, which lists the user's games.
           </li>
         </ul>
 
@@ -122,11 +122,9 @@ export const RulesComponent = (props) => {
         </p>
         <p>
           Please add issues and ideas for improvement (including any missing common words
-          in the dictionary) to the
-          <a href="https://github.com/azadbolour/eagerwords/issues">issues list.</a>
+          in the dictionary)
+          to the <a href="https://github.com/azadbolour/eagerwords.com/issues">issues list.</a>
         </p>
-
-
       </div>
     )
 };

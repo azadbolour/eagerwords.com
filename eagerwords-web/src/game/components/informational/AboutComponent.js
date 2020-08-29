@@ -19,8 +19,8 @@ export const AboutComponent = (props) => {
           featuring a Scala game server and a React UI.
           </p>
         <p>
-          This new version provides for passwordless registration
-          and authentication via email. Registration allows your
+          This new version provides for passwordless authentication
+          via email. Registering as a user allows your
           games to be saved, so that suspended games may resumed at a later time,
           and completed games may be re-examined.
           </p>
@@ -35,8 +35,7 @@ export const AboutComponent = (props) => {
         </p>
 
         <p>
-          EagerWords is <a href="https://github.com/azadbolour/eagerwords">open sourced</a>
-          under AGPL.
+          EagerWords is <a href="https://github.com/azadbolour/eagerwords.com">open sourced</a> under AGPL.
         </p>
         <div style={{padding: 10}}>
           <img src="/agplv3-88x31.png" alt="image" />

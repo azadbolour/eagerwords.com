@@ -23,7 +23,7 @@ drag and drop letters to form words on a square board.
 
 ## Scope
 
-The project  defines a board game API, and client and server implementations for it. The
+The project defines a board game API, and client and server implementations for it. The
 precursor to EagerWords (the github _baordgame_ project) included two server
 implementations of the API, one in Haskell and one in Scala. At present
 EagerWords includes just a Scala implementation. While not yet in our road plan,
@@ -69,15 +69,11 @@ After cloning the repository:
 
 ## Deployment
 
-As of (11/1/2019) deployment scripts are being refactored to disentangle the 
-static UI content from the backend application servers. The UI application 
-is to be deployed independently to AWS CloudFront + S3. 
-
-The backend docker deployment files and associated scripts remain in a 
-state of flux and have not been tested.
-
-TODO. Test updated deployment procedure and update documentation as 
-appropriate.
+EagerWords is deployed to AWS. Its static web content (developed in
+the eagerwords\_web folder) uses an S3 bucket hidden behind by a CloudFront distribution.
+The Scala Play backend (developed in teh scala-server folder) is deployed in a docker 
+container. See the deployment folder (TBD) and the docker folders of each
+subsystem for details.
 
 ## Dictionaries
 
@@ -90,10 +86,6 @@ because it is too large for github.
 At this time, unzipping this file for the first time, and maintaining it in
 case the dictionary is updated remains a manual step. Use the script
 dict/unzip-masked-words.sh.
-
-## Github Site
-
-Under construction. (Will be at http://www.bolour.com/eagerwords/index.html).
 
 ## General Conventions
 
@@ -109,13 +101,12 @@ Under construction. (Will be at http://www.bolour.com/eagerwords/index.html).
 
 ## Credits
 
-Thanks to the folks at alleycat (https://alleycat.cc/) for assistance in React
-development.
-
-Thanks to Raccardo Fiorentino and Eric Vautier for support in UI design.
-
-Thanks to Dennis Allard for assistance in testing, and for hosting 
-an earlier version of the the application at oceanpark.com.
+Thanks to 
+[the folks at alleycat](https://alleycat.cc/) for assistance in React development, to 
+[Riccardo Fiorentino](https://www.linkedin.com/in/riccardofiorentino/) and 
+[Eric Vautier](https://twitter.com/ericvautier) for support in UI design, to
+[Dennis Allard](https://oceanpark.com) for exploratory testing and for many usability tips, and to 
+[Chris Richardson](https://www.chrisrichardson.net/) for advice on deployment strategy and scripting.
 
 Thanks to the Moby project for the English dictionary:
 
