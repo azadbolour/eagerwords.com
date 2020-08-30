@@ -17,23 +17,11 @@ something that is easy and commonly used).
 (The precursor project to eagerwords (boardgame) included a hand-written Java
 client (in its java-client directory) for expedience.)
 
-## Minimum Hardware Requirements
-
-The application runs well for occasional use on an EC2 m3.large machine. 
-It is useful to try to pare it down and see if it is runnable of a small 
-machine with only 4G of memory.
-
 ## Production Application Best Practices
-
-App logs in docker should go to the data area so you can see them easily from the
-outside.
 
 Truncate nohup.out on production machine.
 
-Logging of the error details for requests that are rejected by the play application,
-externally to the application code.
-
-Security audit. Passing play secret to the docker container securely.
+External logging of UI errors.
 
 ## Factor Word Frequency in Scores
 

@@ -1,28 +1,22 @@
 
 ## Coding Conventions
 
-- When getting an option from a map that should not be empty but needs
-  to be checked, for brevity name the option ov where v is the first letter of 
-  the map value we need. The option is just going to be needed immediately
-  for checking and for getting the value of it, so the meaning of the 
-  abbreviation will be obvious.
+- When getting an option from a map that should not be empty but needs to be
+  checked, for brevity name the option ov where v is the first letter of the map
+  value we need. The option is just going to be needed immediately for checking
+  and for getting the value of it, so the meaning of the abbreviation will be
+  obvious.
 
-  Monadic treatment of such options is inadequate since we don't get to
-  know which option in a monadic chain was empty.
+  Monadic treatment of such options is inadequate since we don't get to know
+  which option in a monadic chain was empty.
 
-  Treatment by matching becomes unwieldy in nesting levels for each
-  match and cases.
+  Treatment by matching becomes unwieldy in nesting levels for each match and
+  cases.
 
-  The approach that is easiest to read for me is to just return 
-  Failure with the right error when an expected key is missing,
-  and then extract the expected value. This approach avoids 
-  levels of nesting at the cost of introducing a variable
-  for the option.
-
-- Divide the application.conf into sections for each package.
-  The rule is that even though config will be passed down from
-  the top, only the config section belonging to a given package
-  should be read by the classes of that package.
+  The approach that is easiest to read for me is to just return Failure with the
+  right error when an expected key is missing, and then extract the expected
+  value. This approach avoids levels of nesting at the cost of introducing a
+  variable for the option.
 
 ## Intellij
 

@@ -1,90 +1,26 @@
 
-[Deployment]
-
-- Change all docker scripts to use eagerwords.com instead of eagerwords.
-
-- Check S3 buckets and cloudfront configuration create bucket-policy.json
-
-- Dockerize the building of the React UI bundle.  See the incomplete docker file
-  in the docker directory.
-
-  Use the same pattenn as the scala packager.
-
-  Use specific version of node to build the UI bundle so it is reproducible.
-
-  Update the docker file for building the bundle. Map build directory to the
-  host machine. 
-
-  https://computingforgeeks.com/how-to-install-latest-nodejs-on-ubuntu-debian-linux/
-
-- Map server logs to a file in the host OS to make it easy to check.
-
-- Map the database file to the host machine. 
-
-- Test log and database persistence upon server shutdown.
-
-- Include all necessary configurations in application.conf.
-
-  Rather than email properties file, just put the properties in application.conf.
-
-  Add eagerwords.com to allowed origins in application.conf.
-
-  Differentiate between test/dev application.conf and production.
-  Document production configuration.
-
-    https://www.playframework.com/documentation/2.8.x/ProductionConfiguration
-      -Dconfig.file=/opt/conf/prod.conf
-      include "application.conf"
-      key.to.override=blah
-
-- Add database indexes.
-
-- Figure out the backup stratgy.
-
-  https://aws.amazon.com/blogs/aws/aws-backup-automate-and-centrally-manage-your-backups/
-
-- Create secure support account for eagerwords after creating 
-  email service in gmail for eagerwords.com. Use it to send emails.
-
-- Test UI calls from amazon cloudfront to server AWS machine with docker server.
-
-- Add known issues to github issues. 
-
-[Necessary for Beta]
-
-- All existing tests should pass. If too hard to make them pass, comment out
-  add a todo item to refactor them later.
-  Make sure LoginTest is up-to-date and passes.
-
-- Add status bar to auth components - check for recoverable message and put
-  there. Test a recoverable error.
-
 - Error boundary toast page, must provide a useful way to get back on track.
-  Are we retrying too much in case of error? For example, an undefined this?
+  Redirect back to the landing page after setting loggedOut redux state. Should
+  test it by planting an error.
 
-  Understand the use of ToastComponent. Sent message to Allen.
-
-  But realy the ErrorBoundary component should redirect back to the landing
-  page after setting loggedOut redux state. Should test it by planting an error.
-
-[Pairing With UX]
-
-- Using nvm to fix the version of node.
+[UX]
 
 - Do we need onHide for modals. But it should not do anything because 
   we need to reset.
 
 - For all games, the word list should not overshoot the initial size of
-  the game area as a whole.
+  the game area as a whole. As its size increases the structure of the 
+  page should remain constant.
 
 - Perhaps logout and help should be hrefs?
 
 - Button color - standard button color is blue. We have it as green. OK?
 
+- Exact sizing. No changes with browser window size changes.
 - Resizing the browser should not change the structure of the page at all.
   Some of it may go of screen.
 
-  Will puuting this in index.css do the trick:
+  Will putting this in index.css do the trick:
 
   html {
     position: relative;
@@ -96,20 +32,15 @@
 - Extremes testing - largest value for all the game paraneters, smallest value
   for all the game parameters. Dimension 17 overflows the bounded space. Who
   detremines the overall dimensions of the page? The enclosing border should
-  not overflow. Also no space between successive columns. Also 17 machine
-  play is slow and leads to flashing. May want increase delay before spinner
-  to 1/2 second.
+  not overflow. Also no space between successive columns. 
+
+- For dimension of 17, machine play is slow and leads to flashing. May want
+  increase delay before spinner to 1/2 second.
 
 - undefined 'this' error leads to 190 retries slowly being added - 
   who calls retries? How to fix?
 
-- Nice to have maybe: A new game is started each time you go through the
-  location bar in play. Should the same game be shown? currentGameId in game
-  redux?? 
-
 - Logo
-
-- Exact sizing. No changes with browser window size changes.
 
 - Extend divs to used space only.
 
@@ -117,26 +48,22 @@
 
 - Better placement of validation messages in sign up page. Too far apart.
 
-[Bugs]
+- Reduce unnecessary white space.
 
 - Play page should show all its elements in browser when rendered.
-  Bottom cut off.
+  Bottom should not be cut off.
 
-- An undefined 'this' leads to 190 errors appearing spaced in time.
+[Bugs]
 
-- Signing up with an already-signed-up email - you get both the 
-  error decorator - but within it you get the Eula. Should not 
-  present Eula in case of an error. Use decorator and test again.
+- Signing up with an already-signed-up email - you get both the error decorator
+  but within it you get the Eula. Should not present Eula in case of an error.
+  Use decorator and test again.
 
 - When a completed game after multiple passes is shown, the message is bot took
   a pass, and he user can continue the game! Check game completion on
   resumption. Board and tray should be disabled for a completed game.
 
 [Priority]
-
-- Open source once beta is up.
-
-- Make a pass through the entire code base, updating the documentation.
 
 - Fix URGENT todos.
 
@@ -147,8 +74,7 @@
 - Make sure mock errors work everywhere in the UI. Check HomeComponent
   in particular.
 
-- Update doc comments everywhere after conversion to Vow.
-  GameService, GameHandler.
+- Update doc comments everywhere especially in GameService, GameHandler.
  
 [Simple Cleanup]
 
@@ -164,7 +90,7 @@
 - Use best practices for styling components - define classes in a companion 
   module to each component.
 
-- what environment file is used for integration tests??
+- What environment file is used for integration tests??
   For now they are all the same. TODO. Should distinguish and document.
 
 - GameController needs all the exception processing of the kernel controller.
@@ -184,46 +110,16 @@
 - Add to the terms of service. In rare circumstances, may not be able to resume a
   game. Add to terms of service.
 
-- Landing page and Games page include generic footer.
-  They should all be modals - since our pages are dynamic and going
-  off to a static page we lose our state.
-
-  https://www.gnu.org/graphics/license-logos.en.html
-
-- For guest entry, add a checkbox to confirming knowldge of terms of service.
-
 - Make sure the wording of acceptance checkbox is consistent 
   with legal recommendations. 
 
-- Sign Up would have to show a modal dialog with the terms of service.
-  After the email and link is entered, include a link to the Eula, and 
-  disable signup until they have clicked the link and checked acceptance.
-  Might as well put the acceptance checkbox at the top of the modal.
-
-  Include anchors to various sections of the Eula in TOC on top of 
-  the modal.
-
-- Will have to provide credit to the libraries used in in the application
-  itself. Have to check on that.
-
 [Look and Feel Enhancements]
-
-- In settings form, mark the default value of each parameter in the
-  dropdown.
 
 - In play component, a legend for the small color-coded word play indicators,
   can be provided by simply adding the square of that color to the left of each
   player name in the score component.
 
-- game.getCompletedPlayPieces should just return a Result. 
-  Eliminate the throws.
-
-  Use it after each move to see if a legal play exists and enable 
-  Commit Word accordingly. Show the word and score for the word being contructed.
-  Need a function in game to get the score using piecePoints - reduce over
-  array.
-
-  your move ... Play Word Button - word - score together
+- game.getCompletedPlayPieces should just return a Result. Eliminate the throws.
 
 - Perhaps change the wording of the swap drop button when a tray letter 
   begins to move to indicate more clearly it can be dropped there.
@@ -233,7 +129,7 @@
 [Missing Functions]
 
 - Guest should be tracked by client id (a security measure). If a guest tries to
-  act on a timed out game they should be told it timed out. The game will have
+  act on a timed out game they should be told it is timed out. The game will have
   been removed from the system.
 
 - Bringing up a different window of the same browser, the fact that the user is
@@ -251,19 +147,8 @@
 - In integration tests: resign, get the game back, try to commit a play
   should get an error. Same with server-side test.
 
-- Test resign and cancel from the UI for both registered user and guest.
-
-- Test manually. Guest goes directly to Play page to play
-  a game. No suspent, forget, resign for guest. Guest does not see Games page.  
-  Guest can just exit the game at any time, and go back to the landing page.
-
-- Make sure that user can go into the play, settings, and games page directly if
-  still logged in. And conversely that they cannot get into any page if logged out. 
-
 - Check for browser-level context menu issues - any problems with going back,
   etc?? 
-
-- Test user stays in the Play page when resigned.
 
 - Test error processing from machine play by simulating error.
 
@@ -275,8 +160,6 @@
   Add to tests.
 
 - Test timeout and errors in PlayComponent using the decorator.
-
-- Test game ending with swap. 
 
 - Integration test failure. Only when run together. Investigate later.
 
@@ -297,22 +180,14 @@
 
 [Nice to Have]
 
-- Best to include testing component in every component to make sure 
-  unrecoverable errors look OK. But at least test user errors.
-  User-controlled display of testing component using a magic password.
-
 - consistent naming of alertMessage - statusMessage?? 
 
 - After a resign and show later, the tray pieces should not be draggable. They
   are already not droppable on the board. But that is only half the issue.
 
-- Nice to have. Move to the list to its own column - for small games - less than 9
-
-- Nice to have. For 15 and 17 default should be tiny squares.
+- For 15 and 17 default should be tiny squares.
 
 - Name the connected components so they can be searched for.
-
-- Sign Out not logout.
 
 - Clean up validations - only show message after an edit is completed where 
   possible, or use best practices.
@@ -322,7 +197,7 @@
 - create and use a gmail account for eagerwords.com instead of
   support@bolour.com.
 
-- Unregistering the user. Confirm that all data will be lost.
+- Unregistering the user not available yet. Confirm that all data will be lost.
 
 - No suspend for guest in server. Error. InvalidGuestAction - name of action.
   No resume for guest. Same. Add to tests on both sides.
@@ -334,87 +209,32 @@
   https://www.playframework.com/documentation/2.6.1/api/java/play/data/validation/Constraints.EmailValidator.html
   https://alvinalexander.com/java/jwarehouse/play-framework-2.3/framework/src/play/src/main/scala/play/api/data/validation/Validation.scala.shtml
 
-- Auth in the server needs to be a separate project.
-  Separate out AuthController from KernelController.
-  Abstract out repetitious code in AuthController.
-  Separate out AuthService 
-
-  Kernel becomes minimal.
-
-- Save the login evidence across location bar refreshes.
-
-- Make a pass through the entire code base and document everything.
-
-- Can't turn off processing mode behind modal dialog
-  for unrecoverable error. A race condition it looks like.
-
 - Error boundary does not say what the error was. It is an unrecoverable
   error and should be treated like all unrecoverable errors with a reset.
-
-- Use bootstrap modal consistently everywhere.
 
 - Add cancel to the confirm login and signup. 
 
 - Cannot copy and paste error in ModalNotifier. Change to allow.
   Use react-copy-to-clipboard.
 
-- Dennis. Error reporting - title should be the message
+- Streamline error reporting - title should be the message
 
   Text should be an explanation and how to fix with data used for the call that
   produced the error repeated, so the user can see if they made a spelling
   mistake.
 
-- Do comprehensive UI logging only in dev and test.
+- Judicious minimal UI logging in production.
 
 - Unrecoverable errors need to be more user-friendly and specialized.
   No need for we are sorry if it is a user error bt still needs to be reset.
 
 - The entire error text should be provided in the modal.
-  No generic text - no we are sorry - only do it for system errors.
-
-- test coming back to the landing page after logging in need to save the store
-
-- asynchronous send email
+  No generic text - no "we are sorry" - only do it for system errors.
 
 - Use bootstrap components for inputs, e.g., dropdowns in the settings
-  component (only if easy).
-
-[Other Server Enhancements]
-
-- Allowed origins also needs to be configurable at runtime.
-  Produnction application.conf remove allowed origins and allowed hosts.
-  They should be given at run time.
-
-- For production - add play secret, and other securiry settings.
-
-- Re-enable and configure CSRF filter. See the application.conf for configuration.
-  It is disabled there: play.filters.disabled+=play.filters.csrf.CSRFFilter
-
-[Other]
-
-- Certificate management changes on AWS to their own certificate authority and 
-  may require some tweaks to the the AWS CloudFront configurations. Will happen
-  March 2021.
-
-     https://www.amazontrust.com/repository/
-     https://aws.amazon.com/blogs/security/how-to-prepare-for-aws-move-to-its-own-certificate-authority/
-
-- Make the repository public.
+  component.
 
 [Future]
 
-- Delete game.
-
-- Suggestion box for words to be added to the dictionary. 
-
-- UI settings (square size) should also be available in the Play component, 
-  and dynamically change the UI characteristics.
-
-- Remove game cache - more trouble than it is worth. Just get games from the
-  database. Better design for eventual serverless architecture.
-  But remove guest games when done - or when harvested.
-
-- In play component change background to white for sqaures already used 
-  in plays.
-
+- Deleting games.
 

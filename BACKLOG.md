@@ -103,6 +103,8 @@
 
 - Understand debugging of Javascript with source maps in the browser.
 
+- Asynchronous sending of emails.
+
 ## Testing
 
 - Test preferred input device thoroughly on various platforms. Touch needs 
