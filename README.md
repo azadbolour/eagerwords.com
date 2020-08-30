@@ -26,16 +26,13 @@ drag and drop letters to form words on a square board.
 The project defines a board game API, and client and server implementations for it. The
 precursor to EagerWords (the github _baordgame_ project) included two server
 implementations of the API, one in Haskell and one in Scala. At present
-EagerWords includes just a Scala implementation. While not yet in our road plan,
-it is intended to port the original _boardgame_ Haskell server to some future
-version of EagerWords (likely a subsequent version that implements a
-multi-player game).
+EagerWords includes just a Scala implementation. 
 
-EagerWords is being developed on the MAC OS/X 10.9+, deployed on a Linux Amazon
-EC2 instance, and accessed through modern browsers (including tablet browsers
-but not on small-screen smarphones). There are currently no plans for native
-iPhone of Android client as the smart phone screens are generally too small for
-this particular  game to be played well on it with touch.
+EagerWords is being developed on the MAC OS/X 10.9+, deployed on AWS, and
+accessed through modern browsers (including tablet browsers but not on
+small-screen smarphones). There are currently no plans for native iPhone of
+Android client as the smart phone screens are generally too small for this
+particular  game to be played well on it with touch.
 
 ## Getting Started in Development
 
