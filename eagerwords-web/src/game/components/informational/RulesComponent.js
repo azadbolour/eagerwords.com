@@ -32,7 +32,8 @@ export const RulesComponent = (props) => {
 
         <p>
           To play, drag and drop letters to form a word using an existing board letter
-          (if any) and click <em>Commit Word</em> to play that word.
+          (if any) and click <em>Commit Word</em> to play that word. Word play is
+          left-to-right and top-down.
         </p>
         <ul>
           <li>
@@ -65,11 +66,17 @@ export const RulesComponent = (props) => {
             'used up'.
           </li>
           <li>
-            When no board play is possible, a single letter is swapped for another (by dropping it onto the
-            <em>Swap Drop</em>).
+            A <em>play</em> is either a word play, or a letter swap.
+            To swap, drag and drop a tray letter onto the <em>Swap Drop</em>.
+            The system will replace it with another.
           </li>
           <li>
-            A game ends upon 10 consecutive swaps or when the board is full.
+            A game ends when the board is full, or upon 10 consecutive swaps.
+          </li>
+          <li>
+            A <em>dead point</em> is a square that cannot possibly be filled
+            by a legal word play. The system detects some dead points, and
+            grays them out.
           </li>
           <li>
             If there is no activity on a game for N minutes, the game becomes

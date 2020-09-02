@@ -5,6 +5,9 @@
 
 [UX]
 
+- The status bar at the bottom may be confusing. Better wording, formatting or
+  placement of the status bar to make it clear it is a an active element.
+
 - Do we need onHide for modals. But it should not do anything because 
   we need to reset.
 
@@ -52,6 +55,9 @@
 
 - Play page should show all its elements in browser when rendered.
   Bottom should not be cut off.
+
+- To start a new game, the current button says "Play". Better wording?
+  "New", or "New Game"?
 
 [Bugs]
 
@@ -114,6 +120,8 @@
   with legal recommendations. 
 
 [Look and Feel Enhancements]
+
+- Time display in the games page: Use 21:05, instead of 21:5
 
 - In play component, a legend for the small color-coded word play indicators,
   can be provided by simply adding the square of that color to the left of each
