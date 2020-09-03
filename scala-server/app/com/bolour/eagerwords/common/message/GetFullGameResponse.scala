@@ -9,6 +9,7 @@ package com.bolour.eagerwords.common.message
 import com.bolour.eagerwords.common.domain.GameState.GameState
 import com.bolour.eagerwords.common.domain.PlayerType.PlayerType
 import com.bolour.eagerwords.common.domain.{GameParams, Piece, PiecePoint, Play}
+import com.bolour.plane.domain.Point
 
 case class GetFullGameResponse(
   gameId: String,
@@ -20,5 +21,6 @@ case class GetFullGameResponse(
   playNumber: Int,
   playTurn: PlayerType,
   plays: Vector[Play],
-  state: GameState
+  state: GameState,
+  deadPoints: List[Point]
 )

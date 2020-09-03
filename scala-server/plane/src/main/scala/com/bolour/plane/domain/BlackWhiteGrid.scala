@@ -94,6 +94,9 @@ case class BlackWhiteGrid[T](grid: Grid[BlackWhitePoint[T]]) {
     bwPoints flatMap mapper
   }
 
+  def blackPoints(): List[Point] =
+    this.grid.flatten.filter(_.value.isBlack).map(_.point)
+
   def getValues: List[(T, Point)] = fromJustWhites(grid.flatten)
 
   def isEmpty: Boolean = grid.forall { _.value.isEmpty }

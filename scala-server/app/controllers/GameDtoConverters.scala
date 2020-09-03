@@ -30,6 +30,7 @@ object GameDtoConverters {
     val base = game.gameBase;
     val piecePoints = game.board.piecePoints
     val trayPieces = game.trays(playerIndex(UserPlayer)).pieces.toList
+    val board = game.board
 
     GetFullGameResponse(
       base.gameId,
@@ -41,7 +42,8 @@ object GameDtoConverters {
       game.playNumber,
       game.playTurn,
       game.plays,
-      game.state
+      game.state,
+      board.deadPoints()
     )
   }
 

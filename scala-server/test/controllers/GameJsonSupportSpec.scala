@@ -100,7 +100,8 @@ class GameJsonSupportSpec extends FlatSpec with Matchers {
       2,
       UserPlayer,
       Vector(wordPlay),
-      GameState.RUNNING
+      GameState.RUNNING,
+      List()
     )
 
     val jsValue = Json.toJson(getFullGameResponse)

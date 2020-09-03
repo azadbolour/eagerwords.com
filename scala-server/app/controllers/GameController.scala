@@ -270,10 +270,14 @@ class GameController @Inject() (cc: ControllerComponents, service: GameService, 
     logger.info(s"getting full game - gameId: ${gameId}")
     for {
       maybeGame <- service.findGameById(gameId)
-      _ = logger.info(s"getFullGameAction - maybeGame: ${maybeGame}")
       result <- maybeGame match {
-        case None => Future.failed(MissingGameException(gameId))
-        case Some(game) => Future.successful(mkGetFullGameResponse(game))
+        case None =>
+          logger.info(s"getFullGameAction: missing game: ${gameId}")
+          Future.failed(MissingGameException(gameId))
+        case Some(game) =>
+          val fullGameResponse = mkGetFullGameResponse(game)
+          logger.info(s"getFullGameAction: full game response: ${fullGameResponse}")
+          Future.successful(fullGameResponse)
       }
     } yield result
   }

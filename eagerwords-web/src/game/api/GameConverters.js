@@ -87,26 +87,10 @@ export const GameConverter = {
     let plays = this.convertPlays(json.plays);
     let serverState = json.state;
     let runState = this.serverStateToRunState(serverState);
+    let deadPointsJson = json.deadPoints;
     let game = this.commonResponseToGame(
-      json.gameId, json.boardPiecePoints, json.trayPieces, gameParams, json.userScore, json.machineScore, plays, runState);
+      json.gameId, json.boardPiecePoints, deadPointsJson, json.trayPieces, gameParams, json.userScore, json.machineScore, plays, runState);
     return game;
-
-    // let wordsPlayed = plays.map(play => {
-    //   let playerType = play.playerType;
-    //   return (play.playType === 'Word') ?
-    //       {word: playPiecesWord(play.playPieces), playerType} :
-    //       {word: '', playerType}
-    //   }
-    // );
-
-    // console.log(`full game game: ${stringify(game)}`);
-    // console.log(`full game history: ${stringify(history)}`);
-
-    // return {
-    //   game,
-    //   wordsPlayed: wordsPlayed
-    // }
-
   },
 
   convertPlays: function(plays) {
@@ -120,7 +104,7 @@ export const GameConverter = {
     return mkPlayHistory(wordsPlayed);
   },
 
-  commonResponseToGame: function (gameId, boardPiecePointsJson, trayPiecesJson, gameParams, userScore, machineScore, plays, runState) {
+  commonResponseToGame: function (gameId, boardPiecePointsJson, deadPointsJson, trayPiecesJson, gameParams, userScore, machineScore, plays, runState) {
     let trayPieces = trayPiecesJson.map(p => PieceConverter.fromJson(p));
     let tray = mkTray(gameParams.trayCapacity, trayPieces);
     // console.log(`board piece points json: ${stringify(boardPiecePointsJson)}`);
@@ -137,7 +121,9 @@ export const GameConverter = {
     playPieces.forEach(playPiece => {
       board = board.setPlayPiece(playPiece);
     });
-    let game = mkGame(gameParams, gameId, board, tray,[userScore, machineScore], plays, [], runState);
+    let deadPoints = deadPointsJson.map(p => mkPoint(p.row, p.col));
+    let $board = board.setDeadPoints(deadPoints);
+    let game = mkGame(gameParams, gameId, $board, tray,[userScore, machineScore], plays, [], runState);
     return game;
   },
 
@@ -149,21 +135,9 @@ export const GameConverter = {
   startGameResponseToGame: function(gameDto, gameParams) {
     let {gameId, boardPiecePoints, trayPieces} = gameDto;
     let plays = emptyPlayHistory();
-    let game = this.commonResponseToGame(gameId, boardPiecePoints, trayPieces, gameParams, 0, 0, plays, RUN_STATE.RUNNING);
+    let game = this.commonResponseToGame(gameId, boardPiecePoints, [], trayPieces, gameParams, 0, 0, plays, RUN_STATE.RUNNING);
     return game;
   },
-
-  // /**
-  //  * @param json - ResumeGameResponse -
-  //  *   that is - gameId, gameParams, boardPiecePoints, trayPiece, userScore, machineScore
-  //  * @returns {any}
-  //  */
-  // resumeGameResponseToGame: function(json) {
-  //   let {gameId, gameParams, boardPiecePoints, trayPieces, userScore, machineScore} = json;
-  //   let uiGameParams = GameParamsConverter.fromJson(gameParams);
-  //   let game = this.commonResponseToGame(gameId, boardPiecePoints, trayPieces, uiGameParams, userScore, machineScore);
-  //   return game;
-  // }
 };
 
 export const PieceConverter = {

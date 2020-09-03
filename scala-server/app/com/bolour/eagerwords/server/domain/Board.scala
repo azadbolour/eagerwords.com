@@ -100,6 +100,8 @@ case class Board(dimension: Int, grid: BlackWhiteGrid[Piece]) {
     Strip.stripFromBlackWhiteLine(axis, lineNumber, blackWhiteChars, offset, size)
   }
 
+  def deadPoints(): List[Point] = this.grid.blackPoints()
+
   /**
     * Given a play in terms of a list of play pieces, find the strip
     * on which the play is made.

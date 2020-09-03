@@ -366,7 +366,7 @@ class PlayComponent extends React.Component {
                 <PlayMenuItem disabled={!canSuspend} onClick={it.suspendGame}>Suspend</PlayMenuItem>
                 <PlayMenuItem disabled={!running} onClick={it.resignGame}>Resign</PlayMenuItem>
                 <PlayMenuItem disabled={!running} onClick={it.cancelGame}>Forget</PlayMenuItem>
-                <PlayMenuItem disabled={!finished} onClick={() => it.props.onQuit()}>Quit</PlayMenuItem>
+                <PlayMenuItem disabled={!finished} onClick={() => it.props.onExit()}>Exit</PlayMenuItem>
               </Dropdown.Menu>
             </Dropdown>{space}
             <span style={{width: '390px'}}/>
@@ -511,7 +511,7 @@ export function mapDispatchToProps(dispatch) {
     onGameSuspended: (gameId) => {
       dispatch(push(gameRoutingPaths.games));
     },
-    onQuit: () => {
+    onExit: () => {
       dispatch(push(gameRoutingPaths.games));
     },
     onGameCancelled: (gameId, isGuest) => {
