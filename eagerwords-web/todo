@@ -20,6 +20,7 @@
 - Button color - standard button color is blue. We have it as green. OK?
 
 - Exact sizing. No changes with browser window size changes.
+
 - Resizing the browser should not change the structure of the page at all.
   Some of it may go of screen.
 

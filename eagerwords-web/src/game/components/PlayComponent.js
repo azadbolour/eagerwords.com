@@ -370,7 +370,7 @@ class PlayComponent extends React.Component {
               </Dropdown.Menu>
             </Dropdown>{space}
             <span style={{width: '390px'}}/>
-            <PlayButton onClick={() => rulesOpen()}>Rules</PlayButton>
+            <PlayButton style={{float: "right"}} onClick={() => rulesOpen()}>Rules</PlayButton>
           </ButtonToolbar>
         </div>
         <div>
@@ -462,7 +462,7 @@ class PlayComponent extends React.Component {
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <it.PlayMenu />
               <div style={{display: 'flex', flexDirection: 'row', border: '1px solid GoldenRod',
-                  paddingLeft: '15px', paddingTop: '15px', paddingBottom: '15px', marginTop: "8px"}}>
+                  padding: '15px', margin: "8px auto 8px 0"}}>
                 <it.Board/>{space}{space}
                 <it.Tray />{space}{space}
                 <div style={{display: 'flex', flexDirection: 'column', left: "3px"}}>

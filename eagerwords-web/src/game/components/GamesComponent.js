@@ -232,7 +232,7 @@ class GamesComponent extends Component {
     return (
       <div style={{display: 'flex', flexDirection: 'row'}}>
         <ButtonToolbar aria-label="main">
-          <Button size="sm" variant="success" onClick={() => onPlay({})}>Play</Button>
+          <Button size="sm" variant="success" onClick={() => onPlay({})}>New Game</Button>
           &nbsp;&nbsp;
           <Button size="sm" variant="success" onClick={onGoToSettings}>Settings</Button>
           &nbsp;&nbsp;
