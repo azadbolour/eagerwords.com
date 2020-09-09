@@ -55,7 +55,7 @@ class App extends Component {
   render() {
     return (
       <ConnectedRouter history={history}>
-        <Container text style={{ marginTop: '7em' }}>
+        <Container text style={{ marginTop: '1em' }}>
           <ErrorBoundary>
             <ToastComponent/>
             <Route path={authRoutingPaths.entry} exact render={gotoEntry}/>

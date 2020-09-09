@@ -192,6 +192,9 @@ export const ModalNotifier = (props) => {
     props.onClick();
   };
 
+  if (!show)
+    return (<div></div>);
+
   return (
     <div>
       <Modal show={show}>

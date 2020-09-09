@@ -58,9 +58,9 @@ export const validTrayCapacity = [5, 6, 7, 8, 9];
  */
 
 export const squareSizeToPixels = {
-  small: 33,
-  normal: 40,
-  large: 53
+  small: 25,
+  normal: 30,
+  large: 35
 };
 
 export const squarePixelsToSize = reverseObject(squareSizeToPixels);
@@ -78,7 +78,7 @@ export const valueFont = {
 };
 
 export const pieceFont = {
-  small: 16,
-  normal: 22,
-  large: 24
+  small: 12,
+  normal: 16,
+  large: 20
 };
