@@ -16,7 +16,7 @@ function Button(props) {
 const space = <pre> </pre>;
 
 export const GameHeader = (props) => {
-  const {loginEvidence, onLogout, onHelp} = props;
+  const {loginEvidence, onLogout, helpUrl} = props;
   const clientId = loginEvidence ? loginEvidence.clientId : null;
   const token = loginEvidence ? loginEvidence.token : null;
   let loggedIn = clientId !== null && token !== null;
@@ -33,7 +33,10 @@ export const GameHeader = (props) => {
       <ButtonToolbar aria-label="main">
         <span style={{width: '540px'}}/>
         <Button disabled={!loggedIn} size="sm" variant="success" onClick={() => doLogout()}>Logout</Button>{space}
-        <Button size="sm" variant="success" onClick={() => onHelp()}>Help</Button>{space}
+        <Button size="sm" variant="success">
+        <a href={helpUrl} target="_blank" style={{color: 'white'}}>Help</a>
+        </Button>
+        { /* <Button size="sm" variant="success" onClick={() => onHelp()}>Help</Button>{space} */ }
       </ButtonToolbar>
     </div>
   );

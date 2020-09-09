@@ -1,3 +1,4 @@
+local.exports.sh
 branch.sh
 eagerwords.db
 /dist

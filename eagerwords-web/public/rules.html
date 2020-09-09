@@ -1,5 +1,3 @@
----
----
 
 <html>
 
@@ -7,7 +5,7 @@
 <style type="text/css">
 <!--
 body {
-  font-size: 25px;
+  font-size: 16px;
 }
 -->
 </style>
@@ -15,131 +13,145 @@ body {
 
 <body>
 
+
+<div style="font-size: 25px; color: #009FFF; text-align: center">EagerWords Rules</div>
+
+<p>
+    To play, drag and drop letters to form a word using an existing board letter
+    (if any) and click <em>Commit Word</em> to play that word. Word play is
+    left-to-right/top-down.
+</p>
+<ul>
+    <li style="margin-bottom: 8px">
+        Points are associated with board locations - not with letters.
+    </li>
+    <li style="margin-bottom: 8px">
+        The assignment of points to board locations varies from game to game.
+    </li>
+    <li style="margin-bottom: 8px">
+        The score of a play is the sum of the points associated with the locations
+        it captures. Pre-existing letters used in word formation do not contribute
+        to the score.
+    </li>
+    <li style="margin-bottom: 8px">
+        A word play on a non-empty board must <em>contain</em> at least one existing letter.
+    </li>
+    <li style="margin-bottom: 8px">
+        A word play on an empty board is unrestricted.
+    </li>
+    <li style="margin-bottom: 8px">
+        The played word and any crosswords formed by the play must exist in the
+        game's dictionary.
+    </li>
+    <li style="margin-bottom: 8px">
+        Letters for play are generated randomly based on the frequency of
+        letters in the English lexicon as per:
+        <a href="http://www.oxfordmathcenter.com/drupal7/node/383">Oxford Math Center</a>.
+        Successive letters are generated independently of each other.
+        There is no notion of a container of letters getting depleted or letters being
+        'used up'.
+    </li>
+    <li style="margin-bottom: 8px">
+        A <em>play</em> is either a word play, or a letter swap.
+        To swap, drag and drop a tray letter onto the <em>Swap Drop</em>.
+        The system will replace it with another.
+    </li>
+    <li style="margin-bottom: 8px">
+        A game ends when the board is full, or upon 10 consecutive swaps.
+    </li>
+    <li style="margin-bottom: 8px">
+        A <em>dead point</em> is a square that cannot possibly be filled
+        by a legal word play. The system detects some dead points, and
+        grays them out.
+    </li>
+    <li style="margin-bottom: 8px">
+        If there is no activity on a game for N minutes, the game becomes
+        inactive (suspended). A suspended game may be resumed from
+        the <em>Games</em> page, which lists the user's games.
+    </li>
+</ul>
+
+<p>
+    Note. This game and its rules may evolve over time based on user experience.
+</p>
+
 <div>
-<div style="font-size: 35px; color: #009FFF; text-align: center">Authentication</div>
+    <div style="font-size: 22px; color: #009FFF; text-align: left">Authentication</div>
 
-<p>
-You may play games as a guest without authentication.
-Guest games are not saved, and cannot be revisited.
-</p>
-<p>
-In order to enjoy the full benefits of the application you are 
-encouraged to register with the site. EagerWords uses passwordless
-registration based only on your email address.
-</p>
-<p>
-To register, you provide your email address and a nickname, EagerWords sends a
-security token to your email address, and you complete the registration process
-by providing the token to the application, thus proving that you are the
-legitimate owner of the email. A similar process is used for login.
-</p>
-<div style="font-size: 35px; color: #009FFF; text-align: center">EagerWords Rules</div>
-
-<p>
-To play, drag and drop letters to form a word using an existing board letter
-(if any) and click <em>Commit Word</em> to play that word. 
-</p>
-<ul>
-<li>
-Points are associated with board locations - not with letters. 
-</li>
-<li>
-The assignment of points to board locations varies from game to game.
-</li>
-<li>
-The score of a play is the sum of points associated with the locations
-it captures. Pre-existing letters used in word formation do not contribute
-to the score.
-</li>
-<li>
-A word play on a non-empty board must <em>contain</em> at least one existing letter.
-</li>
-<li>
-A word play on an empty board is unrestricted.
-</li>
-<li>
-The played word and any crosswords formed by the play must exist in the
-game's dictionary. 
-</li>
-<li>
-Letters for play are generated randomly based on the frequency of 
-letters in the English lexicon as per:
-<a href="http://www.oxfordmathcenter.com/drupal7/node/353">Oxford Math Center</a>. 
-Successive letters are generated independently of each other.
-There is no notion of a container of letters getting depleted or letters being
-'used up'.
-</li>
-<li>
-When no board play is possible, a single letter is swapped for another (by dropping it onto the
-<em>Swap Drop</em>). 
-</li>
-<li>
-A game ends upon 10 consecutive swaps or when the board is full. 
-</li>
-<li>
-If there is no activity on a game for N minutes, the game becomes 
-inactive (suspended). A suspended game may be resumed from the <em>Games</em>
-page, which lists the user's games.
-</li>
-</ul>
-
-<p>
-Note. This game and its rules may evolve over time based on user experience.
-</p>
-<h4>Noteworthy</h4>
-
-<p>
-You may wish to install a dictionary plugin in your browser to 
-easily search for the meanings of words played by the machine.
-</p>
-<p>
-Make sure the status field below the board is visible.
-</p>
-<h4>Configuration</h4>
-
-There are a number of configuration parameters that you may customize as 
-as registered user in the <em>Settings</em> page.
-
-<ul>
-<li>
-<em>starting player</em> Random (user or machine) by default.
-</li>
-<li>
-<em>board dimension</em>
-</li>
-<li>
-<em>letter tray capacity</em> The number of available letters to each player
-for play at any given time.
-</li>
-</ul>
-
-<h4>Issues</h4>
-
-The game's dictionary is based on:
-
-<p>
-http://www.gutenberg.org/files/3201/files/CROSSWD.TXT -
-</p>
-<p>
-a comprehensive list of common English words.
-</p>
-<p>
-But from time to time, you'll run into a common word that is 
-not in the dictionary. 
-</p>
-<p>
-Please add issues and ideas for improvment (including any missing common words
-in the dictionary) to the 
-<a href="https://github.com/azadbolour/eagerwords/issues">issues list.</a>
-</p>
-
-<div style="color: #009FFF; font-size: 20px">
-Bolour Computing.  
-<br/>
-6144 N Rockridge Blvd
-<br/>
-Oakland, CA 94618
+    <p>
+        You may play games as a guest without authentication.
+        Guest games are not saved, and cannot be revisited.
+    </p>
+    <p>
+        In order to enjoy the full benefits of the application you are
+        encouraged to register with the site. EagerWords uses passwordless
+        authentication based only on your email address.
+    </p>
+    <p>
+        To register, you provide your email address and a nickname, EagerWords sends a
+        security token to your email address, and you complete the registration process
+        by providing the token to the application, thus proving that you are the
+        legitimate owner of the email. A similar process is used for login.
+    </p>
 </div>
+
+<div style="font-size: 22px; color: #009FFF; text-align: left">Noteworthy</div>
+
+<p>
+    You may wish to install a dictionary plugin in your browser to
+    easily search for the meanings of words played by the machine.
+</p>
+<p>
+    Make sure the status field below the board is visible.
+</p>
+
+<div style="font-size: 22px; color: #009FFF; text-align: left">Configuration</div>
+
+<p>
+There are a number of configuration parameters that you may customize as
+a registered user in the <em>Settings</em> page.
+</p>
+
+<ul>
+    <li>
+        <em>starting player</em> Random (user or machine) by default.
+    </li>
+    <li>
+        <em>board dimension</em>
+    </li>
+    <li>
+        <em>letter tray capacity</em> The number of available letters to each player
+        for play at any given time.
+    </li>
+</ul>
+
+<div style="font-size: 22px; color: #009FFF; text-align: left">Issues</div>
+
+<p>
+The game's dictionary is based on:
+</p>
+
+<p>
+    http://www.gutenberg.org/files/3201/files/CROSSWD.TXT -
+    a comprehensive list of common English words.
+</p>
+<p>
+    But from time to time, you'll run into a common word that is
+    not in the dictionary.
+</p>
+<p>
+    Please add issues and ideas for improvement (including any missing common words
+    in the dictionary)
+    to the <a href="https://github.com/azadbolour/eagerwords.com/issues" target="_blank">issues list.</a>
+</p>
+</div>
+    <div style="color: #009FFF; font-size: 20px">
+    Bolour Computing.
+    <br/>
+    6144 N Rockridge Blvd
+    <br/>
+    Oakland, CA 94618
+    </div>
 </div>
 
 </body>

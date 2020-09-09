@@ -15,22 +15,22 @@ export const AboutComponent = (props) => {
       <Header as="h5" align='center' style={{color: 'Green'}}>About EagerWords</Header>
       <div>
         <p>
-          EagerWords is the second version of the Azad Bolour's crossword game
-          featuring a Scala game server and a React UI.
+          EagerWords is the second version of the Azad Bolour's crossword game.
+          It features a Scala game server and a React web UI.
           </p>
         <p>
-          This new version provides for passwordless authentication
-          via email. Registering as a user allows your
+          EagerWords supports user registration and login by using email-based
+          passwordless authentication. Registering as a user allows your
           games to be saved, so that suspended games may resumed at a later time,
           and completed games may be re-examined.
-          </p>
+        </p>
         <p>
           Registration also allows you to customize your game preferences, such as
           the size of the board.
         </p>
 
         <p>
-        As a non-registered user you may still play games. But your game cannot be
+        As a non-registered user you may still play games. But your games cannot be
         saved and restored.
         </p>
 
@@ -51,7 +51,6 @@ export const AboutComponent = (props) => {
         Oakland, CA 94618
       </div>
     </div>
-
   )
 };
 

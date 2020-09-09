@@ -11,6 +11,7 @@ import {createStructuredSelector} from 'reselect'
 import { Header } from 'semantic-ui-react';
 import {buttonStyle} from "../css/Styles";
 import {loggedOut} from "../../auth/redux/AuthActions";
+import {getUrlOfPublicResource} from "../../base/util/BrowserUtil";
 import {gameSelectedForResumption} from "../redux/GameActions";
 import {stringify} from "../../base/util/Logger";
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -35,11 +36,10 @@ import {EulaTextComponent} from "./informational/EulaTextComponent";
 import {PrivacyComponent} from "./informational/PrivacyComponent";
 import {NoticesComponent} from "./informational/NoticesComponent";
 import {AboutComponent} from "./informational/AboutComponent";
-import {ModalPresenter} from "../../base/components/NotificationComponents";
-import {RulesComponent} from "./informational/RulesComponent";
 import {gameRoutingPaths} from "./GameRoutingPaths";
 import {authRoutingPaths} from "../../auth/components/AuthRoutingPaths";
 import {getUserGamesDisplay, resumeDisplay} from "../service/GameHandler";
+import {rulesHtmlName} from "./GameComponentConstants";
 
 const space = <pre> </pre>;
 
@@ -135,6 +135,8 @@ const gameTableColumns = (resumeFormatter, nickname) => [
   },
 ];
 
+const helpPublicUrl = getUrlOfPublicResource(rulesHtmlName);
+
 /**
  * The games components is protected.
  */
@@ -144,7 +146,6 @@ class GamesComponent extends Component {
     this.state = {
       opContext: defaultOpContext,
       games: [],
-      showHelp: false,
     };
     this.authService = authService;
   }
@@ -279,23 +280,6 @@ class GamesComponent extends Component {
     )
   }
 
-  HelpModal = () => {
-    let showHelp = this.state.showHelp;
-    let title = "EagerWords";
-    let closer = () => this.setShowHelp(false);
-    return (
-      <ModalPresenter show={showHelp} title={title} closer={closer}>
-        <RulesComponent/>
-      </ModalPresenter>
-    )
-  };
-
-  setShowHelp = (showHelp) => this.setState((state) => {return {...state, showHelp}});
-
-  helpCallback = () => {
-    this.setShowHelp(true);
-  };
-
   render() {
     let errorCallback = () => this.props.onUnrecoverableError();
     let loginExpiredCallback = () => this.props.loginExpired();
@@ -319,8 +303,7 @@ class GamesComponent extends Component {
 
     return (
       <div>
-        <it.HelpModal/>
-        <GameHeader loginEvidence={loginEvidence} onLogout={logoutCallback} onHelp={() => this.helpCallback()}/>
+        <GameHeader loginEvidence={loginEvidence} onLogout={logoutCallback} helpUrl={helpPublicUrl}/>
         <Header as="h3" textAlign="center" style={{color: 'DarkGoldenRod'}}>Eager Words - Welcome {userName}!</Header>
         <div>{space}</div>
 

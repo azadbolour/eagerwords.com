@@ -75,6 +75,8 @@ export const GenericFooter = (props) => {
         <a onClick={() => setShowNotices(true)} style={labelStyle}>Attributions</a> &nbsp;&nbsp;&nbsp;&nbsp;
         <a onClick={() => setShowAbout(true)} style={labelStyle}>About</a> &nbsp;&nbsp;&nbsp;&nbsp;
       </div>
+      <div>{space}</div>
+      <div>{space}</div>
     </div>
   );
 };

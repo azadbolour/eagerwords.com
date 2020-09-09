@@ -213,6 +213,8 @@ export const ModalNotifier = (props) => {
   )
 };
 
+// TODO. Maximum height of the body of the modal should be a prop.
+
 export const ModalPresenter = (props) => {
   const {show, title, label, closer, children} = props;
   let theLabel = label ? label : 'OK';
@@ -223,7 +225,7 @@ export const ModalPresenter = (props) => {
         <Modal.Header>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{children}</Modal.Body>
+        <Modal.Body style={{maxHeight: '200px', overflowY: 'auto'}}>{children}</Modal.Body>
         <Modal.Footer>
           <Button
             variant="primary"

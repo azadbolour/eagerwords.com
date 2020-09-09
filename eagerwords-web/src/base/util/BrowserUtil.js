@@ -88,3 +88,15 @@ function detectPrimaryDevice() {
     return deviceTypes.touch;
   return deviceTypes.mouse; // For good measure.
 }
+
+/**
+ * Get the full public URL of a resource under the public folder of the
+ * React application.
+ *
+ * @param path The path within the public folder (excluding the initial '/'/
+ *
+ * @returns {string} The full public URL of the resource.
+ */
+export const getUrlOfPublicResource = function(path) {
+  return `${process.env.PUBLIC_URL}/${path}`;
+};

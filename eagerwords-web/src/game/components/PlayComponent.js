@@ -20,8 +20,6 @@ import * as styles from '../css/PlayStyles';
 import * as BrowserUtil from "../../base/util/BrowserUtil";
 import {deviceTypes} from "../../base/domain/DeviceTypes";
 import {defaultGameSettings, fixStartingPlayer,} from '../domain/GameSettings';
-import ModalDialog from '../../base/components/ModalDialogComponent';
-import {RulesComponent} from './informational/RulesComponent';
 import {DndProvider} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {connect} from 'react-redux';
@@ -62,6 +60,8 @@ import {
 } from "../service/GameHandler";
 import {PlayButton, PlayDropdownToggle, PlayMenuItem} from "../css/PlayStyles";
 import {loggedOut} from "../../auth/redux/AuthActions";
+import {getUrlOfPublicResource} from "../../base/util/BrowserUtil";
+import {rulesHtmlName} from "./GameComponentConstants";
 
 /*
  * Note. Do not use &nbsp; for spaces in JSX. It sometimes comes out as circumflex A
@@ -92,11 +92,11 @@ const infoStatus = function(game) {
   return "OK";
 };
 
-const Main = ({hidden, children}) => <div style={{
-  display: hidden ? 'none' : 'block'
-}}>
-  {children}
-</div>;
+// const Main = ({hidden, children}) => <div style={{
+//   display: hidden ? 'none' : 'block'
+// }}>
+//   {children}
+// </div>;
 
 const USER_START_MESSAGE = "your play ...";
 const MACHINE_START_MESSAGE = "OK";
@@ -104,6 +104,7 @@ const MACHINE_START_MESSAGE = "OK";
 const startSuccessMessage = gameParams =>
   machineStarts(gameParams) ? MACHINE_START_MESSAGE : USER_START_MESSAGE;
 
+const rulesPublicUrl = getUrlOfPublicResource(rulesHtmlName);
 /**
  * The entire game UI components including the board and game buttons.
  */
@@ -128,7 +129,6 @@ class PlayComponent extends React.Component {
       opContext: defaultOpContext,
       game: null,
       gameSettings: null,
-      rulesIsOpen: false,
       dndBackend: HTML5Backend
     };
 
@@ -351,7 +351,6 @@ class PlayComponent extends React.Component {
     let canEnd = running || finished;
     let canRevert = running && playStarted;
     let canSuspend = running && !this.props.isGuest;
-    let rulesOpen = this.rulesOpen;
     let it = this;
 
     return (
@@ -370,7 +369,9 @@ class PlayComponent extends React.Component {
               </Dropdown.Menu>
             </Dropdown>{space}
             <span style={{width: '390px'}}/>
-            <PlayButton style={{float: "right"}} onClick={() => rulesOpen()}>Rules</PlayButton>
+            <PlayButton style={{float: "right"}}>
+              <a href={rulesPublicUrl} target="_blank" style={{color: 'white'}}>Rules</a>
+            </PlayButton>
           </ButtonToolbar>
         </div>
         <div>
@@ -388,15 +389,6 @@ class PlayComponent extends React.Component {
       </div>
     );
   }
-
-  rulesOpen = () => this.setState({rulesIsOpen: true});
-  rulesClose = () => this.setState({rulesIsOpen: false});
-
-  RulesModal = (props) => {
-    let rulesIsOpen = this.state.rulesIsOpen;
-    let rulesClose = this.rulesClose;
-    return <ModalDialog contents={RulesComponent} isOpen={rulesIsOpen} close={rulesClose}/>
-  };
 
   Tray = (props) => {
     let game = this.game();
@@ -447,18 +439,15 @@ class PlayComponent extends React.Component {
     let onSwap = this.onSwap;
     let dndBackend = this.state.dndBackend;
     let numWords = this.wordsPlayed().length;
-    let hideContents = this.state.rulesIsOpen;
     let it = this;
 
     return (
       <DndProvider backend={dndBackend}>
-        <it.RulesModal/>
         <ServiceProcessingDecorator
           comp={it}
           errorCallback={() => errorCallback()}
           loginExpiredCallback={() => loginExpiredCallback()}
         >
-          <Main hidden={hideContents}>
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <it.PlayMenu />
               <div style={{display: 'flex', flexDirection: 'row', border: '1px solid GoldenRod',
@@ -484,7 +473,6 @@ class PlayComponent extends React.Component {
                 <label style={styles.playLightMessageStyle(true)}>{copyright}</label>
               </div>
             </div>
-          </Main>
         </ServiceProcessingDecorator>
       </DndProvider>
     )

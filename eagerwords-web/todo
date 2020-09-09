@@ -189,6 +189,9 @@
 
 [Nice to Have]
 
+- A reload from the /play path starts a new game. Better if it reloads the last
+  game visited. Would have to store the last visited game in local storage.
+
 - consistent naming of alertMessage - statusMessage?? 
 
 - After a resign and show later, the tray pieces should not be draggable. They
