@@ -62,6 +62,7 @@ import {PlayButton, PlayDropdownToggle, PlayMenuItem} from "../css/PlayStyles";
 import {loggedOut} from "../../auth/redux/AuthActions";
 import {getUrlOfPublicResource} from "../../base/util/BrowserUtil";
 import {rulesHtmlName} from "./GameComponentConstants";
+import Button from "react-bootstrap/Button";
 
 /*
  * Note. Do not use &nbsp; for spaces in JSX. It sometimes comes out as circumflex A
@@ -87,24 +88,22 @@ const infoStatus = function(game) {
   if (game.finished())
     return gameSummaryMessage(game);
   let plays = game.plays;
-  if (plays.machinePlayedLast && plays.lastPlayIsSwap)
-    return 'bot took a pass';
-  return "OK";
+  let gameParams = game.gameParams;
+  let justStarted = plays.wordsPlayed.length <= 1;
+  let machineStarted = machineStarts(game.gameParams);
+  let machinePassed = plays.machinePlayedLast && plays.lastPlayIsSwap;
+
+  if (justStarted && machinePassed)
+    return "game started - bot passed - your turn ...";
+  if (justStarted)
+    return machineStarted ? "game started by bot - your turn ..." : "game started - your turn ...";
+  if (machinePassed)
+    return 'bot took a pass - your turn ...';
+  return "your turn ...";
 };
 
-// const Main = ({hidden, children}) => <div style={{
-//   display: hidden ? 'none' : 'block'
-// }}>
-//   {children}
-// </div>;
-
-const USER_START_MESSAGE = "your play ...";
-const MACHINE_START_MESSAGE = "OK";
-
-const startSuccessMessage = gameParams =>
-  machineStarts(gameParams) ? MACHINE_START_MESSAGE : USER_START_MESSAGE;
-
 const rulesPublicUrl = getUrlOfPublicResource(rulesHtmlName);
+
 /**
  * The entire game UI components including the board and game buttons.
  */
@@ -221,11 +220,20 @@ class PlayComponent extends React.Component {
     return this.gamePlays().wordsPlayed;
   }
 
-  status() {
-    // return this.state.gameState.message;
+  StatusAsButton = (props) => {
     const errorStatus = this.state.opContext.messages.alertMsg;
-    return errorStatus ? errorStatus : infoStatus(this.game());
-  }
+    let style = {
+      color: 'White',
+      backgroundColor: 'DarkGoldenRod',
+      borderColor: 'DarkGoldenRod'
+    };
+    let status = errorStatus ? errorStatus : infoStatus(this.game());
+    return (
+      <div style={{marginBottom: '5px'}}>
+        <Button size="sm" style={style} >{status}</Button>
+      </div>
+    )
+  };
 
   commitPlay() {
     let handler = this.props.gameHandler;
@@ -278,7 +286,7 @@ class PlayComponent extends React.Component {
       serviceStateSettingInterceptor(this, startGameDisplay, handler, handler.start, newGameParams).passValue(
         (game) => {
           this.setStateGame(game);
-          this.setStateInfoMessage(startSuccessMessage(newGameParams));
+          // this.setStateInfoMessage(startSuccessMessage(newGameParams));
         })
     });
   }
@@ -326,6 +334,7 @@ class PlayComponent extends React.Component {
     let game = this.game();
     let updatedGame = game.revertPlay();
     this.setStateGame(updatedGame);
+    this.setStateInfoMessage(null);
   }
 
   onSwap(piece) {
@@ -335,12 +344,6 @@ class PlayComponent extends React.Component {
       (game) => this.setStateGame(game)
     )
   }
-
-  // gotoEntry = () => {
-  //   this.props.showEntry();
-  // };
-
-  // TODO. Add Quit - enabled if a completed game is being shown.
 
   PlayMenu = (props) => {
     let game = this.game();
@@ -373,9 +376,6 @@ class PlayComponent extends React.Component {
               <a href={rulesPublicUrl} target="_blank" style={{color: 'white'}}>Rules</a>
             </PlayButton>
           </ButtonToolbar>
-        </div>
-        <div>
-          <span style={{height: '5px'}}>{space}</span>
         </div>
       </div>
     )
@@ -430,7 +430,6 @@ class PlayComponent extends React.Component {
     let errorCallback = () => this.props.onUnrecoverableError();
     let loginExpiredCallback = () => this.props.loginExpired();
     let game = this.game();
-    let status = this.status();
     let userName = this.props.nickname.substring(0, 10);
     let userScore = game.score[Game.USER_INDEX];
     let machineScore = game.score[Game.MACHINE_INDEX];
@@ -450,8 +449,9 @@ class PlayComponent extends React.Component {
         >
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <it.PlayMenu />
+
               <div style={{display: 'flex', flexDirection: 'row', border: '1px solid GoldenRod',
-                  padding: '15px', margin: "8px auto 8px 0"}}>
+                padding: '10px', margin: "15px auto 15px 0"}}>
                 <it.Board/>{space}{space}
                 <it.Tray />{space}{space}
                 <div style={{display: 'flex', flexDirection: 'column', left: "3px"}}>
@@ -468,7 +468,7 @@ class PlayComponent extends React.Component {
                   </div>
                 </div>
               </div>
-              <div style={styles.playStatusStyle}>{status}</div>
+              <this.StatusAsButton/>
               <div style={{paddingTop: '2px'}}>
                 <label style={styles.playLightMessageStyle(true)}>{copyright}</label>
               </div>
