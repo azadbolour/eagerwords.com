@@ -43,12 +43,21 @@ import {rulesHtmlName} from "./GameComponentConstants";
 
 const space = <pre> </pre>;
 
+const addLeadingZeros = function(number, size) {
+  let padding = '0'.repeat(size);
+  let padded = `${padding}${number}`;
+  return padded.substring(padded.length - size);
+};
+
 // TODO. Use correct locale later. Needs user's locale.
 const dateFormatter = (epochSeconds) => {
+  let pad = function(datePart) {
+    return addLeadingZeros(datePart, 2);
+  };
   let d = new Date();
   d.setTime(1000 * epochSeconds);
   let year = `${d.getFullYear()}`.substring(2);
-  return `${d.getMonth() + 1}/${d.getDate()}/${year} ${d.getHours()}:${d.getMinutes()}`
+  return `${d.getMonth() + 1}/${d.getDate()}/${year} ${pad(d.getHours())}:${pad(d.getMinutes())}`
 };
 
 /**

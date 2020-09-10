@@ -358,7 +358,6 @@ class PlayComponent extends React.Component {
 
     return (
       <div>
-        <div style={{display: 'flex', flexDirection: 'row', backgroundColor: 'LightGrey', padding: '3px'}}>
           <ButtonToolbar aria-label="header">
             <PlayButton disabled={!canCommit} onClick={it.commitPlay}>Commit Word</PlayButton>{space}
             <PlayButton disabled={!canRevert} onClick={it.revertPlay}>Undo</PlayButton>{space}
@@ -371,12 +370,11 @@ class PlayComponent extends React.Component {
                 <PlayMenuItem disabled={!finished} onClick={() => it.props.onExit()}>Exit</PlayMenuItem>
               </Dropdown.Menu>
             </Dropdown>{space}
-            <span style={{width: '390px'}}/>
+            <span style={{width: '20px'}}/>
             <PlayButton style={{float: "right"}}>
               <a href={rulesPublicUrl} target="_blank" style={{color: 'white'}}>Rules</a>
             </PlayButton>
           </ButtonToolbar>
-        </div>
       </div>
     )
   };
@@ -460,12 +458,14 @@ class PlayComponent extends React.Component {
                     {it.renderScore(userName, userScore)}
                     {it.renderScore("Bot", machineScore)}
                   </div>
+                  <div style={{height: 210}}>
                   <div style={styles.playWordListStyle}>
                     <ReactList
                       ref={list => it.setWordsComponent(list)} length={numWords} type='uniform'
                       itemRenderer={ (index, key) => it.renderWord(index, key) }
                     />
                   </div>
+                </div>
                 </div>
               </div>
               <this.StatusAsButton/>

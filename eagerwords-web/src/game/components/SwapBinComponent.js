@@ -28,6 +28,8 @@ function colorCodedLegalMoveStyle(colorCoding) {
   };
 }
 
+export const swapBinHeightPixels = 50;
+
 /**
  * Style for the square - it is relative to its siblings within its parent.
  */
@@ -38,7 +40,7 @@ function squareStyle(color, backgroundColor) {
     color: color,
     backgroundColor: backgroundColor,
     width: 100,
-    height: '50px',
+    height: `${swapBinHeightPixels}px`,
     textAlign: 'center',
     fontFamily: 'Helvetica',
     fontSize: 15,
