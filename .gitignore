@@ -28,7 +28,6 @@ logs/
 #
 # Derived files.
 #
-bin/
 *.class
 **/doc/api/
 .stack-work/
