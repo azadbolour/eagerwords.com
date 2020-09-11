@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#
+# Private env variables needed for builds.
+#
+
+#
+# Corresponding testing values in the React UI environment must match these.
+#
+export TESTING_EMAIL=
+export TESTING_TOKEN=
+

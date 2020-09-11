@@ -6,9 +6,7 @@
 
 echo "..."
 
-myname=eagerwords.com
-
-export WORKSPACE="$HOME/dev/bolour/main/${myname}/master"
+export WORKSPACE=`pwd`
 echo "WORKSPACE=$WORKSPACE"
 
 echo "..."

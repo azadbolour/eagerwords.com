@@ -35,7 +35,7 @@ export const AboutComponent = (props) => {
         </p>
 
         <p>
-          EagerWords is <a href="https://github.com/azadbolour/eagerwords.com">open sourced</a> under AGPL.
+          EagerWords is <a href="https://github.com/azadbolour/eagerwords.com" target="_blank">open sourced</a> under AGPL.
         </p>
         <div style={{padding: 10}}>
           <img src="/agplv3-88x31.png" alt="image" />
