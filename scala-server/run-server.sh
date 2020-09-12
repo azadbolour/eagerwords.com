@@ -18,6 +18,8 @@
 #   HTTP_PORT - the http port of the play application
 #   ALLOWED_HOST - host:port
 #   PID_FILE  - the pid aka lock file of the running server
+#   CONFIG_FIE - the production configuration file (as a path in the file system)
+#   For a container deployment, the above two paths would be mapped from the host.
 #
 
 DEFAULT_HTTP_PORT=6597
@@ -72,6 +74,11 @@ test -d "${SERVER_ROOT}" || errorout "server root ${SERVER_ROOT} not a directory
 JAVA_OPTS="${JAVA_OPTS} -Dhttp.port=${HTTP_PORT}"
 JAVA_OPTS="${JAVA_OPTS} -Dplay.filters.hosts.allowed.0=${ALLOWED_HOST}"
 JAVA_OPTS="${JAVA_OPTS} -Dpidfile.path=${PID_FILE}"
+
+if [ -n "$CONFIG_FILE" ]; then
+  test -e "${CONFIG_FILE}" || errorout "production conf file ${CONFIG_FILE} does not exist"
+  JAVA_OPTS="${JAVA_OPTS} -Dconfig.file=${CONFIG_FILE}"
+fi
 
 #
 # Assume this script is only run when the application cannot be running.

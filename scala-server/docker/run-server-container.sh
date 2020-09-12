@@ -26,6 +26,11 @@
 
 PROJECT="eagerwords.com"
 
+errorout () {
+  echo $1
+  exit 1
+}
+
 #
 # These defaults are repeated here and in the run-server script.
 # Keeping them independent for now for simplicity.
@@ -36,6 +41,8 @@ DEFAULT_HTTP_PORT=6597
 DEFAULT_ALLOWED_HOST="127.0.0.1:${DEFAULT_HTTP_PORT}"
 EAGERWORDS_VAR=/var/run/${PROJECT}
 DEFAULT_PID_FILE=${EAGERWORDS_VAR}/play.pid
+# By default, use application.conf not a special config file.
+CONFIG_FILE=""
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -43,9 +50,11 @@ while [ $# -gt 0 ]; do
             shift && HTTP_PORT="$1" || (echo "missing http-port value"; exit 1) ;;
         --allowed-host) 
             shift && ALLOWED_HOST="$1" || (echo "missing allowed-host value"; exit 1) ;;
-        --pid-file) 
+        --config-file)
+            shift && CONFIG_FILE="$1" || (echo "missing config-file value"; exit 1) ;;
+        --pid-file)
             shift && PID_FILE="$1" || (echo "missing pid-file value"; exit 1) ;;
-        --tag) 
+        --tag)
             shift && TAG="$1" || (echo "missing tag value"; exit 1) ;;
         *) 
             echo "$0: unknown option $1" && die ;;
@@ -60,8 +69,7 @@ fi
 
 if [ -z "$HTTP_PORT" ]; then HTTP_PORT=${DEFAULT_HTTP_PORT}; fi
 if [ -z "$PID_FILE" ]; then PID_FILE=${DEFAULT_PID_FILE}; fi
-if [ -z "$ALLOWED_HOST" ]; then VERSION=${DEFAULT_ALLOWED_HOST}; fi
-
+if [ -z "$ALLOWED_HOST" ]; then ALLOWED_HOST=${DEFAULT_ALLOWED_HOST}; fi
 
 #
 # To make it easy to remove a stray pid [lock] file, we map its
@@ -72,6 +80,14 @@ if [ -z "$ALLOWED_HOST" ]; then VERSION=${DEFAULT_ALLOWED_HOST}; fi
 PID_DIR=`dirname ${PID_FILE}`
 sudo mkdir -p ${PID_DIR}
 sudo chmod 777 ${PID_DIR}
+
+mapConfig=""
+
+if [ -n "$CONFIG_FILE" ]; then
+    test -e "${CONFIG_FILE}" || errorout "production conf file ${CONFIG_FILE} does not exist"
+    CONFIG_DIR=`dirname ${CONFIG_FILE}`
+    mapConfig="-v ${CONFIG_DIR}:${CONFIG_DIR}"
+fi
 
 NAMESPACE=azadbolour
 REPOSITORY=${PROJECT}.server
@@ -85,4 +101,5 @@ nohup docker run -p ${HTTP_PORT}:${HTTP_PORT} --restart on-failure:5 --name ${RE
     -e ENCRYPTION_KEY -e PLAY_SECRET \
     -e TESTING_EMAIL -e TESTING_TOKEN \
     -v ${PID_DIR}:${PID_DIR} \
+    ${mapConfig} \
     ${NAMESPACE}/${REPOSITORY}:${TAG} &

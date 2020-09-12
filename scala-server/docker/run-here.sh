@@ -11,4 +11,4 @@ ALLOWED_HOST="localhost:$HTTP_PORT"
 run-server-container.sh --tag 0.8.1 --http-port $HTTP_PORT --allowed-host "$ALLOWED_HOST" \
   --pid-file ${DEFAULT_PID_FILE}
 
-
+# --config-file /path/to/prod.conf
