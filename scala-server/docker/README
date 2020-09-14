@@ -92,7 +92,15 @@ Check that the server docker image was produced:
 Test the server container. Set needed env variables for running the container - see below)
 and update the script run-here.sh to use version 0.5.0 and run it:
 
-    run-here.sh 
+    run-here.sh
+
+That script is a convenience wrapper around the script run-server-container.sh.
+You can add specific values for parameters to be provided to the latter
+script in run-here.sh. In particular, you can override eagerwords Play server's
+application.conf file by specifying a --config-file argument to run-server-container.sh
+within run-here.sh. This is just a convenience measure. The mechanism for
+parameterizing a deployment is the use of env variables set in the file prodenv.sh
+(see below).
 
 The port number is provided in the script $WORKSPACE/scala-server/run-server.sh. 
 For the purposes of this scenario consider it hard-coded to 6597. The host is
@@ -134,10 +142,13 @@ for the list of environment variables. Generally we use a shell script
 that includes hard-coded non-sensitive parameters, and also includes
 prompts to read secrets and sets the environment variables. See the
 sample script prod.env.sh.template, which you can customize for
-your environment in a gitignored file prod.env.sh.
+your environment in a gitignored file prodenv.sh.
 
-    . prod.env.sh
+    . prodenv.sh
     run-server-container.sh --tag 0.5.0 --allowed-host "$host:6597"
+
+For development testing of the container, use prodenv.min.sh, which
+configures the database to be a file-based sqlite database.
 
 Deploy using a different port.
 

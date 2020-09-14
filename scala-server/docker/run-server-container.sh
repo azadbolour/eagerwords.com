@@ -82,11 +82,13 @@ sudo mkdir -p ${PID_DIR}
 sudo chmod 777 ${PID_DIR}
 
 mapConfig=""
+envConfig=""
 
 if [ -n "$CONFIG_FILE" ]; then
     test -e "${CONFIG_FILE}" || errorout "production conf file ${CONFIG_FILE} does not exist"
     CONFIG_DIR=`dirname ${CONFIG_FILE}`
     mapConfig="-v ${CONFIG_DIR}:${CONFIG_DIR}"
+    envConfig="-e CONFIG_FILE"
 fi
 
 NAMESPACE=azadbolour
@@ -99,7 +101,7 @@ nohup docker run -p ${HTTP_PORT}:${HTTP_PORT} --restart on-failure:5 --name ${RE
     -e MAIL_SMTP_USER -e MAIL_SMTP_PASSWORD -e MAIL_SMTP_HOST -e MAIL_SMTP_PORT \
     -e MOCK_EMAIL -e MAIL_SMTP_STARTTLS_ENABLE -e MAIL_SMTP_AUTH \
     -e ENCRYPTION_KEY -e PLAY_SECRET \
-    -e TESTING_EMAIL -e TESTING_TOKEN \
+    -e TESTING_EMAIL -e TESTING_TOKEN ${envConfig} \
     -v ${PID_DIR}:${PID_DIR} \
     ${mapConfig} \
     ${NAMESPACE}/${REPOSITORY}:${TAG} &
