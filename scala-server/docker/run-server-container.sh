@@ -93,8 +93,9 @@ fi
 
 NAMESPACE=azadbolour
 REPOSITORY=${PROJECT}.server
+CONTAINER_NAME="${REPOSITORY}.${TAG}"
 
-nohup docker run -p ${HTTP_PORT}:${HTTP_PORT} --restart on-failure:5 --name ${REPOSITORY} \
+nohup docker run -p ${HTTP_PORT}:${HTTP_PORT} --restart on-failure:5 --name ${CONTAINER_NAME} \
     --workdir="" \
     -e HTTP_PORT="${HTTP_PORT}" -e ALLOWED_HOST="${ALLOWED_HOST}" -e PID_FILE="${PID_FILE}" \
     -e DB_HOST -e DB_PORT -e DB_NAME -e DB_USER -e DB_PASS -e DB_TYPE \
