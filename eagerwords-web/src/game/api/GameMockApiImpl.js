@@ -21,24 +21,24 @@ class GameMockApiImpl {
     // TODO. Reflect initial conditions on game. Check server-side code for logic.
     this.gameParams = gameParams;
     this.nextPieceId = 0;
-    this.dimension = gameParams.dimension;
+    this.dimension = gameParams.playParams.dimension;
 
     this.moves = [];
     this.gameId = gameId;
-    this.center = Math.floor(gameParams.dimension / 2);
+    this.center = Math.floor(gameParams.playParams.dimension / 2);
 
     let {userPieces, machinePieces} = initPieces;
 
     // TODO. Streamline tray initialization.
-    const additionalTrayPieces = this.getPieces(gameParams.trayCapacity - userPieces.length);
+    const additionalTrayPieces = this.getPieces(gameParams.playParams.trayCapacity - userPieces.length);
     const trayPieces = userPieces.concat(additionalTrayPieces);
-    const additionalMachinePieces = this.getPieces(gameParams.trayCapacity - machinePieces.length);;
+    const additionalMachinePieces = this.getPieces(gameParams.playParams.trayCapacity - machinePieces.length);;
     this.machinePieces = machinePieces.concat(additionalMachinePieces);
 
     this.gameDto = {
       gameId: gameId,
-      dimension: gameParams.dimension,
-      trayCapacity: gameParams.trayCapacity,
+      dimension: gameParams.playParams.dimension,
+      trayCapacity: gameParams.playParams.trayCapacity,
       boardPiecePoints: [], // Start with an empty board. TODO. Use the init piece points.
       trayPieces: trayPieces
     };

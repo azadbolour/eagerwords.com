@@ -20,7 +20,7 @@ import * as styles from '../css/PlayStyles';
 import * as BrowserUtil from "../../base/util/BrowserUtil";
 import {deviceTypes} from "../../base/domain/DeviceTypes";
 import {defaultGamePlayParams, fixStartingPlayer,} from '../domain/GamePlayParams';
-import defaultUserGameSettings from '../domain/UserGameSettings';
+import {defaultUserGameSettings} from '../domain/UserGameSettings';
 import {DndProvider} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {connect} from 'react-redux';
@@ -178,13 +178,15 @@ class PlayComponent extends React.Component {
   }
 
   resumeGame(gameId) {
-    let handler = this.props.gameHandler;
-    serviceStateSettingInterceptor(this, getFullGameDisplay, handler, handler.getFullGame, gameId).passValue(
-      (game) => {
-        this.setStateGame(game);
-        this.scrollToLastWord();
-      }
-    )
+    return this.initializeUserGameSettings().then(() => {
+      let handler = this.props.gameHandler;
+      serviceStateSettingInterceptor(this, getFullGameDisplay, handler, handler.getFullGame, gameId).passValue(
+        (game) => {
+          this.setStateGame(game);
+          this.scrollToLastWord();
+        }
+      )
+    })
   }
 
   componentDidUpdate() {
@@ -274,7 +276,7 @@ class PlayComponent extends React.Component {
       let playParams = this.state.userGameSettings.playSettings;
       let startingPlayer = fixStartingPlayer(playParams.startingPlayer);
       playParams = {...playParams, startingPlayer};
-      let dimension = settings.dimension;
+      let dimension = playParams.dimension;
       let pointValues = PointValue.mkValueFactory(dimension).mkValueGrid();
       let gameParams = mkGameParams(playParams, pointValues);
       return gameParams;

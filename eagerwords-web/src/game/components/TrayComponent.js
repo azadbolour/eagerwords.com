@@ -47,6 +47,7 @@ const TrayComponent = (props) => {
    * a specific board square - given the square's position.
    */
   let squareSize = props.squareSize;
+  let squarePixels = squareSizeToPixels[squareSize];
   // let size = safeSquarePixelsToSize(squarePixels);
   let fontSize = squareSizeToPieceFont[squareSize];
   const renderPiece = function(position) {
@@ -69,7 +70,7 @@ const TrayComponent = (props) => {
     let squareKey = position;
     let pieces = props.pieces;
     let squareSize = props.squareSize;
-    let squarePixel = squareSizeToPixels[squareSize];
+
     let isTrayPiece = function(piece) {
       let index = pieces.findIndex(pce => Piece.eq(pce, piece));
       let exists = index >= 0;

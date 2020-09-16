@@ -12,11 +12,11 @@ import {mkTray} from "../domain/Tray";
 import {mkPiece} from "../domain/Piece";
 import {playPiecesWord} from "../domain/PlayPiece";
 import {mkPoint} from "../../plane/domain/Point";
-// import {mkPiecePoint} from "../domain/PiecePoint";
 import {mkCommittedPlayPiece, mkPlayPiece} from "../domain/PlayPiece";
-import {randomPlayerType, randomStartingPlayer} from "../domain/GameSettings";
+import {randomPlayerType} from "../domain/GamePlayParams";
 import {mkMatrix} from "../../plane/domain/Matrix";
 import {emptyPlayHistory, mkPlayHistory} from "../domain/PlayHistory";
+import {mkGameParams} from "../domain/GameParams";
 
 // TODO. Conversion of class object to json - use JSON.stringify in simple cases.
 // TODO. What about conversion from json to a class object?
@@ -50,21 +50,22 @@ export const GameParamsConverter = {
   // TODO. Convoluted code. Clean up passage of params from higher level code to API call.
   toJson: function(gameParams) {
     // console.log(`GameParamsConverter - gameParams: ${stringify(gameParams)}`);
-    let settings = {...gameParams};
+    // let settings = {...gameParams};
     let pointValues = gameParams.pointValues;
-    delete settings.pointValues;
-    let rows = pointValues.rows();
-    let dto = {settings: SettingsConverter.toJson(settings), pointValues: rows};
+    // delete settings.pointValues;
+    let jsonPointValues = pointValues.rows();
+    // let dto = {settings: SettingsConverter.toJson(settings), pointValues: rows};
+    let jsonParams = {...gameParams, pointValues: jsonPointValues}
     // console.log(`GameParamsConverter - dto: ${stringify(dto)}`);
-    return dto;
+    return jsonParams;
   },
 
   fromJson: function(json) {
-    let {settings, pointValues} = json;
-    let {dimension} = settings;
+    let {playParams, pointValues} = json;
+    let {dimension} = playParams;
     let matrixPointValues = mkMatrix(dimension, pointValues);
-    let params = {...settings, pointValues: matrixPointValues};
-    return params;
+    let gameParams = mkGameParams(playParams, matrixPointValues);
+    return gameParams;
   }
 };
 
@@ -106,7 +107,7 @@ export const GameConverter = {
 
   commonResponseToGame: function (gameId, boardPiecePointsJson, deadPointsJson, trayPiecesJson, gameParams, userScore, machineScore, plays, runState) {
     let trayPieces = trayPiecesJson.map(p => PieceConverter.fromJson(p));
-    let tray = mkTray(gameParams.trayCapacity, trayPieces);
+    let tray = mkTray(gameParams.playParams.trayCapacity, trayPieces);
     // console.log(`board piece points json: ${stringify(boardPiecePointsJson)}`);
     let playPieces = boardPiecePointsJson.map(gp => {
       let piece = PieceConverter.fromJson(gp.piece);
@@ -114,7 +115,7 @@ export const GameConverter = {
       let point = mkPoint(p.row, p.col);
       return mkCommittedPlayPiece(piece, point);
     });
-    let dimension = gameParams.dimension;
+    let dimension = gameParams.playParams.dimension;
     let board = mkEmptyBoard(dimension);
     // TODO. May gain some performance by providing board.setPlayPieces.
     // TODO. Or mkBoardFromPlayPieces, avoiding multiple clones.

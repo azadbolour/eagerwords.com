@@ -50,9 +50,9 @@ export const mkGame = function(gameParams, gameId, board, tray, score, plays, ma
   let _gameId = gameId;
   let _board = board;
   let _tray = tray;
-  let _dimension = gameParams.dimension;
-  let _squarePixels = gameParams.squarePixels;
-  let _trayCapacity = gameParams.trayCapacity;
+  let playParams = gameParams.playParams;
+  let _dimension = playParams.dimension;
+  let _trayCapacity = playParams.trayCapacity;
   let _pointValues = gameParams.pointValues;
   let _score = score;
   let _plays = plays;
@@ -74,7 +74,6 @@ export const mkGame = function(gameParams, gameId, board, tray, score, plays, ma
     get board() { return _board; },
     get tray() { return _tray; },
     get dimension() { return _dimension; },
-    get squarePixels() { return _squarePixels; },
     get trayCapacity() { return _trayCapacity; },
     get pointValues() { return _pointValues; },
     get score() { return _score.slice(); },

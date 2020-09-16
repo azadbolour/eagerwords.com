@@ -9,11 +9,11 @@ import PropTypes from 'prop-types';
 import SquareComponent from './SquareComponent';
 import * as Piece from '../domain/Piece';
 import {mkPiece} from '../domain/Piece';
-import {valueFont} from "../domain/GameSettings";
 import {mkPiecePoint} from '../domain/PiecePoint';
 // import {stringify} from "../util/Logger";
 import {pieceIsDead} from "../domain/Piece";
 import {getOrElseF, warn} from '../../base/util/MiscUtil';
+import {squareSizeToPointValueFont} from "../domain/GameLookAndFeelParams";
 const ItemTypes = require('./DragDropTypes').ItemTypes;
 const DropTarget = require('react-dnd').DropTarget;
 
@@ -68,14 +68,18 @@ function justFilledByMachineStyle() {
   };
 }
 
-function scoreStyle(pointValue, squarePixels, size) {
+function pointValueStyle(pointValue, squarePixels, squareSize) {
   const width = Math.floor(squarePixels/3);
   let backgroundColor = pointValueColor(pointValue);
   let left = 2;
-  let fontSize = getOrElseF(valueFont, size, () => {
-    warn("scoreStyle: can't convert square size:", size);
-    return 8;
-  });
+
+  let fontSize = squareSizeToPointValueFont[squareSize];
+
+  // let fontSize = getOrElseF(valueFont, squareSize, () => {
+  //   warn("scoreStyle: can't convert square size:", squareSize);
+  //   return 8;
+  // });
+
   let top = squarePixels - fontSize - fontSize;
   return {
     fontSize,
@@ -327,7 +331,7 @@ class BoardSquareComponent extends React.Component {
         {inPlay && <div style={inPlayStyle()} />}
         {justFilledByMachine && <div style={justFilledByMachineStyle()} />}
         {!dead &&
-          <div style={scoreStyle(pointValue, pixels, this.props.squareSize)}>
+          <div style={pointValueStyle(pointValue, pixels, this.props.squareSize)}>
             {pointValue}
           </div>
         }
