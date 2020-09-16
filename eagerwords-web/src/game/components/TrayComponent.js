@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import PieceComponent from './PieceComponent';
 import TraySquareComponent from './TraySquareComponent';
 import * as Piece from '../domain/Piece';
-import {safeSquarePixelsToSize} from "../domain/GameSettings";
 import {squareSizeToPieceFont, squareSizeToPixels} from "../domain/GameLookAndFeelParams";
 
 /**

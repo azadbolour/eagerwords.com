@@ -21,47 +21,94 @@ import {mkGameParams} from "../domain/GameParams";
 // TODO. Conversion of class object to json - use JSON.stringify in simple cases.
 // TODO. What about conversion from json to a class object?
 
-// Option None becomes json null and sometimes undefined!
-export const SettingsConverter = {
-  toJson(settings) {
-    let startingPlayer = settings.startingPlayer;
+// Random starting player represented as null on the wire, Option.None server.
+export const GamePlaySettingsConverter = {
+  toJson(playSettings) {
+    let startingPlayer = playSettings.startingPlayer;
     if (startingPlayer === randomPlayerType)
       startingPlayer = null;
-    let preferredDevice = settings.preferredDevice;
-    if (preferredDevice === undefined)
-      preferredDevice = null;
-    return {...settings, startingPlayer, preferredDevice}
+    return {...playSettings, startingPlayer};
   },
-
   fromJson(json) {
     let startingPlayer = json.startingPlayer;
     if (startingPlayer === null || startingPlayer === undefined)
       startingPlayer = randomPlayerType;
-    let preferredDevice = json.preferredDevice;
-    if (json.preferredDevice === undefined)
-      preferredDevice = null;
-    return {...json, startingPlayer, preferredDevice}
+    return {...json, startingPlayer};
   }
 };
+
+// Random device type represented as null on the wire, Option.None in server.
+export const GameLookAndFeelSettingsConverter = {
+  toJson(lookAndFeelSettings) {
+    let preferredDevice = lookAndFeelSettings.preferredDevice;
+    if (preferredDevice === undefined) // For good measure. Should be null for no preference.
+      preferredDevice = null;
+    return {...lookAndFeelSettings, preferredDevice};
+  },
+  fromJson(json) {
+    let preferredDevice = json.preferredDevice;
+    if (json.preferredDevice === undefined) // For good measure. Should be null for None.
+      preferredDevice = null;
+    return {...json, preferredDevice};
+  }
+};
+
+export const UserGameSettingsConverter = {
+  toJson(userGameSettings) {
+    let {playSettings, lookAndFeelSettings} = userGameSettings;
+    return {
+      playSettings: GamePlaySettingsConverter.toJson(playSettings),
+      lookAndFeelSettings: GameLookAndFeelSettingsConverter.toJson(lookAndFeelSettings)
+    }
+  },
+  fromJson(json) {
+    let {playSettings, lookAndFeelSettings} = json;
+    return {
+      playSettings: GamePlaySettingsConverter.fromJson(playSettings),
+      lookAndFeelSettings: GameLookAndFeelSettingsConverter.fromJson(lookAndFeelSettings)
+    }
+  }
+};
+
+//
+// export const SettingsConverter = {
+//   toJson(settings) {
+//     let startingPlayer = settings.startingPlayer;
+//     if (startingPlayer === randomPlayerType)
+//       startingPlayer = null;
+//     let preferredDevice = settings.preferredDevice;
+//     if (preferredDevice === undefined)
+//       preferredDevice = null;
+//     return {...settings, startingPlayer, preferredDevice}
+//   },
+//
+//   fromJson(json) {
+//     let startingPlayer = json.startingPlayer;
+//     if (startingPlayer === null || startingPlayer === undefined)
+//       startingPlayer = randomPlayerType;
+//     let preferredDevice = json.preferredDevice;
+//     if (json.preferredDevice === undefined)
+//       preferredDevice = null;
+//     return {...json, startingPlayer, preferredDevice}
+//   }
+// };
 
 // TODO. URGENT. GameParams should be represented as in the server code: (settings, pointValues).
 
 export const GameParamsConverter = {
   // TODO. Convoluted code. Clean up passage of params from higher level code to API call.
   toJson: function(gameParams) {
-    // console.log(`GameParamsConverter - gameParams: ${stringify(gameParams)}`);
-    // let settings = {...gameParams};
-    let pointValues = gameParams.pointValues;
-    // delete settings.pointValues;
-    let jsonPointValues = pointValues.rows();
-    // let dto = {settings: SettingsConverter.toJson(settings), pointValues: rows};
-    let jsonParams = {...gameParams, pointValues: jsonPointValues}
-    // console.log(`GameParamsConverter - dto: ${stringify(dto)}`);
+    let playParams = gameParams.playParams;
+    playParams = GamePlaySettingsConverter.toJson(playParams);
+    let matrixPointValues = gameParams.pointValues;
+    let pointValues = matrixPointValues.rows();
+    let jsonParams = {playParams, pointValues};
     return jsonParams;
   },
 
   fromJson: function(json) {
     let {playParams, pointValues} = json;
+    playParams = GamePlaySettingsConverter.fromJson(playParams);
     let {dimension} = playParams;
     let matrixPointValues = mkMatrix(dimension, pointValues);
     let gameParams = mkGameParams(playParams, matrixPointValues);

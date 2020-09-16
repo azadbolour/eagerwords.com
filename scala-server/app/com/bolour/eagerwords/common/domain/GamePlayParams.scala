@@ -6,7 +6,6 @@
 
 package com.bolour.eagerwords.common.domain
 
-import com.bolour.eagerwords.common.domain.DeviceType.DeviceType
 import com.bolour.eagerwords.common.domain.PieceProviderType.PieceProviderType
 import com.bolour.eagerwords.common.domain.PlayerType.PlayerType
 

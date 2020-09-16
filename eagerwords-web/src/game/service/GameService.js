@@ -9,7 +9,7 @@
  */
 
 import {gameApis} from '../../game/api/ApiUtil';
-import {GameConverter, GameParamsConverter, PieceConverter, SettingsConverter} from '../api/GameConverters';
+import {GameConverter, GameParamsConverter, PieceConverter, UserGameSettingsConverter} from '../api/GameConverters';
 import {convertHappyResponse} from "../../base/util/HttpUtil";
 import {PlayPieceConverter, PointConverter} from "../api/GameConverters";
 import {stringify} from "../../base/util/Logger";
@@ -170,16 +170,16 @@ class GameService {
   getUserGameSettings(mockErrors) {
     let api = this.api;
     return serviceWrapper(mockErrors, api, api.getUserGameSettings, this.loginEvidence)
-      .mapValue(data => data ? SettingsConverter.fromJson(data) : null);
+      .mapValue(data => data ? UserGameSettingsConverter.fromJson(data) : null);
   }
 
   settingsOptionFromJson(json) {
-    return (json === null) ? null : SettingsConverter.fromJson(json)
+    return (json === null) ? null : UserGameSettingsConverter.fromJson(json)
   }
 
   saveUserGameSettings(settings, mockErrors) {
     let api = this.api;
-    let convertedSettings = SettingsConverter.toJson(settings);
+    let convertedSettings = UserGameSettingsConverter.toJson(settings);
     return serviceWrapper(mockErrors, api, api.saveUserGameSettings,
       this.loginEvidence, convertedSettings)
   }

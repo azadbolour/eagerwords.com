@@ -20,7 +20,6 @@ import {mkUserGameSettings} from "../game/domain/UserGameSettings";
 
 const playSettings = {...defaultGamePlayParams, dimension: 17};
 const lookAndFeelSettings = {...defaultGameLookAndFeelParams, squareSize: squareSize.large};
-// let userSettings = {...defaultGameSettings, dimension: 17, squarePixels: 100};
 
 let userGameSettings = mkUserGameSettings(playSettings, lookAndFeelSettings);
 
@@ -53,7 +52,7 @@ test('start game and store and retrieve game settings', async (done) => {
     console.log(`getResult: ${stringify(getResult)}`);
     expect(getResult.ok).toBe(true);
     let settings = getResult.data;
-    expect({...settings}).toMatchObject(userGameSettings);
+    expect(settings).toMatchObject(userGameSettings);
 
     // let settings1 = {...userGameSettings, preferredDevice: deviceTypes.touch};
     let lookAndFeelSettings1 = {...lookAndFeelSettings, preferredDevice: deviceTypes.touch};

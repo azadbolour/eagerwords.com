@@ -105,8 +105,8 @@ export const mkGameTester = gameService => {
           expect(result.ok).toBe(true);
 
           let game = result.data;
-          expect(game.tray.pieces.length).toBe(settings.trayCapacity);
-          expect(game.board.dimension).toBe(settings.dimension);
+          expect(game.tray.pieces.length).toBe(settings.playSettings.trayCapacity);
+          expect(game.board.dimension).toBe(settings.playSettings.dimension);
           console.log("game started");
           return game;
         });
@@ -123,7 +123,7 @@ export const mkGameTester = gameService => {
       return gameService.commitUserPlay(gameId, playPieces)
         .then(gameResult => {
           if (!gameResult.ok)
-            console.log(`error in committing play: ${resultErrorMessage(result)}`);
+            console.log(`error in committing play: ${resultErrorMessage(gameResult)}`);
           expect(gameResult.ok).toBe(true);
           let {gameMiniState, replacementPieces} = gameResult.data;
           expect(replacementPieces.length).toBe(3);
@@ -136,7 +136,7 @@ export const mkGameTester = gameService => {
     machinePlay: (gameId) => {
       return gameService.getMachinePlay(gameId).then(gameResult => {
         if (!gameResult.ok)
-          console.log(`error in machine play: ${reqsultErrorMessage(gameResult)}`);
+          console.log(`error in machine play: ${resultErrorMessage(gameResult)}`);
         expect(gameResult.ok).toBe(true);
         let {gameMiniState, playedPieces} = gameResult.data;
         let moves = movedPiecePoints(playedPieces);

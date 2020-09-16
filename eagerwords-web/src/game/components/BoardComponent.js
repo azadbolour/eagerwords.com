@@ -11,7 +11,6 @@ import PieceComponent from './PieceComponent';
 import {mkPoint} from '../../plane/domain/Point';
 import * as Point from '../../plane/domain/Point';
 import {repeatF} from '../../base/util/MiscUtil';
-import {safeSquarePixelsToSize} from "../domain/GameSettings";
 import {squareSizeToPieceFont, squareSizeToPixels} from "../domain/GameLookAndFeelParams";
 
 // import {stringify} from "../util/Logger";

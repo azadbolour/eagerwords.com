@@ -7,8 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {isDead} from "../domain/Piece";
-import {pieceFont} from "../domain/GameSettings";
-import {warn, getOrElseF} from '../../base/util/MiscUtil'
 
 import {
   DragSource,

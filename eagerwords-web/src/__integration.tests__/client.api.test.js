@@ -34,6 +34,7 @@ test('start game and make user and machine plays', async done => {
 
     let game = await gameTester.startGame();
     let gameId = game.gameId;
+    console.log(`gameId: ${gameId}`);
     let committedPlayPieces = await gameTester.commitPlay(gameId);
     await gameTester.machinePlay(gameId);
     await gameTester.closeGame(gameId);
@@ -81,11 +82,13 @@ const initTest = async function() {
 
   let game = await gameTester.startGame();
   let gameId = game.gameId;
+  console.log(`gameId: ${gameId}`);
   let committedPlayPieces = await gameTester.commitPlay(gameId);
   await gameTester.machinePlay(gameId);
   return {gameService, gameTester, game};
 };
 
+// test.skip
 test('cancel game', async done => {
   const {gameService, gameTester, game} = await initTest();
   const gameId = game.gameId;

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO. URGENT. Tests pass individually, but there is a failure when run together.
+
 testregex=$1
 
 if [ -z $testregex ]; then 
