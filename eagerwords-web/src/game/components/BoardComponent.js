@@ -12,7 +12,6 @@ import {mkPoint} from '../../plane/domain/Point';
 import * as Point from '../../plane/domain/Point';
 import {repeatF} from '../../base/util/MiscUtil';
 import {squareSizeToPieceFont, squareSizeToPixels} from "../domain/GameLookAndFeelParams";
-
 // import {stringify} from "../util/Logger";
 
 /**
@@ -75,9 +74,6 @@ const BoardComponent = (props) => {
     let dimension = props.board.dimension;
     let squareKey = dimension * row + col;
     let isLegalMove = props.isLegalMove;
-    // let squarePixels = props.squarePixels;
-    // let squareSize = safeSquarePixelsToSize(squarePixels);
-    // let squareSize = props.squareSize;
     let squareSize = props.squareSize;
     let squarePixels = squareSizeToPixels[squareSize];
     let point = mkPoint(row, col);
@@ -115,15 +111,6 @@ const BoardComponent = (props) => {
    * with the correct overall size of the board.
    */
   let dimension = props.board.dimension;
-  // let squarePixels = props.squarePixels;
-  // let squares = [];
-
-  // for (let r = 0; r < dimension; r++) {
-  //   let row = [];
-  //   for (let c = 0; c < dimension; c++)
-  //     row.push(renderSquare(r, c));
-  //   squares.push(row);
-  // }
 
   const renderRow = function(r) {
     let row = repeatF(dimension, (i) => renderSquare(r, i));
@@ -166,10 +153,14 @@ BoardComponent.propTypes = {
 
   canMovePiece: PropTypes.func.isRequired,
 
+  /**
+   * Nominal size of squares - Small, Normal, Large.
+   */
   squareSize: PropTypes.string.isRequired,
 
-  // squareSize: PropTypes.string.isRequired,
-
+  /**
+   * Values associated with each board square.
+   */
   pointValues: PropTypes.object.isRequired,
 
   /**

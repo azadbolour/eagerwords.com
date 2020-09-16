@@ -8,12 +8,9 @@ import {defaultGamePlayParams} from "../game/domain/GamePlayParams";
 import {defaultGameLookAndFeelParams, squareSize} from "../game/domain/GameLookAndFeelParams";
 import {deviceTypes} from "../base/domain/DeviceTypes";
 import GameService from "../game/service/GameService";
-import BaseService from "../base/service/BaseService";
 import {stringify} from "../base/util/Logger";
 import {errorText} from "../base/util/HttpUtil";
-import {isEmpty} from "../base/util/MiscUtil";
 import {authTester} from "./testbase1";
-import {mkUser} from "../base/domain/User";
 import {mkUserGameSettings} from "../game/domain/UserGameSettings";
 
 // TODO. Better use game event handler rather than game service - better error handling.

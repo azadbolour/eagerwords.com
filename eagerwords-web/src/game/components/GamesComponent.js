@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router'
 import {createStructuredSelector} from 'reselect'
 import { Header } from 'semantic-ui-react';
-import {buttonStyle} from "../css/Styles";
 import {loggedOut} from "../../auth/redux/AuthActions";
 import {getUrlOfPublicResource} from "../../base/util/BrowserUtil";
 import {gameSelectedForResumption} from "../redux/GameActions";
@@ -231,10 +230,6 @@ class GamesComponent extends Component {
     this.props.onResume(gameId);
   };
 
-  // gotoEntry = () => {
-  //   this.props.showEntry();
-  // };
-
   renderMenu = function() {
     let onPlay = this.props.onPlay;
     let onGoToSettings = this.props.onGoToSettings;
@@ -252,7 +247,6 @@ class GamesComponent extends Component {
   };
 
   renderResumeButton(me, cell, row) {
-    // console.log(`renderResumeButton: ${stringify(row)}`);
     let status = row.status;
     let label = 'resume';
     if (status === 'ENDED' || status === 'RESIGNED')
@@ -266,7 +260,6 @@ class GamesComponent extends Component {
     let games = this.state.games;
     let resumeFormatter = this.boundRenderResumeButton;
     let nickname = this.props.nickname;
-    // console.log(`renderBody - games - ${stringify(games)}`);
     return (
       <div>
         {this.renderMenu()}
@@ -359,7 +352,6 @@ export function mapDispatchToProps(dispatch) {
 export function mapStateToProps(store) {
   return createStructuredSelector({
     gameHandler: selectGameHandler(),
-    // settings: selectUserGameSettings(),
     nickname: selectNickname,
     loginEvidence: selectLoginEvidence
   })(store);

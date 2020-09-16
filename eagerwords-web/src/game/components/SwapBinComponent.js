@@ -7,13 +7,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {mkPiece} from '../domain/Piece';
-import SquareComponent from './SquareComponent';
 // import {stringify} from "../util/Logger";
 import * as Style from "../css/Styles";
 const ItemTypes = require('./DragDropTypes').ItemTypes;
 const DropTarget = require('react-dnd').DropTarget;
-const pix=30;
-const pixels= pix + 'px';
 
 function colorCodedLegalMoveStyle(colorCoding) {
   return {
@@ -129,21 +126,14 @@ class SwapBinComponent extends React.Component {
     let connectDropTarget = this.props.connectDropTarget;
     let isOver = this.props.isOver;
     let canDrop = this.props.canDrop;
-    let labelText = "Swap Drop"; // TODO. Does not wrap inside the square. Fix.
-    // let labelText = "Swap";
+    let labelText = "Swap Drop";
     let enabled = this.props.enabled;
-    // let color = enabled ? 'Chocolate' : Style.disabledColor;
     let color = enabled ? 'White' : 'DarkGrey';
     let backgroundColor = enabled ? 'GoldenRod' : Style.disabledBackgroundColor;
     // TODO. Could not put line break between two words and have the entire text appear in square boundary.
 
     return connectDropTarget(
       <div style={squareStyle(color, backgroundColor)}>
-
-        {/* <div style={innerSquareStyle(pix, backgroundColor, color)}>
-          {labelText}
-        </div>
-        */}
         {labelText}
 
         {isOver && !canDrop && <div style={colorCodedLegalMoveStyle('red')} />}

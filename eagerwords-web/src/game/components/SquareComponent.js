@@ -33,13 +33,11 @@ const SquareComponent = ({pixels, color, backgroundColor, enabled, children}) =>
   </div>
 );
 
-
 SquareComponent.propTypes = {
   pixels: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
   enabled: PropTypes.bool.isRequired
 };
-
 
 export default SquareComponent;

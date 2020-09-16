@@ -104,9 +104,7 @@ class TraySquareComponent extends React.Component {
   render() {
     let connectDropTarget = this.props.connectDropTarget;
     let shade = checkerShade(this.props.position);
-    // let squarePixels = this.props.squarePixels;
     let isLight = (shade === 'light'); // TODO. Constant.
-    // let backgroundColor = 'CornSilk';
     let backgroundColor = isLight ? 'CornSilk' : '#FFD040';
     let color = 'DarkGoldenRod';
     let enabled = this.props.enabled;

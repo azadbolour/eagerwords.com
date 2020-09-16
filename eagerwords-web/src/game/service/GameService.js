@@ -10,7 +10,6 @@
 
 import {gameApis} from '../../game/api/ApiUtil';
 import {GameConverter, GameParamsConverter, PieceConverter, UserGameSettingsConverter} from '../api/GameConverters';
-import {convertHappyResponse} from "../../base/util/HttpUtil";
 import {PlayPieceConverter, PointConverter} from "../api/GameConverters";
 import {stringify} from "../../base/util/Logger";
 import {getApiType} from "../../envvars";

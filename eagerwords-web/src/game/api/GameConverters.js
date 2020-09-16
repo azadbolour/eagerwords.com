@@ -70,29 +70,6 @@ export const UserGameSettingsConverter = {
   }
 };
 
-//
-// export const SettingsConverter = {
-//   toJson(settings) {
-//     let startingPlayer = settings.startingPlayer;
-//     if (startingPlayer === randomPlayerType)
-//       startingPlayer = null;
-//     let preferredDevice = settings.preferredDevice;
-//     if (preferredDevice === undefined)
-//       preferredDevice = null;
-//     return {...settings, startingPlayer, preferredDevice}
-//   },
-//
-//   fromJson(json) {
-//     let startingPlayer = json.startingPlayer;
-//     if (startingPlayer === null || startingPlayer === undefined)
-//       startingPlayer = randomPlayerType;
-//     let preferredDevice = json.preferredDevice;
-//     if (json.preferredDevice === undefined)
-//       preferredDevice = null;
-//     return {...json, startingPlayer, preferredDevice}
-//   }
-// };
-
 // TODO. URGENT. GameParams should be represented as in the server code: (settings, pointValues).
 
 export const GameParamsConverter = {
@@ -229,7 +206,3 @@ export const GameSummaryConverter = {
     return json;
   }
 };
-
-
-
-

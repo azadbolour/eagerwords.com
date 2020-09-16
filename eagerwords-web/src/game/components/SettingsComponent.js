@@ -17,13 +17,10 @@ import {
   playerTypes,
   randomPlayerType,
   defaultLanguageCode,
-  defaultGamePlayParams,
 } from '../domain/GamePlayParams';
 
 import {
   validSquareSizes,
-  squareSizeToPixels,
-  defaultGameLookAndFeelParams,
 } from '../domain/GameLookAndFeelParams';
 
 import {defaultUserGameSettings, mkUserGameSettings} from "../domain/UserGameSettings";
@@ -31,11 +28,10 @@ import {defaultUserGameSettings, mkUserGameSettings} from "../domain/UserGameSet
 import {deviceTypes} from "../../base/domain/DeviceTypes"
 import Select from "../../base/components/Select";
 import {selectGameHandler} from "../redux/gameSelector";
-import {ifEmpty, strToNumber} from "../../base/util/MiscUtil";
+import {strToNumber} from "../../base/util/MiscUtil";
 import {stringify} from "../../base/util/Logger";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import Button from "react-bootstrap/Button";
-import {error, warn, nil, getOrElseF} from '../../base/util/MiscUtil';
 import {authService} from "../../auth/service/AuthService";
 import {selectLoginEvidence, selectNickname} from "../../auth/redux/AuthSelector";
 import {gameRoutingPaths} from "./GameRoutingPaths";
@@ -50,27 +46,12 @@ import {getUserGameSettingsDisplay, saveUserGameSettingsDisplay} from "../servic
 import {loggedOut} from "../../auth/redux/AuthActions";
 import {authRoutingPaths} from "../../auth/components/AuthRoutingPaths";
 
-
 /**
  * Strip off properties that are not needed for the component itself.
  */
 const inputProps = function(control){
   return {...control, touched: undefined, valid: undefined};
 };
-
-//
-// const squareSizeForPixels = function(pixels) {
-//   const fallback = 'small';
-//   if (nil(pixels)) {
-//     warn('squareSizeForPixels: pixels is nil');
-//     return fallback;
-//   }
-//   let size = getOrElseF(squarePixelsToSize, pixels, () => {
-//     warn("squarePixelsToSize: can't convert pixel size:", pixels);
-//     return fallback;
-//   });
-//   return size;
-// };
 
 const controlsToSettings  = (controls) => {
   let playSettings = {
@@ -148,8 +129,6 @@ const settingsToControls = (settings) => {
 class SettingsComponent extends Component {
   constructor(props) {
     super(props);
-
-    // TODO. Add validations.
 
     this.state = {
       opContext: defaultOpContext,
@@ -311,7 +290,6 @@ export function mapDispatchToProps(dispatch) {
 export function mapStateToProps(store) {
   return createStructuredSelector({
     gameHandler: selectGameHandler(),
-    // settings: selectUserGameSettings(),
     nickname: selectNickname,
     loginEvidence: selectLoginEvidence,
   })(store);

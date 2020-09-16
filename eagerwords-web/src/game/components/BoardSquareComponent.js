@@ -12,7 +12,6 @@ import {mkPiece} from '../domain/Piece';
 import {mkPiecePoint} from '../domain/PiecePoint';
 // import {stringify} from "../util/Logger";
 import {pieceIsDead} from "../domain/Piece";
-import {getOrElseF, warn} from '../../base/util/MiscUtil';
 import {squareSizeToPointValueFont} from "../domain/GameLookAndFeelParams";
 const ItemTypes = require('./DragDropTypes').ItemTypes;
 const DropTarget = require('react-dnd').DropTarget;
@@ -72,24 +71,14 @@ function pointValueStyle(pointValue, squarePixels, squareSize) {
   const width = Math.floor(squarePixels/3);
   let backgroundColor = pointValueColor(pointValue);
   let left = 2;
-
   let fontSize = squareSizeToPointValueFont[squareSize];
-
-  // let fontSize = getOrElseF(valueFont, squareSize, () => {
-  //   warn("scoreStyle: can't convert square size:", squareSize);
-  //   return 8;
-  // });
-
   let top = squarePixels - fontSize - fontSize;
+
   return {
     fontSize,
     position: 'absolute',
     bottom: '2px',
     left: '4px',
-    // top: top,
-    // left: left,
-    // height: height + 'px',
-    // width: width + 'px',
     zIndex: 1,
     color: 'Black',
     backgroundColor: backgroundColor,
@@ -182,13 +171,6 @@ function injectedDropTargetProperties(connect, monitor) {
   };
 }
 
-/**
- * Get the shade of the checker at the given position - light or dark square.
- */
-// function checkerShade(point) {
-//   return (point.row + point.col) % 2 === 0 ? 'light' : 'dark'; // TODO. Constants.
-// }
-
 function pointValueColor(pointValue) {
   let defaultColor = 'CornSilk';
   switch (pointValue) {
@@ -237,12 +219,20 @@ class BoardSquareComponent extends React.Component {
     piece: PropTypes.object.isRequired,
 
     /**
+     * Nominal size of a board square.
+     */
+    squareSize: PropTypes.string.isRequired,
+
+    /**
      * The number of pixels in each side of the square.
+     * It depends on squareSize but is calculated by the caller.
+     * for consistency with font calculations for children.
      */
     squarePixels: PropTypes.number.isRequired,
 
-    squareSize: PropTypes.string.isRequired,
-
+    /**
+     * The [score] value associated with capturing this square.
+     */
     pointValue: PropTypes.number.isRequired,
 
     /**
@@ -298,21 +288,16 @@ class BoardSquareComponent extends React.Component {
     let connectDropTarget = this.props.connectDropTarget;
     let isOver = this.props.isOver;
     let canDrop = this.props.canDrop;
-    // let shade = checkerShade(this.props.point);
     let pixels = this.props.squarePixels;
     let inPlay = this.props.inPlay;
     let justFilledByMachine = this.props.justFilledByMachine;
     let pointValue = this.props.pointValue;
     let dead = pieceIsDead(this.props.piece);
 
-    // let isLight = (shade === 'light'); // TODO. Constant.
-    // let backgroundColor = isLight ? 'CornSilk' : 'AquaMarine';
     let backgroundColor = pointValueColor(pointValue);
     if (dead)
       backgroundColor = "Gainsboro";
     let color = 'DarkGoldenRod';
-    // let color = 'Tomato';
-    // let isCenterPoint = this.props.isCenterPoint;
     let enabled = this.props.enabled;
 
     return connectDropTarget(
