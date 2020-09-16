@@ -4,7 +4,8 @@
  *   https://github.com/azadbolour/eagerwords.com/blob/master/LICENSE.md
  */
 
-import {defaultGameSettings} from "../game/domain/GameSettings";
+import {defaultGamePlayParams} from "../game/domain/GamePlayParams";
+import {defaultGameLookAndFeelParams, squareSize} from "../game/domain/GameLookAndFeelParams";
 import {deviceTypes} from "../base/domain/DeviceTypes";
 import GameService from "../game/service/GameService";
 import BaseService from "../base/service/BaseService";
@@ -12,10 +13,16 @@ import {stringify} from "../base/util/Logger";
 import {errorText} from "../base/util/HttpUtil";
 import {isEmpty} from "../base/util/MiscUtil";
 import {authTester} from "./testbase1";
+import {mkUser} from "../base/domain/User";
+import {mkUserGameSettings} from "../game/domain/UserGameSettings";
 
 // TODO. Better use game event handler rather than game service - better error handling.
 
-let userSettings = {...defaultGameSettings, dimension: 17, squarePixels: 100};
+const playSettings = {...defaultGamePlayParams, dimension: 17};
+const lookAndFeelSettings = {...defaultGameLookAndFeelParams, squareSize: squareSize.large};
+// let userSettings = {...defaultGameSettings, dimension: 17, squarePixels: 100};
+
+let userGameSettings = mkUserGameSettings(playSettings, lookAndFeelSettings);
 
 const checkAndGetOkJson = (response, actionName) => {
   if (!response.ok)
@@ -31,7 +38,7 @@ test('start game and store and retrieve game settings', async (done) => {
     let loginEvidence = await authTester.mockSignUpOrLogin();
     let gameService = new GameService(loginEvidence);
 
-    let saveVow = gameService.saveUserGameSettings(userSettings);
+    let saveVow = gameService.saveUserGameSettings(userGameSettings);
     let saveResult = await saveVow.unwrap;
     expect(saveResult.ok).toBe(true);
 
@@ -46,9 +53,11 @@ test('start game and store and retrieve game settings', async (done) => {
     console.log(`getResult: ${stringify(getResult)}`);
     expect(getResult.ok).toBe(true);
     let settings = getResult.data;
-    expect({...settings}).toMatchObject(userSettings);
+    expect({...settings}).toMatchObject(userGameSettings);
 
-    let settings1 = {...userSettings, preferredDevice: deviceTypes.touch};
+    // let settings1 = {...userGameSettings, preferredDevice: deviceTypes.touch};
+    let lookAndFeelSettings1 = {...lookAndFeelSettings, preferredDevice: deviceTypes.touch};
+    let settings1 = mkUserGameSettings(playSettings, lookAndFeelSettings1);
 
     saveVow = gameService.saveUserGameSettings(settings1);
     await saveVow.unwrap;
@@ -58,7 +67,7 @@ test('start game and store and retrieve game settings', async (done) => {
     console.log(`getResult: ${stringify(getResult)}`);
     expect(getResult.ok).toBe(true);
     settings = getResult.data;
-    expect(settings.preferredDevice).toBe(deviceTypes.touch);
+    expect(settings.lookAndFeelSettings.preferredDevice).toBe(deviceTypes.touch);
 
     done();
   } catch(reason) {

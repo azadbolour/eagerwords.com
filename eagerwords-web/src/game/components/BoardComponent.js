@@ -12,6 +12,7 @@ import {mkPoint} from '../../plane/domain/Point';
 import * as Point from '../../plane/domain/Point';
 import {repeatF} from '../../base/util/MiscUtil';
 import {safeSquarePixelsToSize} from "../domain/GameSettings";
+import {squareSizeToPieceFont, squareSizeToPixels} from "../domain/GameLookAndFeelParams";
 
 // import {stringify} from "../util/Logger";
 
@@ -52,11 +53,12 @@ const BoardComponent = (props) => {
     let piece = props.board.rows()[point.row][point.col].piece;
     let canMovePiece = props.canMovePiece;
     let enabled = props.enabled;
-    let size = safeSquarePixelsToSize(props.squarePixels);
+    // let size = safeSquarePixelsToSize(props.squarePixels);
     // piece = (piece) ? piece : Piece.NO_PIECE;
+    let fontSize = squareSizeToPieceFont[props.squareSize];
     return <PieceComponent
       piece={piece}
-      size={size}
+      fontSize={fontSize}
       canMovePiece={canMovePiece}
       enabled={enabled}
     />;
@@ -74,9 +76,11 @@ const BoardComponent = (props) => {
     let dimension = props.board.dimension;
     let squareKey = dimension * row + col;
     let isLegalMove = props.isLegalMove;
-    let squarePixels = props.squarePixels;
-    let squareSize = safeSquarePixelsToSize(squarePixels);
+    // let squarePixels = props.squarePixels;
+    // let squareSize = safeSquarePixelsToSize(squarePixels);
     // let squareSize = props.squareSize;
+    let squareSize = props.squareSize;
+    let squarePixels = squareSizeToPixels[squareSize];
     let point = mkPoint(row, col);
     let inPlay = props.pointsInUserPlay.some(p => Point.eq(p, point));
     let justFilledByMachine = props.pointsMovedInMachinePlay.some(p => Point.eq(p, point));
@@ -163,11 +167,7 @@ BoardComponent.propTypes = {
 
   canMovePiece: PropTypes.func.isRequired,
 
-  /**
-   * The number of pixels used to represent the side of each
-   * board square.
-   */
-  squarePixels: PropTypes.number.isRequired,
+  squareSize: PropTypes.string.isRequired,
 
   // squareSize: PropTypes.string.isRequired,
 

@@ -14,7 +14,6 @@ import com.bolour.eagerwords.common.domain.PlayerType.PlayerType
   * User's game settings.
   *
   * @param dimension The dimension of the board.
-  * @param squarePixels The dimension of a board cell in the UI in number of pixels.
   * @param trayCapacity The number of pieces (tiles) in each player's tray.
   * @param languageCode The id of the game's language. Determines the word dictionary to use.
   *                     This is the standard underscore-separated locale identifier.
@@ -22,15 +21,10 @@ import com.bolour.eagerwords.common.domain.PlayerType.PlayerType
   * @param startingPlayer User player of machine player to start the game (Some).
   *                       None means use a random player.
   */
-case class GameSettings(
+case class GamePlayParams(
   dimension: Int,
-  squarePixels: Int,
   trayCapacity: Int,
   languageCode: String,
   pieceProviderType: PieceProviderType,
-  startingPlayer: Option[PlayerType],
-  preferredDevice: Option[DeviceType]
+  startingPlayer: Option[PlayerType]
 )
-
-// Note. PreferredDevice is actually a general user preference - not specific to games.
-// It properly belongs to the kernel module. Expedient to keep it here for now for simplicity.

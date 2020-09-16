@@ -10,6 +10,7 @@ import PieceComponent from './PieceComponent';
 import TraySquareComponent from './TraySquareComponent';
 import * as Piece from '../domain/Piece';
 import {safeSquarePixelsToSize} from "../domain/GameSettings";
+import {squareSizeToPieceFont, squareSizeToPixels} from "../domain/GameLookAndFeelParams";
 
 /**
  * A style that includes the board's overall
@@ -45,10 +46,15 @@ const TrayComponent = (props) => {
    * Return the UI specification of the piece that goes into
    * a specific board square - given the square's position.
    */
-  let squarePixels = props.squarePixels;
-  let size = safeSquarePixelsToSize(squarePixels);
+  let squareSize = props.squareSize;
+  // let size = safeSquarePixelsToSize(squarePixels);
+  let fontSize = squareSizeToPieceFont[squareSize];
   const renderPiece = function(position) {
-    return <PieceComponent piece={props.pieces[position]} canMovePiece={props.canMovePiece} size={size}/>;
+    return <PieceComponent
+      piece={props.pieces[position]}
+      canMovePiece={props.canMovePiece}
+      fontSize={fontSize}
+    />;
   };
 
   /**
@@ -62,6 +68,8 @@ const TrayComponent = (props) => {
     let onRevertMove = props.onRevertMove;
     let squareKey = position;
     let pieces = props.pieces;
+    let squareSize = props.squareSize;
+    let squarePixel = squareSizeToPixels[squareSize];
     let isTrayPiece = function(piece) {
       let index = pieces.findIndex(pce => Piece.eq(pce, piece));
       let exists = index >= 0;

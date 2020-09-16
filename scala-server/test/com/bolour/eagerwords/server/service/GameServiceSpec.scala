@@ -9,7 +9,6 @@ package com.bolour.eagerwords.server.service
 import java.util.UUID
 
 import com.bolour.app.kernel.common.domain.AuthEvidence
-import com.bolour.app.kernel.server.domain.User
 import com.bolour.app.kernel.server.service.{KernelServiceImpl, SecretServiceConfigImpl}
 import com.bolour.app.util.server.KernelUtil.stringId
 import com.bolour.eagerwords.common.domain.DeviceType.MouseDevice
@@ -17,7 +16,6 @@ import com.typesafe.config.ConfigFactory
 import com.bolour.eagerwords.common.domain.{GameState, _}
 import com.bolour.eagerwords.server.domain.Game
 import com.bolour.plane.domain.Point
-import com.bolour.util.CommonUtil.Email
 import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.concurrent.ScalaFutures.PatienceConfig
 import org.scalatest.concurrent.ScalaFutures._
@@ -55,11 +53,15 @@ class GameServiceSpec extends FlatSpec with Matchers {
   // val userId = "12345678"
 
   val genType = PieceProviderType.Random // TODO. Change to cyclic.
-  val settings = GameSettings(dimension, squarePixels, trayCapacity, tinyLang, genType,
-    Some(startingPlayer), Some(MouseDevice))
-  val pointValues = List.fill(dimension, dimension)(1)
 
-  val gameParams = GameParams(settings, pointValues)
+  val pointValues = List.fill(dimension, dimension)(1)
+  val playSettings: GamePlayParams = GamePlayParams(dimension, trayCapacity, tinyLang, genType, Some(startingPlayer))
+  val gameParams = GameParams(playSettings, pointValues)
+
+//  val settings = GameSettings(dimension, squarePixels, trayCapacity, tinyLang, genType,
+//    Some(startingPlayer), Some(MouseDevice))
+//
+//  val gameParams = GameParams(settings, pointValues)
 
   val conf = ConfigFactory.load()
   val secretService = new SecretServiceConfigImpl(conf)

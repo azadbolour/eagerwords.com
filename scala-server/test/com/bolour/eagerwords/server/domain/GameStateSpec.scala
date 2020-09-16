@@ -44,14 +44,15 @@ class GameStateSpec extends FlatSpec with Matchers {
     vector.toList
   }
 
+  // val lookAndFeelSettings = GameLookAndFeelParams(SquareSize.NormalSquare, Some(MouseDevice))
+  // val settings = UserGameSettings(playSettings, lookAndFeelSettings)
+
   "initial game state" should "not have duplicate piece ids" in {
     val dimension = 15
     val trayCapacity = 15
     val pointValues = List.fill(dimension, dimension)(1)
-    val settings = GameSettings(
-      dimension, squarePixels, trayCapacity, "en", genType,
-      Some(startingPlayer), Some(MouseDevice))
-    val gameParams = GameParams(settings, pointValues)
+    val playSettings: GamePlayParams = GamePlayParams(dimension, trayCapacity, "en", genType, Some(startingPlayer))
+    val gameParams = GameParams(playSettings, pointValues)
 
     val initPieces = InitPieces(List(), List(), List())
     val gameBase = GameBase(gameParams, initPieces, None)
@@ -71,10 +72,9 @@ class GameStateSpec extends FlatSpec with Matchers {
     val trayCapacity = 7
 
     val pointValues = List.fill(dimension, dimension)(1)
-    val settings = GameSettings(dimension, squarePixels, trayCapacity, "en", genType,
-      Some(startingPlayer), Some(MouseDevice))
+    val playSettings: GamePlayParams = GamePlayParams(dimension, trayCapacity, "en", genType, Some(startingPlayer))
+    val gameParams = GameParams(playSettings, pointValues)
 
-    val gameParams = GameParams(settings, pointValues)
     val initPieces = InitPieces(List(), List(), List())
     val gameBase = GameBase(gameParams, initPieces, Some("123"))
 

@@ -5,7 +5,8 @@
  */
 
 import {mkPiece} from "../game/domain/Piece";
-import {defaultGameSettings as settings, playerTypes} from "../game/domain/GameSettings";
+import {defaultUserGameSettings as settings} from "../game/domain/UserGameSettings";
+import {playerTypes} from "../game/domain/GamePlayParams";
 import * as PointValue from "../game/domain/PointValue";
 import {mkInitPieces} from "../game/domain/InitPieces";
 import {errorText} from "../base/util/HttpUtil";
@@ -15,17 +16,21 @@ import {authService} from '../auth/service/AuthService';
 import {getMockEmail, getMockToken} from "../envvars";
 import {stringify} from "../base/util/Logger";
 import {resultErrorMessage} from "../base/domain/BaseErrors";
+import {mkGameParams} from "../game/domain/GameParams";
 
 let mPieces = [mkPiece('S', "4"), mkPiece('T', "5"), mkPiece('Z', "6")];
 
 export const uPieces = [mkPiece('B', "1"), mkPiece('E', "2"), mkPiece('T', "3")];
-export const center = parseInt(settings.dimension/2);
+const dimension = settings.playSettings.dimension;
+export const center = parseInt(dimension/2);
 
-let valueFactory = PointValue.mkValueFactory(settings.dimension);
+let valueFactory = PointValue.mkValueFactory(dimension);
 let pointValues = valueFactory.mkEmptyValueGrid();
 
 export const initPieces = mkInitPieces([], uPieces, mPieces);
-export const gameParams = {...settings, startingPlayer: playerTypes.machinePlayer, pointValues};
+const playParams = {...settings.playSettings, startingPlayer: playerTypes.machinePlayer};
+// export const gameParams = {...settings, startingPlayer: playerTypes.machinePlayer, pointValues};
+export const gameParams = mkGameParams(playParams, pointValues);
 
 export const authTester = (function() {
   const mockEmail = getMockEmail();

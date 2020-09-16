@@ -6,13 +6,11 @@
 
 package com.bolour.eagerwords.server.service
 
-import com.bolour.eagerwords.common.domain.GameSettings
-import com.bolour.app.kernel.server.domain.KernelExceptions.{InternalAppException, MissingUserException}
-import spray.json._
+import com.bolour.eagerwords.common.domain.UserGameSettings
+import com.bolour.app.kernel.server.domain.KernelExceptions.InternalAppException
 import com.bolour.eagerwords.server.domain.Game
 import com.bolour.util.CommonUtil.ID
 import com.bolour.util.VersionStamped
-import io.circe._
 import io.circe.generic.auto._
 import io.circe.parser.{decode, _}
 import io.circe.syntax._
@@ -20,7 +18,6 @@ import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success, Try}
 
 /**
   * Implementation of the hig-level game persister interface using a JSON persister.
@@ -76,10 +73,10 @@ class GamePersisterJsonBridge(jsonPersister: GameJsonPersister, version: Int) ex
     decodeJsonGames(futureJsons)
   }
 
-  override def getUserGameSettings(userId: ID): Future[Option[GameSettings]] = {
+  override def getUserGameSettings(userId: ID): Future[Option[UserGameSettings]] = {
     for /* Future */ {
     jsonOption <- jsonPersister.getUserGameSettings(userId)
-    optionEither = jsonOption.map(decode[VersionStamped[GameSettings]])
+    optionEither = jsonOption.map(decode[VersionStamped[UserGameSettings]])
     optionVersionedSettings = optionEither match {
         case None => None
         case Some(Right(settings)) => Some(settings)
@@ -88,8 +85,8 @@ class GamePersisterJsonBridge(jsonPersister: GameJsonPersister, version: Int) ex
     } yield optionVersionedSettings.map(_.data)
   }
 
-  override def saveUserGameSettings(userId: String, settings: GameSettings): Future[Unit] = {
-    val versionedData = VersionStamped[GameSettings](version, settings)
+  override def saveUserGameSettings(userId: String, settings: UserGameSettings): Future[Unit] = {
+    val versionedData = VersionStamped[UserGameSettings](version, settings)
     val json = versionedData.asJson.toString
     jsonPersister.saveUserGameSettings(userId, json);
   }

@@ -5,7 +5,7 @@
  */
 package com.bolour.eagerwords.server.service
 
-import com.bolour.eagerwords.common.domain.GameSettings
+import com.bolour.eagerwords.common.domain.UserGameSettings
 import com.bolour.eagerwords.server.domain.Game
 import com.bolour.util.CommonUtil.ID
 
@@ -55,10 +55,10 @@ trait GamePersister {
   /**
     * Get a user's game settings if saved.
     */
-  def getUserGameSettings(userId: ID): Future[Option[GameSettings]]
+  def getUserGameSettings(userId: ID): Future[Option[UserGameSettings]]
 
   /**
     * Save a user's game settings.
     */
-  def saveUserGameSettings(userId: ID, settings: GameSettings): Future[Unit]
+  def saveUserGameSettings(userId: ID, settings: UserGameSettings): Future[Unit]
 }

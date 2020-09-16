@@ -10,3 +10,5 @@ export const deviceTypes = {
 };
 
 export const validInputDevices = Object.values(deviceTypes);
+
+export const defaultPreferredDevice = deviceTypes.mouse;

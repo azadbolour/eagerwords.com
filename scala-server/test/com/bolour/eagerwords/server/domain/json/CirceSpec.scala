@@ -4,7 +4,7 @@ import java.time.Instant
 
 import com.bolour.eagerwords.common.domain.DeviceType.MouseDevice
 import com.bolour.eagerwords.common.domain.PlayerType.PlayerType
-import com.bolour.eagerwords.common.domain.{GameParams, GameSettings, InitPieces, Piece, PieceProviderType, PlayerType}
+import com.bolour.eagerwords.common.domain.{GameParams, GamePlayParams, InitPieces, Piece, PieceProviderType, PlayerType, UserGameSettings}
 import com.bolour.eagerwords.common.domain.GameState.GameState
 import com.bolour.eagerwords.server.domain.{Board, CyclicPieceProvider, Game, GameBase, GameObj, PieceProvider, RandomPieceProvider, Tray}
 import com.bolour.util.FrequencyDistribution
@@ -29,13 +29,17 @@ class CirceSpec extends FlatSpec with Matchers {
   val dimension = 9
   val trayCapacity = 3
   val tinyLang = "tiny"
+  val genType = PieceProviderType.Random
   val pointValues = List.fill(dimension, dimension)(1)
   val initPieces = InitPieces(List(), List.fill(trayCapacity)(Piece('A', "A")), List.fill(trayCapacity)(Piece('A', "A")))
 
-  val settings = GameSettings(dimension, squarePixels, trayCapacity, tinyLang,
-    PieceProviderType.Random, Some(startingPlayer), Some(MouseDevice))
+  val playSettings: GamePlayParams = GamePlayParams(dimension, trayCapacity, "en", genType, Some(startingPlayer))
+  val gameParams = GameParams(playSettings, pointValues)
 
-  val gameParams = GameParams(settings, pointValues)
+//  val settings = GameSettings(dimension, squarePixels, trayCapacity, tinyLang,
+//    PieceProviderType.Random, Some(startingPlayer), Some(MouseDevice))
+//
+//  val gameParams = GameParams(settings, pointValues)
   val userId = "12345678"
   val gameBase = GameBase(gameParams, initPieces, Some(userId))
   val game = GameObj.mkGame(gameBase).get

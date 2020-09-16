@@ -7,9 +7,9 @@
 package com.bolour.eagerwords.common.message
 
 import com.bolour.app.kernel.common.domain.AuthEvidence
-import com.bolour.eagerwords.common.domain.GameSettings
+import com.bolour.eagerwords.common.domain.UserGameSettings
 
 case class SaveUserGameSettingsRequest(
   loginEvidence: AuthEvidence,
-  settings: GameSettings
+  settings: UserGameSettings
 )

@@ -14,7 +14,7 @@ import com.bolour.eagerwords.common.domain.PieceProviderType.PieceProviderType
 import com.bolour.eagerwords.common.domain.PlayType.{PlayType, WordPlayType}
 import com.bolour.eagerwords.common.domain.Play._
 import com.bolour.eagerwords.common.domain.PlayerType.UserPlayer
-import com.bolour.eagerwords.common.domain.{GameParams, GameSettings, GameState, Piece, PiecePoint, PieceProviderType, Play, PlayPiece, PlayerType, SwapPlay, WordPlay}
+import com.bolour.eagerwords.common.domain.{GameParams, GamePlayParams, GameState, Piece, PiecePoint, PieceProviderType, Play, PlayPiece, PlayerType, SwapPlay, UserGameSettings, WordPlay}
 import com.bolour.eagerwords.common.message.GetFullGameResponse
 import com.bolour.plane.domain.Point
 import controllers.GameApiJsonSupport._
@@ -83,11 +83,15 @@ class GameJsonSupportSpec extends FlatSpec with Matchers {
   val trayCapacity = 5
   val languageCode = "tiny"
   val startingPlayer = PlayerType.UserPlayer
+  val genType = PieceProviderType.Cyclic
 
-  val settings = GameSettings(dimension, squarePixels, trayCapacity, languageCode,
-    PieceProviderType.Cyclic, Some(startingPlayer), Some(MouseDevice))
   val pointValues = List.fill(dimension, dimension)(1)
-  val gameParams = GameParams(settings, pointValues)
+  val playSettings: GamePlayParams = GamePlayParams(dimension, trayCapacity, "en", genType, Some(startingPlayer))
+  val gameParams = GameParams(playSettings, pointValues)
+
+//  val settings = GameSettings(dimension, squarePixels, trayCapacity, languageCode,
+//    PieceProviderType.Cyclic, Some(startingPlayer), Some(MouseDevice))
+  // val gameParams = GameParams(settings, pointValues)
 
   "get full game response" should "be written and read to/from json" in {
     val getFullGameResponse = GetFullGameResponse(

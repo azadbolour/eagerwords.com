@@ -53,7 +53,7 @@ class GameControllerSpec extends ControllerSpecBase {
       startGameResponse match {
         case StartGameResponse(gameId, piecePoints, userTrayPieces) =>
           piecePoints.size mustEqual 0
-          userTrayPieces.size mustEqual gameParams.trayCapacity
+          userTrayPieces.size mustEqual playSettings.trayCapacity
           theGameId = gameId
           theUserTrayPieces = userTrayPieces
       }

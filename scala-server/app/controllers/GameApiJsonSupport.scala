@@ -15,6 +15,7 @@ import com.bolour.eagerwords.common.message._
 import com.bolour.eagerwords.common.domain.{PieceProviderType, _}
 import com.bolour.eagerwords.common.domain.Play.PlayTypeFieldName
 import com.bolour.eagerwords.common.domain.PlayType._
+import com.bolour.eagerwords.common.domain.SquareSize.SquareSize
 import com.bolour.plane.domain.Point
 import play.api.libs.json._
 
@@ -58,7 +59,16 @@ object GameApiJsonSupport {
     }
   }
 
-  implicit val gameSettingsReads: Reads[GameSettings] = reads[GameSettings]
+  implicit val squareSizeReads: Reads[SquareSize] = new Reads[SquareSize] {
+    def reads(json: JsValue): JsResult[SquareSize] = {
+      val string = Json.fromJson[String](json)
+      string map SquareSize.fromString
+    }
+  }
+
+  implicit val gameLookAndFeelParamsReads: Reads[GameLookAndFeelParams] = reads[GameLookAndFeelParams]
+  implicit val gamePlayParamsReads: Reads[GamePlayParams] = reads[GamePlayParams]
+  implicit val gameSettingsReads: Reads[UserGameSettings] = reads[UserGameSettings]
   implicit val gameParamsReads: Reads[GameParams] = reads[GameParams]
   implicit val pieceReads: Reads[Piece] = reads[Piece]
   implicit val pointReads: Reads[Point] = reads[Point]
@@ -119,7 +129,13 @@ object GameApiJsonSupport {
     def writes(o: DeviceType): JsValue = Json.toJson[String](o.toString)
   }
 
-  implicit val gameSettingsWrites: OWrites[GameSettings] = writes[GameSettings]
+  implicit val squareSizeWrites: Writes[SquareSize] = new Writes[SquareSize] {
+    def writes(o: SquareSize): JsValue = Json.toJson[String](o.toString)
+  }
+
+  implicit val gameLookAndFeelParamsWrites: OWrites[GameLookAndFeelParams] = writes[GameLookAndFeelParams]
+  implicit val gamePlayParamsWrites: OWrites[GamePlayParams] = writes[GamePlayParams]
+  implicit val gameSettingsWrites: OWrites[UserGameSettings] = writes[UserGameSettings]
   implicit val gameParamsWrites: OWrites[GameParams] = writes[GameParams]
   implicit val gameBasicInfoWrites: OWrites[GameBasicInfo] = writes[GameBasicInfo]
   implicit val pieceWrites: OWrites[Piece] = writes[Piece]

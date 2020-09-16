@@ -173,7 +173,7 @@ case class Game(
       val crosswords = stripMatcher.crossings(playStrip, word)
       val invalidCrosswords = crosswords.filter { w => !(theDictionary hasWord w) }
       if (!invalidCrosswords.isEmpty)
-        throw new InvalidCrosswordsException(gameBase.gameParams.languageCode, invalidCrosswords)
+        throw new InvalidCrosswordsException(gameBase.gameParams.playParams.languageCode, invalidCrosswords)
     }
   }
 
@@ -197,7 +197,7 @@ case class Game(
   // need to be implemented.
 
   def inBounds(coordinate: Int): Boolean =
-    coordinate >= 0 && coordinate < gameBase.gameParams.dimension
+    coordinate >= 0 && coordinate < gameBase.gameParams.playParams.dimension
 
   def inBounds(point: Point): Boolean = {
     inBounds(point.row) && inBounds(point.col)
@@ -283,14 +283,14 @@ object GameObj {
   def mkGame(gameBase: GameBase): Try[Game] = {
 
     val initPieces = gameBase.initPieces
-    val board = Board(gameBase.gameParams.dimension, initPieces.boardPiecePoints)
+    val board = Board(gameBase.gameParams.playParams.dimension, initPieces.boardPiecePoints)
 
-    val pieceProvider: PieceProvider = mkPieceProvider(gameBase.gameParams.pieceProviderType)
+    val pieceProvider: PieceProvider = mkPieceProvider(gameBase.gameParams.playParams.pieceProviderType)
     val lastPlayScore = 0
 
     for {
-      (userTray, pieceGen1) <- mkTray(gameBase.gameParams.trayCapacity, initPieces.userPieces, pieceProvider)
-      (machineTray, pieceGen2) <- mkTray(gameBase.gameParams.trayCapacity, initPieces.machinePieces, pieceGen1)
+      (userTray, pieceGen1) <- mkTray(gameBase.gameParams.playParams.trayCapacity, initPieces.userPieces, pieceProvider)
+      (machineTray, pieceGen2) <- mkTray(gameBase.gameParams.playParams.trayCapacity, initPieces.machinePieces, pieceGen1)
     }
       yield Game(gameBase, board, List(userTray, machineTray), pieceGen2, 0, UserPlayer, lastPlayScore, 0, List(0, 0), Vector.empty)
   }

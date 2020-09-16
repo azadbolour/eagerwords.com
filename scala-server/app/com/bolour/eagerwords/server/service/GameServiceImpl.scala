@@ -192,7 +192,7 @@ class GameServiceImpl @Inject() (config: Config, configuredDbName: Option[String
     // TODO. This can be moved to game.
 
     def gameCommit(game: Game): Try[(Game, List[Piece], List[Point])] = {
-      val languageCode = game.gameBase.gameParams.languageCode
+      val languageCode = game.gameBase.gameParams.playParams.languageCode
       for {
         dict <- getDictionary(languageCode)
         _ <- checkWord(word, languageCode, dict)
@@ -226,7 +226,7 @@ class GameServiceImpl @Inject() (config: Config, configuredDbName: Option[String
 
     for {
       game <- getActiveGame(gameId)
-      languageCode = game.gameBase.gameParams.languageCode
+      languageCode = game.gameBase.gameParams.playParams.languageCode
       dict <- ftry(getDictionary(languageCode))
       playPieces = bestMatch(dict, game)
 
@@ -420,7 +420,7 @@ class GameServiceImpl @Inject() (config: Config, configuredDbName: Option[String
     } yield games
   }
 
-  override def saveUserGameSettings(email: String, settings: GameSettings): Future[Unit] = {
+  override def saveUserGameSettings(email: String, settings: UserGameSettings): Future[Unit] = {
     for {
       ouser <- appService.findEmailUser(email)
       games <- ouser match {
@@ -430,7 +430,7 @@ class GameServiceImpl @Inject() (config: Config, configuredDbName: Option[String
     } yield games
   }
 
-  override def getUserGameSettings(email: String): Future[Option[GameSettings]] = {
+  override def getUserGameSettings(email: String): Future[Option[UserGameSettings]] = {
     for {
       ouser <- appService.findEmailUser(email)
       games <- ouser match {

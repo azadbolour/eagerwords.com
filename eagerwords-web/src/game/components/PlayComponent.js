@@ -19,7 +19,8 @@ import * as PointValue from "../domain/PointValue";
 import * as styles from '../css/PlayStyles';
 import * as BrowserUtil from "../../base/util/BrowserUtil";
 import {deviceTypes} from "../../base/domain/DeviceTypes";
-import {defaultGameSettings, fixStartingPlayer,} from '../domain/GameSettings';
+import {defaultGamePlayParams, fixStartingPlayer,} from '../domain/GamePlayParams';
+import defaultUserGameSettings from '../domain/UserGameSettings';
 import {DndProvider} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {connect} from 'react-redux';
@@ -45,7 +46,7 @@ import {
 
 import {authService} from "../../auth/service/AuthService";
 import {stringify} from "../../base/util/Logger";
-import {machineStarts} from "../domain/GameParams";
+import {machineStarts, mkGameParams} from "../domain/GameParams";
 import {valueVow} from "../../base/domain/Vow";
 
 import {
@@ -127,7 +128,7 @@ class PlayComponent extends React.Component {
     this.state = {
       opContext: defaultOpContext,
       game: null,
-      gameSettings: null,
+      userGameSettings: null,
       dndBackend: HTML5Backend
     };
 
@@ -159,20 +160,21 @@ class PlayComponent extends React.Component {
     this.resumeGame(gameIdToResume);
   }
 
-  async initializeGameSettings() {
+  async initializeUserGameSettings() {
     let handler = this.props.gameHandler;
     let vow = this.props.isGuest ?
-      valueVow(defaultGameSettings) :
+      valueVow(defaultUserGameSettings) :
       serviceStateSettingInterceptor(this, getUserGameSettingsDisplay, handler, handler.getUserGameSettings);
     let result = await vow.unwrap;
-    let settings = result.ok ? result.data : null;
-    if (settings === null)
-      settings = defaultGameSettings;
+    let userGameSettings = result.ok ? result.data : null;
+    if (userGameSettings === null)
+      userGameSettings = defaultUserGameSettings;
 
-    const preferredDevice = settings.preferredDevice;
+    const preferredDevice = userGameSettings.lookAndFeelSettings.preferredDevice;
     let {device} = BrowserUtil.inputDeviceInfo(preferredDevice);
     let dndBackend = device === deviceTypes.touch ? TouchBackend : HTML5Backend;
-    this.setState((state) => {return {...state, dndBackend, gameSettings: settings}});
+    this.setState((state) => {return {...state, dndBackend, userGameSettings}});
+    console.log(`userGameSettings: ${stringify(userGameSettings)}`);
   }
 
   resumeGame(gameId) {
@@ -199,9 +201,8 @@ class PlayComponent extends React.Component {
   };
 
   setStateGame(game) {
-    let gameSettings = game ? game.gameParams : null;
-    // TODO. URGENT. Add dnd backend to the state for this case.
-    this.setState((state) => {return {...state, game, gameSettings}});
+    // let gameSettings = game ? game.gameParams : null;
+    this.setState((state) => {return {...state, game}});
   }
 
   setStateInfoMessage(customMessage) {
@@ -269,12 +270,14 @@ class PlayComponent extends React.Component {
   }
 
   getNewGameParams() {
-    return this.initializeGameSettings().then(() => {
-      console.log(`state gameSettings: ${stringify(this.state.gameSettings)}`);
-      let settings = fixStartingPlayer(this.state.gameSettings);
+    return this.initializeUserGameSettings().then(() => {
+      let playParams = this.state.userGameSettings.playSettings;
+      let startingPlayer = fixStartingPlayer(playParams.startingPlayer);
+      playParams = {...playParams, startingPlayer};
       let dimension = settings.dimension;
       let pointValues = PointValue.mkValueFactory(dimension).mkValueGrid();
-      return {...settings, pointValues};
+      let gameParams = mkGameParams(playParams, pointValues);
+      return gameParams;
     });
   }
 
@@ -393,7 +396,7 @@ class PlayComponent extends React.Component {
     return <TrayComponent
       pieces={game.tray.pieces}
       canMovePiece={this.gameMethod().canMovePiece}
-      squarePixels={this.state.gameSettings.squarePixels}
+      squareSize={this.state.userGameSettings.lookAndFeelSettings.squareSize}
       enabled={game.running()}
       onRevertMove={this.onRevertMove}
     />
@@ -410,7 +413,7 @@ class PlayComponent extends React.Component {
       pointsMovedInMachinePlay={machineMovePoints}
       isLegalMove={this.gameMethod().legalMove}
       canMovePiece={this.gameMethod().canMovePiece}
-      squarePixels={this.state.gameSettings.squarePixels}
+      squareSize={this.state.userGameSettings.lookAndFeelSettings.squareSize}
       pointValues={game.pointValues}
       enabled={game.running()}
       onMove={this.onMove}

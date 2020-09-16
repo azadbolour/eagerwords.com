@@ -12,14 +12,22 @@ import { push } from 'connected-react-router'
 import {createStructuredSelector} from 'reselect'
 import {
   validDimensions,
-  validSquareSizes,
   validTrayCapacity,
   pieceProviderTypes,
   playerTypes,
   randomPlayerType,
+  defaultLanguageCode,
+  defaultGamePlayParams,
+} from '../domain/GamePlayParams';
+
+import {
+  validSquareSizes,
   squareSizeToPixels,
-  squarePixelsToSize, defaultGameSettings,
-} from '../domain/GameSettings';
+  defaultGameLookAndFeelParams,
+} from '../domain/GameLookAndFeelParams';
+
+import {defaultUserGameSettings, mkUserGameSettings} from "../domain/UserGameSettings";
+
 import {deviceTypes} from "../../base/domain/DeviceTypes"
 import Select from "../../base/components/Select";
 import {selectGameHandler} from "../redux/gameSelector";
@@ -50,37 +58,43 @@ const inputProps = function(control){
   return {...control, touched: undefined, valid: undefined};
 };
 
-const squareSizeForPixels = function(pixels) {
-  const fallback = 'small';
-  if (nil(pixels)) {
-    warn('squareSizeForPixels: pixels is nil');
-    return fallback;
-  }
-  let size = getOrElseF(squarePixelsToSize, pixels, () => {
-    warn("squarePixelsToSize: can't convert pixel size:", pixels);
-    return fallback;
-  });
-  return size;
-};
+//
+// const squareSizeForPixels = function(pixels) {
+//   const fallback = 'small';
+//   if (nil(pixels)) {
+//     warn('squareSizeForPixels: pixels is nil');
+//     return fallback;
+//   }
+//   let size = getOrElseF(squarePixelsToSize, pixels, () => {
+//     warn("squarePixelsToSize: can't convert pixel size:", pixels);
+//     return fallback;
+//   });
+//   return size;
+// };
 
 const controlsToSettings  = (controls) => {
-  const squareSize = controls.squareSize.value;
-  const squarePixels = squareSizeToPixels[squareSize];
-  return {
-    squarePixels,
+  let playSettings = {
     dimension: controls.dimension.value,
     trayCapacity: controls.trayCapacity.value,
-    languageCode: 'en',
+    languageCode: defaultLanguageCode,
     pieceProviderType: pieceProviderTypes.random,
     startingPlayer: controls.startingPlayer.value,
+  };
+
+  let lookAndFeelSettings = {
+    squareSize: controls.squareSize.value,
     preferredDevice: controls.preferredDevice.value === 'None' ? null : controls.preferredDevice.value
   };
+
+  return mkUserGameSettings(playSettings, lookAndFeelSettings);
 };
 
 const settingsToControls = (settings) => {
+  let playSettings = settings.playSettings;
+  let lookAndFeelSettings = settings.lookAndFeelSettings;
   return {
     dimension: {
-      value: settings.dimension,
+      value: playSettings.dimension,
       placeholder: 'Dimension',
       valid: false,
       touched: false,
@@ -89,7 +103,7 @@ const settingsToControls = (settings) => {
       })
     },
     squareSize: {
-      value: squareSizeForPixels(settings.squarePixels),
+      value: lookAndFeelSettings.squareSize,
       placeholder: 'Square Size',
       valid: false,
       touched: false,
@@ -98,7 +112,7 @@ const settingsToControls = (settings) => {
       )
     },
     trayCapacity: {
-      value: settings.trayCapacity,
+      value: playSettings.trayCapacity,
       placeholder: 'Tray Capacity',
       valid: false,
       touched: false,
@@ -107,7 +121,7 @@ const settingsToControls = (settings) => {
       )
     },
     startingPlayer: {
-      value: settings.startingPlayer,
+      value: playSettings.startingPlayer,
       placeholder: 'Starting Player',
       valid: false,
       touched: false,
@@ -118,7 +132,7 @@ const settingsToControls = (settings) => {
       ]
     },
     preferredDevice: {
-      value: settings.preferredDevice === null ? 'None' : settings.preferredDevice,
+      value: lookAndFeelSettings.preferredDevice === null ? 'None' : settings.preferredDevice,
       placeholder: 'Preferred Device',
       valid: false,
       touched: false,
@@ -155,7 +169,7 @@ class SettingsComponent extends Component {
     let result = await vow.unwrap;
     let settings = result.ok ? result.data : null;
     if (settings === null)
-      settings = defaultGameSettings;
+      settings = defaultUserGameSettings;
     let formControls = settingsToControls(settings);
     this.setState((state) => {return {...state, settings, formControls}});
   };
@@ -172,10 +186,6 @@ class SettingsComponent extends Component {
   doCancel() {
     this.props.dispatchCancel();
   }
-
-  // gotoEntry = () => {
-  //   this.props.showEntry();
-  // };
 
   onChange = (event) => {
     const name = event.target.name;

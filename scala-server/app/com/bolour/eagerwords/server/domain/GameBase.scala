@@ -29,7 +29,7 @@ case class GameBase(
   playerId: Option[ID],
   firstSecond: Long
 ) {
-  def scorer = Scorer(gameParams.dimension, gameParams.trayCapacity, gameParams.pointValues)
+  def scorer = Scorer(gameParams.playParams.dimension, gameParams.playParams.trayCapacity, gameParams.pointValues)
 }
 
 object GameBase {
@@ -39,9 +39,10 @@ object GameBase {
     playerId: Option[ID],
   ): GameBase = {
     val seconds = Instant.now().getEpochSecond;
-    val languageCode = gameParams.languageCode
+    val languageCode = gameParams.playParams.languageCode
     val realLanguageCode = if (!languageCode.isEmpty) languageCode else english
-    val params = gameParams.languageCode(realLanguageCode)
+    val playParams = gameParams.playParams.copy(languageCode = realLanguageCode)
+    val params = gameParams.copy(playParams = playParams)
     GameBase(stringId(), params, initPieces, playerId, seconds)
   }
 

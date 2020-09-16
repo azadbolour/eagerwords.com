@@ -60,10 +60,12 @@ const PieceComponent = (props) => {
     let connectDragPreview = props.connectDragPreview;
     let isDragging = props.isDragging;
     let letter = props.piece.value;
-    let fontSize = getOrElseF(pieceFont, props.size, () => {
-      warn("PieceComponent: can't get font size for size:", props.size)
-      return 12;
-    });
+    let fontSize = props.fontSize;
+
+    // let fontSize = getOrElseF(pieceFont, props.size, () => {
+    //   warn("PieceComponent: can't get font size for size:", props.size)
+    //   return 12;
+    // });
     if (isDead(letter))
       letter = ""; // Do not render "dead" piece.
     // let worth = Piece.worths[letter];
@@ -115,7 +117,7 @@ PieceComponent.propTypes = {
    */
   isDragging: PropTypes.bool.isRequired,
 
-  size: PropTypes.string.isRequired
+  fontSize: PropTypes.number.isRequired
 };
 
 export default DragSource(

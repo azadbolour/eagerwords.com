@@ -23,18 +23,17 @@ import play.api.test.Helpers._
 import com.bolour.util.CommonUtil.Email
 import com.bolour.app.util.server.KernelUtil.stringId
 import com.bolour.eagerwords.common.domain.DeviceType.MouseDevice
-import com.bolour.eagerwords.common.domain.{GameParams, GameSettings, PieceProviderType, PlayerType}
+import com.bolour.eagerwords.common.domain.{GameParams, GamePlayParams, PieceProviderType, PlayerType, UserGameSettings}
 import com.bolour.eagerwords.server.service.GameServiceImpl
 import com.bolour.util.StreamUtil.runAndMapStdOut
 import controllers.GameApiJsonSupport._
 import org.scalatest.time.{Millis, Seconds, Span}
 import org.slf4j.LoggerFactory
-import controllers.KernelApiJsonSupport.{unitReads}
+import controllers.KernelApiJsonSupport.unitReads
 import org.scalatest.concurrent.ScalaFutures.PatienceConfig
 import org.scalatest.concurrent.ScalaFutures._
 import controllers.KernelApiJsonSupport._
 import com.bolour.util.email.EmailHelper.mockTokenExtractor
-
 import com.bolour.util.mail.AbstractSmtpMailService.EMAIL_CONTENT_LABEL
 
 class ControllerSpecBase extends PlaySpec with Results {
@@ -66,11 +65,16 @@ class ControllerSpecBase extends PlaySpec with Results {
   val trayCapacity = 5
   val languageCode = "tiny"
   val startingPlayer = PlayerType.UserPlayer
+  val genType = PieceProviderType.Cyclic
 
-  val settings = GameSettings(dimension, squarePixels, trayCapacity, languageCode,
-    PieceProviderType.Cyclic, Some(startingPlayer), Some(MouseDevice))
+//  val settings = GameSettings(dimension, squarePixels, trayCapacity, languageCode,
+//    PieceProviderType.Cyclic, Some(startingPlayer), Some(MouseDevice))
   val pointValues = List.fill(dimension, dimension)(1)
-  val gameParams = GameParams(settings, pointValues)
+
+  val playSettings: GamePlayParams = GamePlayParams(dimension, trayCapacity, languageCode, genType, Some(startingPlayer))
+  val gameParams = GameParams(playSettings, pointValues)
+
+  // val gameParams = GameParams(settings, pointValues)
   val center = dimension/2
 
   val player = domain.User(stringId, userId, name, email, true)
