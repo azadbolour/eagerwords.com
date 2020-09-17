@@ -1,52 +1,62 @@
 #!/bin/sh -x
 
-# TODO. Conatiner name should include tag.
+#
+# Build the server docker image from a specific git tag.
+# The same tag is used for tagging the built docker image.
+#
+namespace=$1      # azadbolour
+project=$2        # eagerwords.com
+tag=$3            # 0.9.2
 
-user=$1
-repository=$2
-tag=$3
-
-if [ -z "$user" ]; then 
-  echo "missing user - aborting - usage: $0 user repository tag"
+if [ -z "$namespace" ]; then 
+  echo "missing namespace - aborting - usage: $0 namespace project tag"
   exit 1
 fi
 
-if [ -z "$repository" ]; then 
-  echo "missing repositoty - aborting - usage: $0 user repository tag"
+if [ -z "$project" ]; then 
+  echo "missing project - aborting - usage: $0 namespace project tag"
   exit 1
 fi
 
 if [ -z "$tag" ]; then 
-  echo "missing tag - aborting - usage: $0 user repository tag"
+  echo "missing tag - aborting - usage: $0 namespace project tag"
   exit 1
 fi
 
 #
 # For now assuming well-known names.
 #
-packager_image_name="${repository}.packager"
-server_image_name="${repository}.server"
-packager_container_name="${repository}.packager.$tag"
-server_container_name="${repository}.server.$tag"
+packager_image_name="${project}.packager"
+packager_container_name="${packager_image_name}.$tag"
 
-docker stop $packager_container_name 
-docker rm $packager_container_name
-docker rmi $packager_image_name
+server_image_name="${project}.server"
+server_container_name="${server_image_name}.$tag"
 
-docker stop $server_container_name
-docker rm $server_container_name
-docker rmi $server_image_name
+#
+# Clean up any existing containers or images.
+#
+docker stop $packager_container_name || true
+docker rm $packager_container_name || true
+docker rmi "$namespace/$packager_image_name:$tag" || true
 
-set -e
-set -u
+docker stop $server_container_name || true
+docker rm $server_container_name || true
+docker rmi "$namespace/$server_image_name:$tag" || true
 
-build-packager-image.sh $repository $tag 
-run-packager-conatiner.sh --tag $tag
+#
+# Create a distribution package for the Scala Play application.
+#
+build-packager-image.sh $namespace $tag 
+run-packager-container.sh --tag $tag
+sleep 2         # Startup happens in the background - so wait a little.
 docker wait $packager_container_name
 
 # TODO. Prints the exit code. Should check that.
 
-build-server-image.sh $repository $tag 
+#
+# Build the server docker image.
+#
+build-server-image.sh $namespace $tag 
 
 (docker images | grep $server_image_name) || true
 

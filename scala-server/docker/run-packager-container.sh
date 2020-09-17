@@ -61,8 +61,9 @@ REPOSITORY=${PROJECT}.packager
 
 export TESTING_EMAIL="nobody@nowhere.com"
 export TESTING_TOKEN="123456"
+CONTAINER_NAME="${REPOSITORY}.${TAG}"
 
-nohup docker run --restart on-failure:5 --name ${REPOSITORY} \
+nohup docker run --restart on-failure:5 --name ${CONTAINER_NAME} \
     --workdir="" \
     -e TESTING_EMAIL -e TESTING_TOKEN \
     -v ${EAGERWORDS_DATA}:${EAGERWORDS_DATA} \
