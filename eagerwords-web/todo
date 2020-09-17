@@ -5,21 +5,8 @@
 
 [UX]
 
-- The status bar at the bottom may be confusing. Better wording, formatting or
-  placement of the status bar to make it clear it is a an active element.
-
 - Do we need onHide for modals. But it should not do anything because 
   we need to reset.
-
-- For all games, the word list should not overshoot the initial size of
-  the game area as a whole. As its size increases the structure of the 
-  page should remain constant.
-
-- Perhaps logout and help should be hrefs?
-
-- Button color - standard button color is blue. We have it as green. OK?
-
-- Exact sizing. No changes with browser window size changes.
 
 - Resizing the browser should not change the structure of the page at all.
   Some of it may go of screen.
@@ -46,20 +33,6 @@
 
 - Logo
 
-- Extend divs to used space only.
-
-- Modals should not take any space if not shown. Control the top space on page.
-
-- Better placement of validation messages in sign up page. Too far apart.
-
-- Reduce unnecessary white space.
-
-- Play page should show all its elements in browser when rendered.
-  Bottom should not be cut off.
-
-- To start a new game, the current button says "Play". Better wording?
-  "New", or "New Game"?
-
 [Bugs]
 
 - Signing up with an already-signed-up email - you get both the error decorator
@@ -67,7 +40,7 @@
   Use decorator and test again.
 
 - When a completed game after multiple passes is shown, the message is bot took
-  a pass, and he user can continue the game! Check game completion on
+  a pass, and the user can continue the game! Check game completion on
   resumption. Board and tray should be disabled for a completed game.
 
 [Priority]
@@ -75,8 +48,6 @@
 - Fix URGENT todos.
 
 - Add in legal content.
-
-- Document props for each component.
 
 - Make sure mock errors work everywhere in the UI. Check HomeComponent
   in particular.
@@ -109,9 +80,6 @@
 
   loginExpired should be renamed to loggedOut everywhere callbacks etc.
 
-- Check error from isLoggedIn and if expired then show loginExpired. 
-  More specific than unrecoverable. Test it.
-
 [Legal]
 
 - Add to the terms of service. In rare circumstances, may not be able to resume a
@@ -122,24 +90,12 @@
 
 [Look and Feel Enhancements]
 
-- Time display in the games page: Use 21:05, instead of 21:5
-
-- In play component, a legend for the small color-coded word play indicators,
-  can be provided by simply adding the square of that color to the left of each
-  player name in the score component.
-
 - game.getCompletedPlayPieces should just return a Result. Eliminate the throws.
-
-- Perhaps change the wording of the swap drop button when a tray letter 
-  begins to move to indicate more clearly it can be dropped there.
-  
-- Better to have a simple square for the swap drop.
 
 [Missing Functions]
 
-- Guest should be tracked by client id (a security measure). If a guest tries to
-  act on a timed out game they should be told it is timed out. The game will have
-  been removed from the system.
+- When a guest tries to act on a timed out game they should be told it is timed
+  out. The game will have been removed from the system.
 
 - Bringing up a different window of the same browser, the fact that the user is
   logged in is not recognized. For now this is by design to keep things simple.
@@ -147,8 +103,6 @@
   can of worms.
 
 [Comprehensive Testing]
-
-- Test that if action takes longer than 1/4 second you get the spinner.
 
 - Test with mouse vs touch dnd backends. See TODO URGENT comment in PlayComponent.
   May need some fixing.
@@ -197,7 +151,7 @@
 - After a resign and show later, the tray pieces should not be draggable. They
   are already not droppable on the board. But that is only half the issue.
 
-- For 15 and 17 default should be tiny squares.
+- For 15 and 17 default should be small squares.
 
 - Name the connected components so they can be searched for.
 

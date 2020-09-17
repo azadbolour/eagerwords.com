@@ -24,13 +24,6 @@
 - Identify an initially empty word list by an initial item 'words played',
   which is replaced by the first played word.
 
-- Multi-player games. The control of the game would be changed to the
-  server-side. Server tells each player it is their turn and obtains 
-  the play. Maybe use an actor as the representative of each player 
-  in the server.
-
-- Replaying games - going backwards and forwards in games.
-
 - Benchmarking the game. Benchmarking code exists for the earlier version
   of eagerwords (the boardgame project). Copy and upgrade as appropriate.
 
@@ -45,7 +38,7 @@
   a well-known online dictionary.
 
 - Make it more colorful. Also better color scheme to make letters more readable.
-  Background color?
+  Background color? Inform the color scheme by color-blindness.
 
 - Timer to tell how much time elapsed from previous play, how much time is left.
   Maybe progress bar - https://react-bootstrap.github.io/components/progress/.
@@ -56,18 +49,12 @@
   But the console gets the undecipherable message (bug): "Cannot read property
   kill of undefined."
 
-- Back and forward button behavior not regulated so far by the application. Back
-  button from a modal should just close the modal. Back or forward button fro
-  elsewhere should have an intuitive interpretation, or, should tell use to
-  please use the application's navigation's navigation controls. But there has
-  to a simple way for the user to get out of the content of eagerwords and go
-  back to what they were doing before.
-
 ## Technical Debt
 
 - Remove the game cache from the server code. Each api call needing a
   game would first retrieve it from the database. For good measure, 
-  use optimistic concurreny control using versions.
+  use optimistic concurreny control using versions. Allows load
+  balancing to multiple servers.
 
 - Server-side validations of data. Much is expected to have be valid as
   its only client is the eagerwords UI.
@@ -83,7 +70,7 @@
 
 - See TODO and FUTURE comments in the code base.
 
-- On initial startup - check that at least the english dictionary exists in the 
+- On initial startup - check that at least the English dictionary exists in the 
   specified directory. If not abort.
 
 - Clean up tests.
@@ -92,7 +79,7 @@
 
 - Use JSHint for Javascript code.
 
-- CICD. Integrate with a CI frameword on github. 
+- CI with github action.
 
 - More testing of checks for correctness of crosswords created by play.
 
@@ -101,8 +88,6 @@
 - Use typed JS code where possible. See for example, React DND Knight example:
   https://github.com/react-dnd/react-dnd/tree/master/packages/documentation/examples-decorators/src/00-chessboard
 
-- Understand debugging of Javascript with source maps in the browser.
-
 - Asynchronous sending of emails.
 
 ## Testing
@@ -110,9 +95,9 @@
 - Test preferred input device thoroughly on various platforms. Touch needs 
   testing.
 
-- Use a different database for tests in general as well as for integration
-  tests. Use random user id for integration tests, so they do not have to clean
-  up after themselves. Just remove the test database manually every so often.
+- Use a different database for tests. Use random user id for integration tests,
+  so they do not have to clean up after themselves. Just remove the test
+  database manually every so often.
 
 - React UI unit testing where it makes sense. Found it hard to simulate drag and
   drop circa 2018. Perhapse it has become easier.
@@ -138,9 +123,11 @@
 ## Recovery
 
 After a crash the running games will be marked as running in the database.
-Ideally recovery from a crash should mark them as suspended.
+Ideally recovery from a crash should mark them as suspended. Perhaps
+remove the distinction between running and suspended: both would just be 
+'Ongoing'.
 
-Test that no matter when the crash occurred, it can be resumed. It could be
+Test that no matter when the crash occurred, a game can be resumed. It could be
 after a commit of a user play but before the corresponding machine play, etc.
 
 ## Migration

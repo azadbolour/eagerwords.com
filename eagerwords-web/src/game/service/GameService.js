@@ -17,47 +17,50 @@ import {gameResponseToResultPromiseMapper} from "../domain/GameErrors";
 import {apiMockErrorAdapter} from "../../base/domain/ApiAdapters";
 import {Vow} from "../../base/domain/Vow";
 
-// NOTE. This module is in the process of incremental refactoring
-// to use include timeouts in API calls, catch rejections, and convert
-// http responses to a standard Result data structure.
-
 // TODO. URGENT. Refactor the doc comments below based on the new Vow/Result monad.
 // Some comments may have to move to the client API.
 
 /**
- * OBSOLETE COMMENTS.
  *
  * Abstraction layer above the api to hide the api implementation,
  * and to convert from application data structures to api data structures.
- *
- * The API calls used by this module return an HTTP response data structure,
- * since that data structure includes fields needed to represent what happened
- * as a result of the request. The json and message fields of the response
- * data structure include converted data, as follows.
- *
- * If the response indicates success, the response json is replaced with
- * an application-level data structure representing the returned data from the
- * API call.
- *
- * If the response indicated failure, it is returned verbatim, to provide
- * maximum information about the error to the caller.
- *
- * Here is an example of a response in case of failure:
- *
- * {
- *   "json": {
- *   "tag": "InvalidWordError",
- *   "message": "'BG' not found in the dictionary",
- *   "languageCode": "en",
- *   "word": "BG"
- *   },
- *   "ok": false,
- *   "status": 422,
- *   "statusText": "Unprocessable Entity"
- * }
- *
  */
 
+/**
+ * Mix in mocking of errors for testing, call the API,
+ * and package the response in a Vow.
+ *
+ * In development mode, the UI will provide options for simulating
+ * mock errors, and those options will be reflected in the mockErrors
+ * parameter.
+ *
+ * If mock error options are present, the first one will be simulated,
+ * and the API call will not be called.
+ *
+ * In either case, a promise is returned that will be fulfilled
+ * by the json returned from the API. In case of an error response from
+ * the API, if the error is a user error detected explicitly by the
+ * server-side code, the response status of 422 is returned with a json
+ * that includes a tag designating the specific error, and parameters
+ * describing the error.
+ *
+ * The Promise[HttpResponse] is transformed to a Vow[T], that represents
+ * Promise[Result[T]] where T is the expected type of the happy response.
+ *
+ * Thus, callers of the service layer always get a Vow[T], which is
+ * monad like Scala's Future monad, and can manipulate the response
+ * monadically.
+ *
+ * @param mockErrors Includes an option to mock a type of error.
+ * @param api The API object to call.
+ * @param func The API function to call.
+ * @param args The arguments to the API function.
+ *
+ * @returns Vow[T] Where T is the type of the expected response.
+ *                 In case of an error response, the Vow will
+ *                 resolve to an error Result based on the "tag"
+ *                 if any returned in the response json.
+ */
 const serviceWrapper = function(mockErrors, api, func, ...args) {
   let promise = apiMockErrorAdapter(func.name, mockErrors)(api, func, ...args);
   let promise1 = promise.then(response => {

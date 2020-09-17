@@ -3,51 +3,52 @@
 
 EagerWords is the second version of the Azad Bolour's crossword game and
 includes a number of enhancements on the first version (_boardgame_ project on
-github). The major enhancement is a optional passwordless user authentication.
+github). The major enhancement is passwordless user authentication.
 For logged-in users all games are saved. A game may be manually suspended, or it
 may be automatically timed out and suspended after a period of inactivity. In
 both cases, the game is saved for a logged-in user and can be resumed at a later
 time.
 
-Please note that in the current incomplete version, some documentation may be
-lagging behind the code base.
+Please note that in this ongoing project, some documentation may be lagging
+behind the code base at any given time.
 
 ## Versions
 
-Version 0.9.0 - beta.
+Version 0.9.2 - beta.
 
 ## The Game
 
-Eagerwords in a board game is in the same genre as other well-known crossword games:
-drag and drop letters to form words on a square board.
+Eagerwords is a board game in the same genre as other well-known crossword games:
+drag and drop letters to form words on a square board. It emphasizes capturing 
+board teritory.
 
 ## Scope
 
-The project defines a board game API, and client and server implementations for it. The
-precursor to EagerWords (the github _baordgame_ project) included two server
-implementations of the API, one in Haskell and one in Scala. At present
-EagerWords includes just a Scala implementation. 
+The project defines a board game API, and client and server implementations for it. 
+The client is a React web application. The server is a scala Play application.
 
 EagerWords is being developed on the MAC OS/X 10.9+, deployed on AWS, and
 accessed through modern browsers (including tablet browsers but not on
 small-screen smarphones). There are currently no plans for native iPhone of
-Android client as the smart phone screens are generally too small for this
-particular  game to be played well on it with touch.
+Android clients, as the smart phone screens are generally too small for this
+particular game to be played well on with touch.
 
 ## Getting Started in Development
 
 The steps needed to set up the development and deployment environments for the
-application are generally scripted in the Dockerfiles used for packaging and
-deployment of the application in the _docker_ directory of scala-server. 
+application are generally scripted in the Dockerfiles and associated shell
+scripts used for packaging and deployment of the client and server.
 
 To get started with development, follow the same steps listed in the Dockerfiles
 on your development machine. You may start by consulting the README.md file in
 in each sub-project and the corresponding docker directory, and then reviewing
 the relevant Dockerfiles.
 
-Currently the Scala server supports a file-based Sqlite database only.
-In development - look for the file _eagerwords.db_ in the directory where you
-run the scala application.
+The Scala server uses a file-based Sqlite database in development mode. The
+sqlite database is housed in the file _eagerwords.db_ in the directory where you
+run the scala application. To inspect it, use the sqlite client: sqlite3. The
+deployed version of EagerWords runs in a docker container and uses an external
+postgres database.
 
 After cloning the repository:
 
@@ -58,19 +59,31 @@ After cloning the repository:
 
 ## Manual Testing
 
-* Build and bring up the server: `cd scala-server; build.sh; run.sh`.
+* Build the server: `cd scala-server; build.sh`.
+
+* Run the server: set up required environment variables first 
+  (see env.dev.sh and local.exports.sh.template), then `run.sh`.
 
 * Bring up the development server for the UI code locally: `cd eagerwords-web; npm install; npm start`
 
-* Bring up `http://localhost:3000`. 
+* Use the development server: `http://localhost:3000`. 
+
+* Or build the web application bundle and serve it: `build.sh; run.sh`
+
+* Use the application bundle server: `http://localhost:5000`.
+
+Note that for simplicity, the Scala Play server does not support https. Https is
+handled in the deployment environment at a higher level.
 
 ## Deployment
 
-EagerWords is deployed to AWS. Its static web content (developed in
-the eagerwords\_web folder) uses an S3 bucket hidden behind by a CloudFront distribution.
-The Scala Play backend (developed in teh scala-server folder) is deployed in a docker 
-container. See the deployment folder (TBD) and the docker folders of each
-subsystem for details.
+EagerWords is deployed to AWS. Its static web content (developed in the
+eagerwords\_web folder) uses an S3 bucket hidden behind an AWS CloudFront
+distribution. The Scala Play backend (developed in the scala-server folder) is
+deployed in a docker container. See the default application.conf, and the
+specific prod.conf configuration files in the scala-server/conf directory for
+detailed server-side configuration information. Secrets are provided to the
+server by using environment variables at container run time.
 
 ## Dictionaries
 
