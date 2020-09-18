@@ -13,6 +13,13 @@ image so we just have a single docker file and image.
 
 For now following is what we have.
 
+The short story is when ready to produce a new docker image, first tag the
+source in git and push the tag, then run the script build-server-image-from-tag.sh
+giving it the namespace and the repo name of the docker image.
+
+The long story is how build-server-image-from-tag.sh works, and is described
+below by doing manually the steps script in the above script.
+
 There are two docker images: the packager and the server. 
 
 The packager is used to build and package the application from source.

@@ -1,4 +1,11 @@
 
+To build the production UI bundle, first tag the source in git and
+push the tag, then run the script build-bundle-from-tag.sh giving it
+the docker namespace, the docker tag, and the server URL to be
+used.
+
+Some details:
+
 - Dockerfile.nodejs - For the base image. Just get node and basic utilities here.
   Reused as the base of the builder ro reduce docker image build times.
 
