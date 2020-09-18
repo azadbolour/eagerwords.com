@@ -5,21 +5,6 @@
 
 [UX]
 
-- Do we need onHide for modals. But it should not do anything because 
-  we need to reset.
-
-- Resizing the browser should not change the structure of the page at all.
-  Some of it may go of screen.
-
-  Will putting this in index.css do the trick:
-
-  html {
-    position: relative;
-    min-width: 1024px;
-    min-height: 768px;
-    height: 100%;
-}
-
 - Extremes testing - largest value for all the game paraneters, smallest value
   for all the game parameters. Dimension 17 overflows the bounded space. Who
   detremines the overall dimensions of the page? The enclosing border should
@@ -38,10 +23,6 @@
 - Signing up with an already-signed-up email - you get both the error decorator
   but within it you get the Eula. Should not present Eula in case of an error.
   Use decorator and test again.
-
-- When a completed game after multiple passes is shown, the message is bot took
-  a pass, and the user can continue the game! Check game completion on
-  resumption. Board and tray should be disabled for a completed game.
 
 [Priority]
 

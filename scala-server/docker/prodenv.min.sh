@@ -3,6 +3,7 @@
 #
 # Minimal production environment for testing.
 # Run before starting the container in development machine for testing.
+# Note no smtp parameters - email is mocked. Token is logged.
 #
 
 #

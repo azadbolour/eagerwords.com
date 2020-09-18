@@ -5,21 +5,17 @@
 # The same tag is used for tagging the built docker image.
 #
 namespace=$1      # azadbolour
-project=$2        # eagerwords.com
-tag=$3            # 0.9.2
+tag=$2            # 0.9.2
+
+project="eagerwords.com"
 
 if [ -z "$namespace" ]; then 
-  echo "missing namespace - aborting - usage: $0 namespace project tag"
-  exit 1
-fi
-
-if [ -z "$project" ]; then 
-  echo "missing project - aborting - usage: $0 namespace project tag"
+  echo "missing namespace - aborting - usage: $0 namespace tag"
   exit 1
 fi
 
 if [ -z "$tag" ]; then 
-  echo "missing tag - aborting - usage: $0 namespace project tag"
+  echo "missing tag - aborting - usage: $0 namespace tag"
   exit 1
 fi
 
