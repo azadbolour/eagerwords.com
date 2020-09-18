@@ -26,6 +26,7 @@ import {defaultMockOpEffects} from '../domain/ApiAdapters';
 
 /*
  Generic state management for components that make asynchronous service calls.
+ This machinery is called the 'operation context pattern'.
 
  When a components calls an asynchronous service layer operation, various
  standard effects are needed in the user interface to inform the user of
@@ -37,13 +38,13 @@ import {defaultMockOpEffects} from '../domain/ApiAdapters';
  and sets state variables in the component to indicate the progress of the
  call and the type of error (if any) returned by the call.
 
- The ServiceProcessingDecorator is a component renders generic processing
- and error handling content based on the state of a component set in
+ The ServiceProcessingDecorator is a component that renders generic processing
+ and error handling content based on the state of a component, as set in
  serviceStateSettingInterceptor.
 
  A component that uses the operation context machinery for generic rendering
  will wrap its specific rendered content (generally based on the happy responses
- from the service layer) within an ServiceProcessingDecorator, delegating to it
+ from the service layer) within a ServiceProcessingDecorator, delegating to it
  the rendering of processing and error status.
 
  A component that adheres to the operation context contract will have a state
@@ -55,15 +56,15 @@ import {defaultMockOpEffects} from '../domain/ApiAdapters';
 /*
  Summary of the requirements of the operation context contract.
 
- 1. The component defines a state variable called opContext with
+ 1. The component defines a state variable called 'opContext' with
     properties as defined in defaultOpContext defined in this module.
     This allows the generic machinery for making service calls to
     'communicate' the state of the service call to the component,
-    so that the generic UI rendering can occur for processing events.
+    so that generic UI rendering can occur for processing events.
 
  2. In order for service calls to set appropriate opContext state in the
     component, service calls from the component are wrapped in
-    serviceStateSettingInterceptor. The interceptor will set processing
+    serviceStateSettingInterceptor. This interceptor will set processing
     and standard error messages in the opContext.
 
  3. The component renderer wraps the contents of the component in
@@ -72,7 +73,7 @@ import {defaultMockOpEffects} from '../domain/ApiAdapters';
     and render appropriate modals for processing waits, and for various
     error conditions.
 
- 4. The decorator component requires callbacks for two types of error
+ 4. The decorator component requires callbacks for two types of
     errors, login expiration, and general unrecoverable errors. These
     properties of the decorator component are called respectively
     'errorCallback', and 'loginExpiredCallback'.
@@ -83,22 +84,21 @@ import {defaultMockOpEffects} from '../domain/ApiAdapters';
 
  6. The current opContext contract also requires the errorCallback to
     reset the redux store's login evidence and redirect to the entry
-    component. In this way we simply escape to safety in case of
+    component. In this way, we simply escape to safety in case of
     an unrecoverable error.
 
  7. The contract for the entry component is that if it finds a valid
     login evidence in the redux store, it assumes, optimistically,
-    that the user is logged in, and simply redirects the 'home component'
+    that the user is logged in, and simply redirects to the 'home component'
     of the application. The home component has to recheck the validity of
     login with the server anyway, and if it finds that login has expired,
     it would reset the login evidence in the redux store as explained above.
 
-  Admittedly this is a complex and error-prone contract. It is our current
+  Admittedly this is a complex contract. It is our current
   compromise between keeping track of logins so user's don't have to
   unnecessarily relogin, on the one hand, and the generic processing of
-  expired logins. Subject to review in following versions of the
+  expired logins, on the other. Subject to review in following versions of the
   authentication model.
-
  */
 
 
@@ -213,6 +213,9 @@ export const resetOpMessages = (comp) => setOpMessages(comp, defaultOpMessages);
 export const resetMockOpEffects = (comp) => setOpMockEffects(comp, defaultMockOpEffects);
 export const resetOpContext = (comp) => setOpContext(comp, defaultOpContext);
 
+// Wait a reasonable interval before showing processing modal - reduce chance of flashing.
+const processingMessageDelay = 500;
+
 /**
  * Run an asynchronous action and set component state before
  * the action to reflect processing, and after the action to reflect
@@ -226,7 +229,7 @@ export const resetOpContext = (comp) => setOpContext(comp, defaultOpContext);
  */
 export const serviceStateSettingInterceptor = (comp, actionDisplayText, service, func, ...args) => {
   resetOpMessages(comp);
-  let timeout = setTimeout(() => setOpProcessingMsg(comp,`processing: ${actionDisplayText} ...`), 250);
+  let timeout = setTimeout(() => setOpProcessingMsg(comp,`processing: ${actionDisplayText} ...`), processingMessageDelay);
   return func.apply(service, args).then(result => {
     clearTimeout(timeout);
     resetOpContext(comp);
