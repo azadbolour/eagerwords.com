@@ -4,7 +4,9 @@
  *   https://github.com/azadbolour/eagerwords.com/blob/master/LICENSE.md
  */
 
-import {getApiType} from '../envvars';
+// TODO. URGENT. Move to base.
+
+import {getApiType} from '../../envvars';
 
 test('get api env', () => {
   console.log(`${getApiType()}`)

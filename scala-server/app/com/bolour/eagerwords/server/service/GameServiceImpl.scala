@@ -440,7 +440,17 @@ class GameServiceImpl @Inject() (config: Config, configuredDbName: Option[String
     } yield games
   }
 
- def timeoutLongRunningGames(): Future[Unit] = {
+  override def removeAllUserGameRelatedInfo(email: String): Future[Unit] = {
+    for {
+      ouser <- appService.findEmailUser(email)
+      _ <- ouser match {
+        case None => Future.failed(MissingUserException(email))
+        case Some(user) => persister.removeAllUserGameRelatedInfo(user.id)
+      }
+    } yield ()
+  }
+
+  def timeoutLongRunningGames(): Future[Unit] = {
     import scala.collection.JavaConverters._
     val nowSecond = nowSecs;
     def aged(gameId: String): Boolean = {

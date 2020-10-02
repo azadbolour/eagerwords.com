@@ -7,7 +7,7 @@ package com.bolour.app.kernel.server.service
 
 import com.bolour.util.CommonUtil.optionToTry
 import com.bolour.app.kernel.common.domain.AuthEvidence
-import com.bolour.app.kernel.server.domain.KernelExceptions.{AlreadyConfirmedException, AlreadySignedUpException, ConfirmationTimeoutException, ConfirmationTokenMismatchException, LoginConfirmationWithoutInitializationException, MaxTimeoutExceededException, MissingAuthEvidenceException, NotSignedUpException, SignUpConfirmationWithoutInitializationException}
+import com.bolour.app.kernel.server.domain.KernelExceptions.{AlreadyConfirmedException, AlreadySignedUpException, ConfirmationTimeoutException, ConfirmationTokenMismatchException, LoginConfirmationWithoutInitializationException, MaxTimeoutExceededException, MissingAuthEvidenceException, MissingUserException, NotSignedUpException, SignUpConfirmationWithoutInitializationException}
 import com.bolour.app.kernel.server.domain.{EmailUser, Login, SignUp, User, Version}
 import com.bolour.app.util.server.KernelUtil.stringId
 import com.bolour.util.CommonUtil.Email
@@ -95,6 +95,16 @@ class KernelServiceImpl @Inject() (config: Config, secretService: SecretService,
       triedEmailUser = optionToTry(optEmailUser) {NotSignedUpException(email)}
       emailUser <- Future.fromTry(triedEmailUser)
     } yield emailUser
+  }
+
+  override def removeSignedUpUser(email: String): Future[Unit] = {
+    for {
+      ouser <- findEmailUser(email)
+      _ <- ouser match {
+        case None => Future.failed(MissingUserException(email))
+        case Some(user) => persister.removeSignedUpUser(email)
+      }
+    } yield ()
   }
 
   /**

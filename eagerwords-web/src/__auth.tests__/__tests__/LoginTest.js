@@ -8,20 +8,21 @@ import '@testing-library/jest-dom'
 import user from '@testing-library/user-event'
 import React from 'react'
 import {render, fireEvent, screen, waitForElement} from '@testing-library/react'
-import LandingComponent from '../components/LandingComponent';
-import {landingHeading} from '../components/LandingComponent';
-import {authInitialState} from "../redux/AuthReducer";
+import LandingComponent from '../../auth/components/LandingComponent';
+// TODO. URGENT. Undefined import. Fix.
+import {landingHeading} from '../../auth/components/LandingComponent';
+import {authInitialState} from "../../auth/redux/AuthReducer";
 import {StoreProvider} from "./StoreProvider";
 // TODO, emailTestId is duplicated for components. Discriminate.
 import {
   gotoSignUpButtonTestId,
   signInButtonTestId,
   emailTestId
-} from "../components/SignInStartComponent";
-import {signUpButtonTestId, nicknameTestId} from "../components/SignUpStartComponent";
-import {confirmSignInButtonTestId, tokenTestId} from "../components/SignInConfirmComponent";
-import {unrecoverableCheckboxTestId} from "../components/Testing2Components";
-import {unrecoverableResetButtonTestId} from "../components/NotificationComponents";
+} from "../../auth/components/LandingComponent";
+import {signUpButtonTestId, nicknameTestId} from "../../auth/components/SignUpStartComponent";
+import {confirmSignInButtonTestId, tokenTestId} from "../../auth/components/SignInConfirmComponent";
+import {unrecoverableCheckboxTestId} from "../../base/components/Testing2Components";
+import {unrecoverableResetButtonTestId} from "../../base/components/NotificationComponents";
 import {stringify} from "../util/Logger";
 
 // TODO. URGENT. Incomplete work. Two tests are skipped. One does not work.
@@ -41,6 +42,7 @@ const renderLanding = function() {
       <LandingComponent/>
     </StoreProvider>
   );
+  // TODO. URGENT. Undefined variable. Fix.
   expect(screen.getByText(landingHeading)).toBeInTheDocument();
   return result;
 };

@@ -452,6 +452,7 @@ class GameController @Inject() (cc: ControllerComponents, service: GameService, 
 
   // maybeValid.fold(badRequest, validProcessor(gameId))
 
+  // TODO. Move to ControllerBase. Generic for all controllers.
   /**
     * Generic function to process a request pertaining to a particular user.
     *

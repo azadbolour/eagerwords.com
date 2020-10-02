@@ -37,6 +37,8 @@ trait KernelService {
   def findEmailUser(email: String): Future[Option[EmailUser]]
   def getEmailUser(email: String): Future[EmailUser]
 
+  def removeSignedUpUser(email: String): Future[Unit]
+
   /**
     * Initialize the sign-up sequence. Send an authentication token
     * to the user's email so that he can confirm his ownership of the

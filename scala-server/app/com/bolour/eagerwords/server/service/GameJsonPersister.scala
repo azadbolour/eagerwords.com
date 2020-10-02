@@ -42,6 +42,8 @@ trait GameJsonPersister {
   def deleteGame(gameId: ID): Future[Unit]
   def getUserGames(userId: ID, fromEpochSecond: Long, toEpochSecond: Long, maxGames: Int): Future[List[String]]
 
+  def removeAllUserGameRelatedInfo(userId: ID): Future[Unit]
+
   /**
     * Get the unfinished games of a given user.
     *

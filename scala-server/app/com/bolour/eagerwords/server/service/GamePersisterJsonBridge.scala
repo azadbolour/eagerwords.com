@@ -63,6 +63,9 @@ class GamePersisterJsonBridge(jsonPersister: GameJsonPersister, version: Int) ex
 
   override def deleteGame(gameId: ID): Future[Unit] = jsonPersister.deleteGame(gameId)
 
+  override def removeAllUserGameRelatedInfo(userId: ID): Future[Unit] =
+    jsonPersister.removeAllUserGameRelatedInfo(userId)
+
   override def getUnfinishedUserGames(userId: ID): Future[List[Game]] = {
     val futureJsons = jsonPersister.getUnfinishedUserGames(userId)
     decodeJsonGames(futureJsons)

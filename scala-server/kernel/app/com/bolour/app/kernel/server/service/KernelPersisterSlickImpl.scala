@@ -258,6 +258,22 @@ class KernelPersisterSlickImpl(val profile: JdbcProfile, db: Database, crypter: 
       yield ()
   }
 
+  override def removeSignedUpUser(email: String): Future[Unit] = {
+    for {
+      cipherEmail <- encryptEmail(email)
+      signUpQuery = signUpRows.filter(_.email === cipherEmail)
+      emailUserQuery = emailUserRows.filter(_.email === cipherEmail)
+      loginQuery = loginRows.filter(_.email === cipherEmail)
+      remover = for {
+        _ <- signUpQuery.delete
+        _ <- loginQuery.delete
+        _ <- emailUserQuery.delete
+      } yield ()
+      transaction = remover.transactionally
+      _ <- db.run(transaction)
+    } yield ()
+  }
+
 }
 
 // TODO. Duplicate code. Abstract out.

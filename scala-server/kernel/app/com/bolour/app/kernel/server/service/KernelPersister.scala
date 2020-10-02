@@ -73,9 +73,12 @@ trait KernelPersister {
   /**
     * Use email as the unique identifier for updating the login record.
     * Must exist.
-    *
-    *
     */
   def updateLogin(email: String, confirmed: Boolean, expiration: Long): Future[Unit]
+
+  /**
+    * Remove the user with the given email and all traces of his identification.
+    */
+  def removeSignedUpUser(email: String): Future[Unit]
 
 }

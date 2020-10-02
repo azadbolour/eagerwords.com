@@ -138,6 +138,17 @@ class GameJsonPersisterSlickImpl(val profile: JdbcProfile, db: Database) extends
     } yield ()
   }
 
+  override def removeAllUserGameRelatedInfo(userId: ID): Future[Unit] = {
+    val settingsQuery = userSettingsRows.filter {_.userId === userId}
+    val gamesQuery = gameRows.filter {_.userId === userId}
+    val remover = for {
+      _ <- settingsQuery.delete
+      _ <- gamesQuery.delete
+    } yield ()
+    val transaction = remover.transactionally
+    db.run(transaction)
+  }
+
   // TODO. Ignoring timing qualifications on user games. Getting all user games up to maxGames for now.
   // TODO. Add qualifications to getUserGames query.
   // TODO. The string is actually a json value. Define a type StringAsJson to make that clear.

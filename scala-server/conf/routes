@@ -31,3 +31,6 @@ POST    /game/close/:gameId             controllers.GameController.closeGame(gam
 POST    /game/fullgame/:gameId          controllers.GameController.getFullGame(gameId: String)
 POST    /game/all                       controllers.GameController.getUserGames()
 POST    /game/unfinished                controllers.GameController.getUnfinishedUserGames()
+
+# Not an auth API, since it removes signup as well as games, etc.
+POST    /admin/unregister               controllers.AdminController.unregisterUser()

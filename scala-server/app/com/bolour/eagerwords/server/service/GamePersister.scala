@@ -33,6 +33,8 @@ trait GamePersister {
   def findGameById(gameId: ID): Future[Option[Game]]
   def deleteGame(gameId: ID): Future[Unit]
 
+  def removeAllUserGameRelatedInfo(userId: ID): Future[Unit]
+
   /**
     * Get the user's games overlapping a given time interval.
     *

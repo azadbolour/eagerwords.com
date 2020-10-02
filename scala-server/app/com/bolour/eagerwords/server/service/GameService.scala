@@ -38,12 +38,14 @@ trait GameService {
   /**
     * Save the game settings for a given user.
     */
-  def saveUserGameSettings(email: String, settings: UserGameSettings): Future[Unit];
+  def saveUserGameSettings(email: String, settings: UserGameSettings): Future[Unit]
 
   /**
     * Get the game settings of a user.
     */
-  def getUserGameSettings(email: String): Future[Option[UserGameSettings]];
+  def getUserGameSettings(email: String): Future[Option[UserGameSettings]]
+
+  def removeAllUserGameRelatedInfo(email: String): Future[Unit]
 
   /**
     * Start a new game.
