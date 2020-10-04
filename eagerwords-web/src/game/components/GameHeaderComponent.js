@@ -33,15 +33,15 @@ export const GameHeader = (props) => {
 
   return (
     <div style={{display: 'flex', flexDirection: 'row'}}>
-      <ButtonToolbar aria-label="main">
+      <ButtonToolbar aria-label="header">
         <span style={{width: '540px'}}/>
-        <Button disabled={!loggedIn} size="sm" variant="success" onClick={() => doLogout()}>Logout</Button>{space}
         <Dropdown>
           <Dropdown.Toggle variant="success" size="sm" >Admin</Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => doUnregister()}>Unregister</Dropdown.Item>
+            <Dropdown.Item variant="success" size="sm" onClick={() => doUnregister()}>Unregister</Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown>{space}
+        <Button disabled={!loggedIn} size="sm" variant="success" onClick={() => doLogout()}>Logout</Button>{space}
         <Button size="sm" variant="success">
         <a href={helpUrl} target="_blank" style={{color: 'white'}}>Help</a>
         </Button>

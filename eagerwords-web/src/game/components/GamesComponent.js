@@ -39,6 +39,7 @@ import {gameRoutingPaths} from "./GameRoutingPaths";
 import {authRoutingPaths} from "../../auth/components/AuthRoutingPaths";
 import {getUserGamesDisplay, resumeDisplay, unregisterUserDisplay} from "../service/GameHandler";
 import {rulesHtmlName} from "./GameComponentConstants";
+import Modal from "react-bootstrap/Modal";
 
 const space = <pre> </pre>;
 
@@ -178,16 +179,29 @@ class GamesComponent extends Component {
     });
 
     return (
-      <div>
+      <Modal show={show}>
+        <Modal.Header>
+          <Modal.Title>Unregister from EagerWords?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div style={{fontSize: '20px'}}>
+          Warning!
+          Unregister removes all your data from EagerWords!
+          You may sign up again with the same email.
+          But the removal of your game and other information is permanent!
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
         <ButtonToolbar>
-          <Button variant="success" size="sm" onClick={() => unregistrer()}>
-            Unregister
-          </Button>
-          <Button variant="success" size="sm" onClick={() => canceller()}>
+          <Button variant="secondary" size="sm" onClick={() => canceller()}>
             Cancel
-          </Button>
+          </Button>{space}
+          <Button variant="warning" size="sm" onClick={() => unregistrer()}>
+            OK. Unregister and remove all my data!
+          </Button>{space}
         </ButtonToolbar>
-      </div>
+        </Modal.Footer>
+      </Modal>
     );
 
   };
