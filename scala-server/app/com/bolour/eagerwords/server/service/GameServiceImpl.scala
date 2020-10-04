@@ -410,6 +410,19 @@ class GameServiceImpl @Inject() (config: Config, configuredDbName: Option[String
     } yield games
   }
 
+  // TODO. URGENT. Hack. Assuming no more than 1000000 games for now. Use config parameter.
+  val maxUserGames = 1000000
+
+  private def getAllUserGames(email: String): Future[List[Game]] = {
+    for {
+      ouser <- appService.findEmailUser(email)
+      games <- ouser match {
+        case None => Future.failed(MissingUserException(email))
+        case Some(user) => persister.getUserGames(user.id, 0L, nowSecs, maxUserGames)
+      }
+    } yield games
+  }
+
   def getUnfinishedUserGames(email: String): Future[List[Game]] = {
     for {
       ouser <- appService.findEmailUser(email)
@@ -418,6 +431,13 @@ class GameServiceImpl @Inject() (config: Config, configuredDbName: Option[String
         case Some(user) => persister.getUnfinishedUserGames(user.id)
       }
     } yield games
+  }
+
+  private def removeUserGamesFromCache(email: String): Future[Unit] = {
+    for {
+      games <- getAllUserGames(email)
+      _ = games.map(g => gameCache.remove(g.gameBase.gameId))
+    } yield ()
   }
 
   override def saveUserGameSettings(email: String, settings: UserGameSettings): Future[Unit] = {
@@ -445,7 +465,11 @@ class GameServiceImpl @Inject() (config: Config, configuredDbName: Option[String
       ouser <- appService.findEmailUser(email)
       _ <- ouser match {
         case None => Future.failed(MissingUserException(email))
-        case Some(user) => persister.removeAllUserGameRelatedInfo(user.id)
+        case Some(user) =>
+          for {
+            - <- removeUserGamesFromCache(email)
+            - <- persister.removeAllUserGameRelatedInfo(user.id)
+          } yield ()
       }
     } yield ()
   }

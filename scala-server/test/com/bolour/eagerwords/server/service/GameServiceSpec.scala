@@ -27,6 +27,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 import com.bolour.eagerwords.server.service.ServiceTestHelper.{testingLogin, testingSignUp}
+import com.bolour.util.TimeUtil.nowSecs
 
 class GameServiceSpec extends FlatSpec with Matchers {
 
@@ -251,7 +252,32 @@ class GameServiceSpec extends FlatSpec with Matchers {
     maybeGame.isEmpty shouldEqual true
   }
 
+  "game service" should "remove all user game related information" in {
+    // Start a game for the user.
+    val game = startGameAndCommitDefaultPlay()
+    val gameId = game.gameBase.gameId
+    val someGame = service.findGameById(gameId).futureValue
+    someGame.isDefined shouldEqual true
+    someGame.get.gameBase.gameId shouldEqual gameId
 
+    // Save user settings.
+    val lookAndFeelSettings = GameLookAndFeelParams(SquareSize.NormalSquare, Some(MouseDevice))
+    val settings = UserGameSettings(playSettings, lookAndFeelSettings)
+    service.saveUserGameSettings(email, settings).futureValue
+    val maybeSettings = service.getUserGameSettings(email).futureValue
+    maybeSettings.isDefined shouldEqual true
+    maybeSettings.get shouldEqual settings
 
+    service.removeAllUserGameRelatedInfo(email).futureValue
+
+    val games = service.getUserGames(email, 0L, nowSecs, 10).futureValue
+    games.size shouldBe 0
+
+    val noSettings = service.getUserGameSettings(email).futureValue
+    noSettings.isEmpty shouldBe true
+
+    val noGame = service.findGameById(gameId).futureValue
+    noGame.isEmpty shouldEqual true
+  }
 
 }
