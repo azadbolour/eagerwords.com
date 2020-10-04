@@ -24,7 +24,7 @@ import com.bolour.util.CommonUtil.Email
 import com.bolour.app.util.server.KernelUtil.stringId
 import com.bolour.eagerwords.common.domain.DeviceType.MouseDevice
 import com.bolour.eagerwords.common.domain.{GameParams, GamePlayParams, PieceProviderType, PlayerType, UserGameSettings}
-import com.bolour.eagerwords.server.service.GameServiceImpl
+import com.bolour.eagerwords.server.service.{AdminServiceImpl, GameServiceImpl}
 import com.bolour.util.StreamUtil.runAndMapStdOut
 import controllers.GameApiJsonSupport._
 import org.scalatest.time.{Millis, Seconds, Span}
@@ -53,8 +53,10 @@ class ControllerSpecBase extends PlaySpec with Results {
 
   val appService = new KernelServiceImpl(config, secretService, None)
   val gameService = new GameServiceImpl(config, None, appService)
+  val adminService = new AdminServiceImpl(appService, gameService)
   val baseController = new KernelController(stubControllerComponents(), basicAppService)
   val gameController = new GameController(stubControllerComponents(), gameService, appService)
+  val adminController = new AdminController(stubControllerComponents(), appService, adminService)
 
   val name = "Bill"
   val email: Email = Email("bill@example.com")

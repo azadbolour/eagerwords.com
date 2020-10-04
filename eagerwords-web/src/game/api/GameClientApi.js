@@ -144,6 +144,14 @@ class GameClientApi {
     return promise;
   }
 
+  unregisterUser(loginEvidence) {
+    let body = JSON.stringify(loginEvidence);
+    let request = restManager.mkPostRequest(body);
+    let restPath = "/admin/unregister";
+    let promise = restManager.send(request, this.serverUrl, restPath);
+    return promise;
+  }
+
   postByIdOnly(id, pathPrefix) {
     let req = restManager.mkEmptyPostRequest();
     let restPath = `${pathPrefix}/${id}`;

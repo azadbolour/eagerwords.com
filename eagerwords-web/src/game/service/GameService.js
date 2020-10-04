@@ -185,6 +185,11 @@ class GameService {
     return serviceWrapper(mockErrors, api, api.saveUserGameSettings,
       this.loginEvidence, convertedSettings)
   }
+
+  unregisterUser(mockErrors) {
+    let api = this.api;
+    return serviceWrapper(mockErrors, api, api.unregisterUser, this.loginEvidence);
+  }
 }
 
 export default GameService;

@@ -7,7 +7,7 @@ import com.google.inject.{AbstractModule, Provides}
 import java.time.Clock
 
 import com.bolour.app.kernel.server.service.{KernelService, KernelServiceImpl, SecretService, SecretServiceConfigImpl}
-import com.bolour.eagerwords.server.service.{GameService, GameServiceImpl}
+import com.bolour.eagerwords.server.service.{AdminService, AdminServiceImpl, GameService, GameServiceImpl}
 import com.typesafe.config.ConfigFactory
 import play.api.{Configuration, Environment}
 
@@ -42,8 +42,10 @@ class Module(environment: Environment, configuration: Configuration) extends Abs
      * Is that done automatically by Play?
      */
     val appService = new KernelServiceImpl(conf, theSecretService, None)
+    val gameService = new GameServiceImpl(conf, None, appService)
     bind(classOf[KernelService]).toInstance(appService)
-    bind(classOf[GameService]).toInstance(new GameServiceImpl(conf, None, appService))
+    bind(classOf[GameService]).toInstance(gameService);
+    bind(classOf[AdminService]).toInstance(new AdminServiceImpl(appService, gameService))
     bind(classOf[ApplicationStart]).asEagerSingleton()
   }
 

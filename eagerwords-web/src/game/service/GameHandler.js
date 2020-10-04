@@ -20,6 +20,7 @@ import {valueResult} from "../../base/domain/Result";
 
 export const startGameDisplay = 'starting game';
 export const getUserGamesDisplay = 'getting user games';
+export const unregisterUserDisplay = 'unregistering user';
 export const resumeDisplay = 'resuming game';
 export const getUserGameSettingsDisplay = 'getting game settings';
 export const saveUserGameSettingsDisplay = 'saving game settings';
@@ -139,6 +140,10 @@ export const mkGameHandler = function(maybeLoginEvidence) {
 
     getUserGameSettings: function() {
       return _gameService.getUserGameSettings();
+    },
+
+    unregisterUser: function() {
+      return _gameService.unregisterUser();
     },
 
     /**

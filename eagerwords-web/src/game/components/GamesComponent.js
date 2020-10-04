@@ -37,7 +37,7 @@ import {NoticesComponent} from "./informational/NoticesComponent";
 import {AboutComponent} from "./informational/AboutComponent";
 import {gameRoutingPaths} from "./GameRoutingPaths";
 import {authRoutingPaths} from "../../auth/components/AuthRoutingPaths";
-import {getUserGamesDisplay, resumeDisplay} from "../service/GameHandler";
+import {getUserGamesDisplay, resumeDisplay, unregisterUserDisplay} from "../service/GameHandler";
 import {rulesHtmlName} from "./GameComponentConstants";
 
 const space = <pre> </pre>;
@@ -154,12 +154,42 @@ class GamesComponent extends Component {
     this.state = {
       opContext: defaultOpContext,
       games: [],
+      showUnregister: false,
     };
     this.authService = authService;
   }
 
   static propTypes = {
     gameHandler: PropTypes.object.isRequired
+  };
+
+  UnregisterModal = (props) => {
+    let show = this.state.showUnregister;
+    let it = this;
+
+    let unregistrer = () => {
+      let handler = this.props.gameHandler;
+      serviceStateSettingInterceptor(it, unregisterUserDisplay, handler, handler.unregisterUser,
+        opMockEffects(it))
+    };
+
+    let canceller = () => it.setState((state) => {
+      return {...state, showUnregister: false}
+    });
+
+    return (
+      <div>
+        <ButtonToolbar>
+          <Button variant="success" size="sm" onClick={() => unregistrer()}>
+            Unregister
+          </Button>
+          <Button variant="success" size="sm" onClick={() => canceller()}>
+            Cancel
+          </Button>
+        </ButtonToolbar>
+      </div>
+    );
+
   };
 
   // cell is null?? row is the row data structure whose schema is defined in columns.
@@ -296,6 +326,12 @@ class GamesComponent extends Component {
       this.props.onLogout();
     };
 
+    let unregisterCallback = () => {
+      this.setState((state, props) => {
+        return {...state, showUnregister: true}
+      });
+    };
+
     let Footer = () => {return (<GenericFooter
       EulaTextComponent={EulaTextComponent}
       PrivacyComponent={PrivacyComponent}
@@ -305,7 +341,7 @@ class GamesComponent extends Component {
 
     return (
       <div>
-        <GameHeader loginEvidence={loginEvidence} onLogout={logoutCallback} helpUrl={helpPublicUrl}/>
+        <GameHeader loginEvidence={loginEvidence} onLogout={logoutCallback} onUnregisterUser={unregisterCallback} helpUrl={helpPublicUrl}/>
         <Header as="h3" textAlign="center" style={{color: 'DarkGoldenRod'}}>Eager Words - Welcome {userName}!</Header>
         <div>{space}</div>
 
@@ -314,6 +350,7 @@ class GamesComponent extends Component {
           errorCallback={() => errorCallback()}
           loginExpiredCallback={() => loginExpiredCallback()}
         >
+          <it.UnregisterModal/>
           <div>
             {this.renderBody()}
           </div>
