@@ -141,12 +141,16 @@ class PlayComponent extends React.Component {
   };
 
   async componentDidMount() {
+    // console.log(`PlayComponent - in componentDidMount`);
     if (this.props.isGuest) {
       this.startGame();
       return;
     }
 
     let loggedIn = await checkLoggedIn(this);
+    // console.log(`messages: ${stringify(this.state.opContext.messages)}`);
+    // console.log(`loggedIn: ${stringify(loggedIn)}`);
+
     if (!loggedIn)
       return;
 
@@ -426,12 +430,15 @@ class PlayComponent extends React.Component {
     this.wordsComponent = list;
   }
 
-  render() {
-    if (this.game() === null) // Very first render - state not yet set.
+  RawPlayBody = (props) => {
+    /*
+     * Avoid errors if game is not yet set - early in the mount process.
+     * State will be set in componentDidiMount leading to further renders.
+     * So this empty body should never be shown.
+     */
+    if (this.game() === null)
       return (<div/>);
 
-    let errorCallback = () => this.props.onUnrecoverableError();
-    let loginExpiredCallback = () => this.props.loginExpired();
     let game = this.game();
     let userName = this.props.nickname.substring(0, 10);
     let userScore = game.score[Game.USER_INDEX];
@@ -439,8 +446,45 @@ class PlayComponent extends React.Component {
     let isTrayPiece = this.gameMethod().isTrayPiece;
     let gamePlayCanSwap = game.running() && !game.wordPlayStarted();
     let onSwap = this.onSwap;
-    let dndBackend = this.state.dndBackend;
     let numWords = this.wordsPlayed().length;
+    let it = this;
+
+    return (
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <it.PlayMenu />
+
+        <div style={{display: 'flex', flexDirection: 'row', border: '1px solid GoldenRod',
+          padding: '10px', margin: "15px auto 15px 0"}}>
+          <it.Board/>{space}{space}
+          <it.Tray />{space}{space}
+          <div style={{display: 'flex', flexDirection: 'column', left: "3px"}}>
+            <SwapBinComponent isTrayPiece={isTrayPiece} enabled={gamePlayCanSwap} onSwap={onSwap} />
+            <div style={styles.playScoreBoxStyle}>
+              {it.renderScore(userName, userScore)}
+              {it.renderScore("Bot", machineScore)}
+            </div>
+            <div style={{height: 210}}>
+            <div style={styles.playWordListStyle}>
+              <ReactList
+                ref={list => it.setWordsComponent(list)} length={numWords} type='uniform'
+                itemRenderer={ (index, key) => it.renderWord(index, key) }
+              />
+            </div>
+          </div>
+          </div>
+        </div>
+        <this.StatusAsButton/>
+        <div style={{paddingTop: '2px'}}>
+          <label style={styles.playLightMessageStyle(true)}>{copyright}</label>
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    let errorCallback = () => this.props.onUnrecoverableError();
+    let loginExpiredCallback = () => this.props.loginExpired();
+    let dndBackend = this.state.dndBackend;
     let it = this;
 
     return (
@@ -450,34 +494,7 @@ class PlayComponent extends React.Component {
           errorCallback={() => errorCallback()}
           loginExpiredCallback={() => loginExpiredCallback()}
         >
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <it.PlayMenu />
-
-              <div style={{display: 'flex', flexDirection: 'row', border: '1px solid GoldenRod',
-                padding: '10px', margin: "15px auto 15px 0"}}>
-                <it.Board/>{space}{space}
-                <it.Tray />{space}{space}
-                <div style={{display: 'flex', flexDirection: 'column', left: "3px"}}>
-                  <SwapBinComponent isTrayPiece={isTrayPiece} enabled={gamePlayCanSwap} onSwap={onSwap} />
-                  <div style={styles.playScoreBoxStyle}>
-                    {it.renderScore(userName, userScore)}
-                    {it.renderScore("Bot", machineScore)}
-                  </div>
-                  <div style={{height: 210}}>
-                  <div style={styles.playWordListStyle}>
-                    <ReactList
-                      ref={list => it.setWordsComponent(list)} length={numWords} type='uniform'
-                      itemRenderer={ (index, key) => it.renderWord(index, key) }
-                    />
-                  </div>
-                </div>
-                </div>
-              </div>
-              <this.StatusAsButton/>
-              <div style={{paddingTop: '2px'}}>
-                <label style={styles.playLightMessageStyle(true)}>{copyright}</label>
-              </div>
-            </div>
+          <it.RawPlayBody />
         </ServiceProcessingDecorator>
       </DndProvider>
     )

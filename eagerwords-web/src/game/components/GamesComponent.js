@@ -169,12 +169,13 @@ class GamesComponent extends Component {
     let it = this;
 
     let unregistrer = () => {
+      hide();
       let handler = this.props.gameHandler;
       serviceStateSettingInterceptor(it, unregisterUserDisplay, handler, handler.unregisterUser,
-        opMockEffects(it))
+        opMockEffects(it)).then(result => it.props.onLogout());
     };
 
-    let canceller = () => it.setState((state) => {
+    let hide = () => it.setState((state) => {
       return {...state, showUnregister: false}
     });
 
@@ -193,7 +194,7 @@ class GamesComponent extends Component {
         </Modal.Body>
         <Modal.Footer>
         <ButtonToolbar>
-          <Button variant="secondary" size="sm" onClick={() => canceller()}>
+          <Button variant="secondary" size="sm" onClick={() => hide()}>
             Cancel
           </Button>{space}
           <Button variant="warning" size="sm" onClick={() => unregistrer()}>
@@ -232,10 +233,10 @@ class GamesComponent extends Component {
 
   componentDidMount = async () => {
     let it = this;
-    console.log(`GamesComponent - did mount`);
+    // console.log(`GamesComponent - in componentDidMount`);
     let loggedIn = await checkLoggedIn(this);
-    console.log(`messages: ${stringify(this.state.opContext.messages)}`);
-    console.log(`loggedIn: ${stringify(loggedIn)}`);
+    // console.log(`messages: ${stringify(this.state.opContext.messages)}`);
+    // console.log(`loggedIn: ${stringify(loggedIn)}`);
     /*
      * The function checkLoggedIn will set the loggedOutMsg of this component.
      * Then the service processing decorator that wraps the contents of the

@@ -225,7 +225,7 @@ const processingMessageDelay = 500;
  * @param actionDisplayText The name of the action.
  * @param action An action returning a promise of a Result (see ApiResult).
  *
- * @returns The result of the operation as a Result data structure.
+ * @returns The result of the operation as a Result data structure inside a promise.
  */
 export const serviceStateSettingInterceptor = (comp, actionDisplayText, service, func, ...args) => {
   resetOpMessages(comp);
@@ -284,6 +284,7 @@ export const ServiceProcessingDecorator = (props) => {
   let comp = props.comp;
   let testingControls = getUseMockTestingComponent() ? props.testingControls : null;
   let state = comp.state;
+  // console.log(`serviceProcessingDecorator - state: ${stringify(state)}`);
   let opContext = state.opContext;
   let opMessages = opContext.messages;
   let processingMsg = opMessages.processingMsg;
@@ -295,7 +296,7 @@ export const ServiceProcessingDecorator = (props) => {
   let showLoggedOut = loggedOutMsg !== null;
 
   let loggedOutReset = () => {
-    console.log(`loginExpiredReset - loginExpiredCallback is set: ${props.loginExpiredCallback ? "yes" : "no"}`);
+    // console.log(`loginExpiredReset - loginExpiredCallback is set: ${props.loginExpiredCallback ? "yes" : "no"}`);
     // If login expired callback is not given, it must be because that error type is not expected.
     // To cover an unexpected mistake - treat stray login expired errors as unrecoverable errors.
     resetOpMessages(comp);
