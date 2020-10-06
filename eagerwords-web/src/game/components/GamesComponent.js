@@ -40,6 +40,7 @@ import {authRoutingPaths} from "../../auth/components/AuthRoutingPaths";
 import {getUserGamesDisplay, resumeDisplay, unregisterUserDisplay} from "../service/GameHandler";
 import {rulesHtmlName} from "./GameComponentConstants";
 import Modal from "react-bootstrap/Modal";
+import {getServerUrlBase} from "../../envvars";
 
 const space = <pre> </pre>;
 

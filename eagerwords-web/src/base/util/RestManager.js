@@ -79,8 +79,7 @@ export const restManager = {
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      mode: 'cors' // ,
-      // TODO. Just a response type. Security hole. See CORS.
+      mode: 'same-origin' ,
     };
   },
 
@@ -88,9 +87,8 @@ export const restManager = {
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      mode: 'cors',
+      mode: 'same-origin',
       'Content-Length': '0' // ,
-      // 'Access-Control-Allow-Origin': "http://localhost:3000" // Could not get this to work.
     };
   },
 

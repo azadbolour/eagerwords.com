@@ -49,6 +49,8 @@ async function doHandShake(dispatch) {
 
 doHandShake(store.dispatch);
 
+// const hostname = document.location.hostname;
+
 const appElement = document.getElementById('root');
 const reduxApp =
   <Provider store={store}>

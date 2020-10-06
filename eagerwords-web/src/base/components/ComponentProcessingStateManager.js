@@ -223,9 +223,9 @@ const processingMessageDelay = 500;
  *
  * @param comp The components calling the action.
  * @param actionDisplayText The name of the action.
- * @param action An action returning a promise of a Result (see ApiResult).
+ * @param action An action returning a  of a Vow (wrapper for a Result promise).
  *
- * @returns The result of the operation as a Result data structure inside a promise.
+ * @returns The result of the operation as a Result data structure inside a Vow (a promise wrapper).
  */
 export const serviceStateSettingInterceptor = (comp, actionDisplayText, service, func, ...args) => {
   resetOpMessages(comp);

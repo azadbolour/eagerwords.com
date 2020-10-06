@@ -4,10 +4,11 @@
  *   https://github.com/azadbolour/eagerwords.com/blob/master/LICENSE.md
  */
 
-import {apiTypes, getServerUrl} from "../../envvars";
+import {apiTypes, getServerUrl, getServerUrlBase} from "../../envvars";
 import GameMockApi from "./GameMockApi";
 import GameClientApi from "./GameClientApi";
 import {mkTimeoutProxy} from "../../base/util/MiscUtil";
+import {stringify} from "../../base/util/Logger";
 
 // TODO. Use an env var.
 const timeoutMillis = 1000 * 60;

@@ -47,7 +47,6 @@ const TrayComponent = (props) => {
    */
   let squareSize = props.squareSize;
   let squarePixels = squareSizeToPixels[squareSize];
-  // let size = safeSquarePixelsToSize(squarePixels);
   let fontSize = squareSizeToPieceFont[squareSize];
   const renderPiece = function(position) {
     return <PieceComponent
@@ -116,7 +115,7 @@ const TrayComponent = (props) => {
 TrayComponent.propTypes = {
   pieces: PropTypes.array.isRequired,
   canMovePiece: PropTypes.func.isRequired,
-  squarePixels: PropTypes.number.isRequired,
+  squareSize: PropTypes.string.isRequired,
   enabled: PropTypes.bool.isRequired,
 
   /**
