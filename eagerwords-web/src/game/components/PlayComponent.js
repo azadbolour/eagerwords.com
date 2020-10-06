@@ -294,6 +294,7 @@ class PlayComponent extends React.Component {
       // Later bot swaps are properly messaged.
       serviceStateSettingInterceptor(this, startGameDisplay, handler, handler.start, newGameParams).passValue(
         (game) => {
+          console.log(`game obtained from handler.start: ${stringify(game)}`);
           this.setStateGame(game);
           // this.setStateInfoMessage(startSuccessMessage(newGameParams));
         })
@@ -399,6 +400,7 @@ class PlayComponent extends React.Component {
 
   Tray = (props) => {
     let game = this.game();
+
     return <TrayComponent
       pieces={game.tray.pieces}
       canMovePiece={this.gameMethod().canMovePiece}
@@ -412,6 +414,7 @@ class PlayComponent extends React.Component {
     let game = this.game();
     let pointsInUserPlay = game.board.getUserMovePlayPieces().map(pp => pp.point);
     let machineMovePoints = game.machineMoves.map(piecePoint => piecePoint.point);
+    console.log(`Board - completed initializations`);
 
     return <BoardComponent
       board={game.board}
@@ -449,6 +452,8 @@ class PlayComponent extends React.Component {
     let numWords = this.wordsPlayed().length;
     let it = this;
 
+    console.log(`RawPlayBody - completed initializations`);
+
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <it.PlayMenu />
@@ -473,15 +478,16 @@ class PlayComponent extends React.Component {
           </div>
           </div>
         </div>
-        <this.StatusAsButton/>
+        <it.StatusAsButton/>
         <div style={{paddingTop: '2px'}}>
           <label style={styles.playLightMessageStyle(true)}>{copyright}</label>
         </div>
       </div>
     )
-  }
+  };
 
   render() {
+    console.log(`play component render - state: ${stringify(this.state)}`);
     let errorCallback = () => this.props.onUnrecoverableError();
     let loginExpiredCallback = () => this.props.loginExpired();
     let dndBackend = this.state.dndBackend;
