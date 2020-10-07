@@ -320,7 +320,8 @@ class GamesComponent extends Component {
             condensed
             hover
             pagination={ paginationFactory({
-              sizePerPage: 4
+              sizePerPage: 6,
+              hideSizePerPage: true
             })}
           />
         </div>
