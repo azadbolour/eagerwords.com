@@ -10,9 +10,9 @@ import Button from "react-bootstrap/Button";
 
 export const EulaComponent = (props) => {
   const {show, closer, canceller, EulaTextComponent} = props;
-
-  let title = 'EagerWords Terms of Service';
-  let acceptance = 'I accept the Terms of Service';
+  const space = ' ';
+  let title = 'EagerWords Terms of Use';
+  let acceptance = 'I accept the Terms of Use';
 
   console.log(`EulaComponent - rendering - title: ${title}`);
 
@@ -25,21 +25,21 @@ export const EulaComponent = (props) => {
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <EulaTextComponent/>
-        </Modal.Body>
-        <Modal.Footer>
           <Button
             variant="primary"
             onClick={() => closer()}
           >
             {acceptance}
-          </Button>
+          </Button>{space}
           <Button
             variant="primary"
             onClick={() => canceller()}
           >
             Cancel
           </Button>
+        </Modal.Body>
+        <Modal.Footer>
+          <EulaTextComponent/>
         </Modal.Footer>
       </Modal>
     </div>
