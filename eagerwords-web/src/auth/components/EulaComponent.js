@@ -7,6 +7,7 @@
 import React from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import {PrivacyComponent} from "../../game/components/informational/PrivacyComponent";
 
 export const EulaComponent = (props) => {
   const {show, closer, canceller, EulaTextComponent} = props;
@@ -39,7 +40,19 @@ export const EulaComponent = (props) => {
           </Button>
         </Modal.Body>
         <Modal.Footer>
-          <EulaTextComponent/>
+          <div>
+            <p>
+              Welcome to EagerWords!
+            </p>
+            <p>
+            This <em>Terms of Use</em> and <em>Privacy Policy</em> (see below)
+            constitute an agreement (“Agreement”) between you and Bolour Computing, its subsidiaries,
+            affiliates, and third-party associates (“EagerWords”).
+            </p>
+            <EulaTextComponent/>
+            <div>{space}</div>
+            <PrivacyComponent/>
+          </div>
         </Modal.Footer>
       </Modal>
     </div>

@@ -13,12 +13,7 @@ export const EulaTextComponent = (props) => {
       </p>
 
       <p>
-        Welcome to EagerWords!
-      </p>
-      <p>
-        This <em>Terms of Use</em> and our associated <em>Privacy Policy</em>
-        constitute an agreement (“Agreement”) between you and Bolour Computing, its subsidiaries,
-        affiliates, and third-party associates (“EagerWords”). EagerWords operates <em>eagerwords.com</em>,
+        EagerWords operates <em>eagerwords.com</em>,
         an online game service (the “Platform”). This Agreement applies to
         anyone (referred to as “users”, “user”, “you”, or “your” as applicable) who uses
         any of EagerWords's services, including, without limitation,

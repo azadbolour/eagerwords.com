@@ -20,7 +20,7 @@ export const GenericFooter = (props) => {
   const {EulaTextComponent, PrivacyComponent, NoticesComponent, AboutComponent} = props;
 
   const EulaModal = () => {
-    let title = "Terms of Service";
+    let title = "Terms of Use";
     let closer = () => setShowEula(false);
     return (
       <ModalPresenter show={showEula} title={title} closer={closer}>
@@ -70,7 +70,7 @@ export const GenericFooter = (props) => {
         <AttributionsModal />
         <AboutModal />
 
-        <a onClick={() => setShowEula(true)} style={labelStyle}>Terms of Service</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a onClick={() => setShowEula(true)} style={labelStyle}>Terms of Use</a> &nbsp;&nbsp;&nbsp;&nbsp;
         <a onClick={() => setShowPrivacy(true)} style={labelStyle}>Privacy Statement</a> &nbsp;&nbsp;&nbsp;&nbsp;
         <a onClick={() => setShowNotices(true)} style={labelStyle}>Attributions</a> &nbsp;&nbsp;&nbsp;&nbsp;
         <a onClick={() => setShowAbout(true)} style={labelStyle}>About</a> &nbsp;&nbsp;&nbsp;&nbsp;
