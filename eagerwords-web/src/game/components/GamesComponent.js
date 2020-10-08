@@ -33,7 +33,6 @@ import {GameHeader} from "./GameHeaderComponent";
 import {GenericFooter} from "../../base/components/GenericFooter";
 import {EulaTextComponent} from "./informational/EulaTextComponent";
 import {PrivacyComponent} from "./informational/PrivacyComponent";
-import {NoticesComponent} from "./informational/NoticesComponent";
 import {AboutComponent} from "./informational/AboutComponent";
 import {gameRoutingPaths} from "./GameRoutingPaths";
 import {authRoutingPaths} from "../../auth/components/AuthRoutingPaths";
@@ -352,7 +351,6 @@ class GamesComponent extends Component {
     let Footer = () => {return (<GenericFooter
       EulaTextComponent={EulaTextComponent}
       PrivacyComponent={PrivacyComponent}
-      NoticesComponent={NoticesComponent}
       AboutComponent={AboutComponent}
     />)};
 

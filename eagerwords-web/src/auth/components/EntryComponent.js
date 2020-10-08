@@ -178,12 +178,19 @@ class EntryComponent extends Component {
       }
     };
 
-    let Footer = () => {return (<GenericFooter
-      EulaTextComponent={EulaTextComponent}
-      PrivacyComponent={PrivacyComponent}
-      NoticesComponent={NoticesComponent}
-      AboutComponent={AboutComponent}
-      />)};
+    let Footer = () => {return (
+      <div>
+        <GenericFooter
+        EulaTextComponent={EulaTextComponent}
+        PrivacyComponent={PrivacyComponent}
+        NoticesComponent={NoticesComponent}
+        AboutComponent={AboutComponent}
+        />
+        <div style={{color: 'DarkGoldenRod', fontWeight: 'bold', fontSize: 15}}>
+          last updated: October 9, 2020
+        </div>
+      </div>
+      )};
 
     return (
       <div>

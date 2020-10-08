@@ -20,7 +20,6 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import history from './history';
 import {EulaTextComponent} from './game/components/informational/EulaTextComponent';
 import {PrivacyComponent} from './game/components/informational/PrivacyComponent';
-import {NoticesComponent} from './game/components/informational/NoticesComponent';
 import {AboutComponent} from './game/components/informational/AboutComponent';
 import {authRoutingPaths} from "./auth/components/AuthRoutingPaths";
 import {gameRoutingPaths} from "./game/components/GameRoutingPaths";
@@ -38,7 +37,6 @@ let gotoEntry = () => <EntryComponent
   header={entryHeader}
   EulaTextComponent={EulaTextComponent}
   PrivacyComponent={PrivacyComponent}
-  NoticesComponent={NoticesComponent}
   AboutComponent={AboutComponent}
 />;
 
@@ -47,7 +45,6 @@ let gotoSignUp = () => <SignUpComponent
   header={signUpHeader}
   EulaTextComponent={EulaTextComponent}
   PrivacyComponent={PrivacyComponent}
-  NoticesComponent={NoticesComponent}
   AboutComponent={AboutComponent}
 />;
 

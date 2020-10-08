@@ -9,7 +9,7 @@ export const EulaTextComponent = (props) => {
       </div>
 
       <p>
-        <b>Effective date: October 1, 2020</b>
+        <b>Effective date: October 9, 2020</b>
       </p>
 
       <p>

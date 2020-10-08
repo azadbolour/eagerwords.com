@@ -1,22 +1,8 @@
 
-- Error boundary toast page, must provide a useful way to get back on track.
-  Redirect back to the landing page after setting loggedOut redux state. Should
-  test it by planting an error.
-
 [UX]
-
-- Extremes testing - largest value for all the game paraneters, smallest value
-  for all the game parameters. Dimension 17 overflows the bounded space. Who
-  detremines the overall dimensions of the page? The enclosing border should
-  not overflow. Also no space between successive columns. 
 
 - For dimension of 17, machine play is slow and leads to flashing. May want
   increase delay before spinner to 1/2 second.
-
-- undefined 'this' error leads to 190 retries slowly being added - 
-  who calls retries? How to fix?
-
-- Logo
 
 [Bugs]
 
@@ -24,17 +10,6 @@
   but within it you get the Eula. Should not present Eula in case of an error.
   Use decorator and test again.
 
-[Priority]
-
-- Fix URGENT todos.
-
-- Add in legal content.
-
-- Make sure mock errors work everywhere in the UI. Check HomeComponent
-  in particular.
-
-- Update doc comments everywhere especially in GameService, GameHandler.
- 
 [Simple Cleanup]
 
 - Turn off clientId and token when an unrecoverable error occurs.
@@ -61,116 +36,7 @@
 
   loginExpired should be renamed to loggedOut everywhere callbacks etc.
 
-[Legal]
-
-- Add to the terms of service. In rare circumstances, may not be able to resume a
-  game. Add to terms of service.
-
-- Make sure the wording of acceptance checkbox is consistent 
-  with legal recommendations. 
-
-[Look and Feel Enhancements]
-
-- game.getCompletedPlayPieces should just return a Result. Eliminate the throws.
-
-[Missing Functions]
-
-- When a guest tries to act on a timed out game they should be told it is timed
-  out. The game will have been removed from the system.
-
-- Bringing up a different window of the same browser, the fact that the user is
-  logged in is not recognized. For now this is by design to keep things simple.
-  But needs to be documented or if aggregious fixed, unless it opens a different
-  can of worms.
-
-[Comprehensive Testing]
-
-- Test with mouse vs touch dnd backends. See TODO URGENT comment in PlayComponent.
-  May need some fixing.
-
-- In integration tests: resign, get the game back, try to commit a play
-  should get an error. Same with server-side test.
-
-- Check for browser-level context menu issues - any problems with going back,
-  etc?? 
-
-- Test error processing from machine play by simulating error.
-
-- Test logged out processing.
-
-- Test unrecoverable error processing.
-
-- Make sure server side does not allow operations on termintaed games.
-  Add to tests.
-
-- Test timeout and errors in PlayComponent using the decorator.
-
-- Integration test failure. Only when run together. Investigate later.
-
-- run-integration-tests - all of them together - gets loginConformation without
-  initialization error. Running each one by itself did not get the error
-
-  retest after converting testbase1.js to async/await.
-
-- Test. Home - gotoGames - if no longer logged in alert.
-
-- Test login expiration.
-
-- Test going to the games page when login has expired.
-
-- Fix UI tests.
-
-- Get the UI tests to run again. UI-only test of the service layer.
-
 [Nice to Have]
-
-- A reload from the /play path starts a new game. Better if it reloads the last
-  game visited. Would have to store the last visited game in local storage.
-
-- consistent naming of alertMessage - statusMessage?? 
-
-- After a resign and show later, the tray pieces should not be draggable. They
-  are already not droppable on the board. But that is only half the issue.
-
-- For 15 and 17 default should be small squares.
-
-- Name the connected components so they can be searched for.
-
-- Clean up validations - only show message after an edit is completed where 
-  possible, or use best practices.
-
-- Validation should be integrated with BareTextField.
-
-- create and use a gmail account for eagerwords.com instead of
-  support@bolour.com.
-
-- Unregistering the user not available yet. Confirm that all data will be lost.
-
-- No suspend for guest in server. Error. InvalidGuestAction - name of action.
-  No resume for guest. Same. Add to tests on both sides.
-
-- Case insensitive token.
-
-- Server Validations. Play validation 
-  
-  https://www.playframework.com/documentation/2.6.1/api/java/play/data/validation/Constraints.EmailValidator.html
-  https://alvinalexander.com/java/jwarehouse/play-framework-2.3/framework/src/play/src/main/scala/play/api/data/validation/Validation.scala.shtml
-
-- Error boundary does not say what the error was. It is an unrecoverable
-  error and should be treated like all unrecoverable errors with a reset.
-
-- Add cancel to the confirm login and signup. 
-
-- Cannot copy and paste error in ModalNotifier. Change to allow.
-  Use react-copy-to-clipboard.
-
-- Streamline error reporting - title should be the message
-
-  Text should be an explanation and how to fix with data used for the call that
-  produced the error repeated, so the user can see if they made a spelling
-  mistake.
-
-- Judicious minimal UI logging in production.
 
 - Unrecoverable errors need to be more user-friendly and specialized.
   No need for we are sorry if it is a user error bt still needs to be reset.
@@ -180,8 +46,4 @@
 
 - Use bootstrap components for inputs, e.g., dropdowns in the settings
   component.
-
-[Future]
-
-- Deleting games.
 

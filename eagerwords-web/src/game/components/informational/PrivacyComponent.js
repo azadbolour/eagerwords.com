@@ -8,7 +8,7 @@ export const PrivacyComponent = (props) => {
       </div>
 
       <p>
-        <b>Effective date: October 1, 2020</b>
+        <b>Effective date: October 9, 2020</b>
       </p>
 
       <h4>The Basics</h4>

@@ -41,6 +41,11 @@ export const AboutComponent = (props) => {
           <img src="/agplv3-88x31.png" alt="image" />
         </div>
 
+        <p>
+          Attributions to the open source dependencies of EagerWords are listed in
+          <a href="https://github.com/azadbolour/eagerwords.com/blob/master/NOTICES.txt">open source notices</a>.
+        </p>
+
       </div>
 
       <div style={{color: '#009FFF', fontSize: '20px'}}>
