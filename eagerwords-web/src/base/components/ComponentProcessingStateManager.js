@@ -236,6 +236,8 @@ export const serviceStateSettingInterceptor = (comp, actionDisplayText, service,
     // console.log(`result of ${actionDisplayText}: ${stringify(result)}`);
     if (!result.ok) {
       let message = resultErrorMessage(result);
+      console.log(`state setter - message: ${stringify(message)}`);
+      console.log(`state setter - recoverable: ${stringify(isRecoverableResult(result))}`);
       message = `${actionDisplayText}: ${message}`;
       if (isLoggedOutResult(result))
         setOpLoggedOutMsg(comp, `${message}. Please log in again.`);
@@ -246,6 +248,7 @@ export const serviceStateSettingInterceptor = (comp, actionDisplayText, service,
       else // Recoverable error. Specific component code will display it.
         setOpAlertMsg(comp, message);
     }
+    console.log(`state setter: opContext: ${stringify(comp.state.opContext)}`);
     return result;
   })
 };
@@ -294,6 +297,8 @@ export const ServiceProcessingDecorator = (props) => {
   let isError = errorMsg !== null;
   let showProcessing = processingMsg !== null;
   let showLoggedOut = loggedOutMsg !== null;
+  console.log(`decorator - errorMsg: ${stringify(errorMsg)}`);
+  console.log(`decorator - isError: ${stringify(isError)}`);
 
   let loggedOutReset = () => {
     // console.log(`loginExpiredReset - loginExpiredCallback is set: ${props.loginExpiredCallback ? "yes" : "no"}`);

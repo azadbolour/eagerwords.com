@@ -225,6 +225,7 @@ class SignUpStartComponent extends Component {
     ];
     // In prod build, <this.Comp> is undefined inside the JSX. Not in dev mode!
     let it = this;
+
     return (
       <ServiceProcessingDecorator
         comp={it}
@@ -238,6 +239,10 @@ class SignUpStartComponent extends Component {
 
   // TODO. Validate email, nickname.
   signUp(email, nickname) {
+    // Hide Eula so in case of errors, just the error modal is shown.
+    this.setState((state) => {
+      return {...state, showEula: false}
+    });
     // let effects = {mockEffects: opMockEffects(this)};
     let mockEffects = opMockEffects(this);
     let resultPromise = serviceStateSettingInterceptor(this, initSignUpDisplay,

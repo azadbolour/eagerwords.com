@@ -35,10 +35,10 @@ const modes = {
 // export const signUpHeading = "Eager Words Sign Up";
 
 /**
- * High-level components for doing initial sign-up. A generic components.
+ * High-level components for doing initial sign-up. A generic component.
  * Its dependencies on a particular application are provided in props.
  *
- * This components has two sub-components, SignUpStartComponent and SignUpConfirmComponent.
+ * This component has two sub-components, SignUpStartComponent and SignUpConfirmComponent.
  * Sign-up is a 2-step process including initialization and confirmation, and the
  * renderer of this components renders the corresponding sub-components for each step.
  *
@@ -46,7 +46,7 @@ const modes = {
  * to prevent subversion of the protocol for the 2 steps.
  *
  * The contract for the sub-components is that they get a callback function called 'done'
- * as a property, and the done callback will return the information needed by this components
+ * as a property, and the done callback will return the information needed by this component
  * from the particular step. A null value returned by 'done' for a required piece of information
  * from a sub-components indicates an error.
  *

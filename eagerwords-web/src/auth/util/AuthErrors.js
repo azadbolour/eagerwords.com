@@ -35,7 +35,7 @@ export const errorTags = {
 export const authClassifiers = {
   [errorTags.notSignedUp]: errorClassifiers.unrecoverable,
   [errorTags.alreadyConfirmed]: errorClassifiers.unrecoverable,
-  [errorTags.alreadySignedUp]: errorClassifiers.recoverable,
+  [errorTags.alreadySignedUp]: errorClassifiers.unrecoverable,
   [errorTags.invalidEmail]: errorClassifiers.recoverable,
   [errorTags.invalidNickname]: errorClassifiers.recoverable,
   [errorTags.missingAuthEvidence]: errorClassifiers.loggedOut,
