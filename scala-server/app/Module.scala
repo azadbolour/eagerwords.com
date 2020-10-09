@@ -38,7 +38,7 @@ class Module(environment: Environment, configuration: Configuration) extends Abs
     bind(classOf[SecretService]).toInstance(theSecretService)
     /*
      * TODO. URGENT. This can fail on initializing the underlying persister.
-     * Fail fast by shutting down in case of exceptions in Module configuration in general.
+     * TODO. URGENT. Fail fast by shutting down in case of exceptions in Module configuration in general.
      * Is that done automatically by Play?
      */
     val appService = new KernelServiceImpl(conf, theSecretService, None)

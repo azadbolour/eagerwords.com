@@ -23,7 +23,7 @@ import {stringify} from "./base/util/Logger";
 const validUrl = require('valid-url');
 
 export const ENV_API_TYPE = 'REACT_APP_API';
-export const ENV_SERVER_URL = 'REACT_APP_SERVER_URL';
+// export const ENV_SERVER_URL = 'REACT_APP_SERVER_URL';
 export const ENV_SERVER_PORT = 'REACT_APP_SERVER_PORT';
 export const ENV_MOCK_EMAIL = 'REACT_APP_MOCK_EMAIL';
 export const ENV_MOCK_TOKEN = 'REACT_APP_MOCK_TOKEN';
@@ -39,22 +39,25 @@ export const defaultApiType = apiTypes.client;
 
 export const getApiType = () => getEnv(ENV_API_TYPE, defaultApiType);
 
+export const defaultHostName = 'localhost';
+
 export const defaultServerPort = 6587;
 export const getServerPort = () => getEnv(ENV_SERVER_PORT, defaultServerPort);
 
-// Deprecated.
-export const defaultServerUrl = 'http://localhost:6587';
-
 export const hostname = window.location.hostname;
 export const protocol = window.location.protocol;
+
+export const mkServerUrl = (protocol, hostname, port) => `${protocol}//${hostname}:${port}`;
 export const getServerUrl = () => {
   let port = getServerPort();
-  let url = `${protocol}//${hostname}:${port}`;
+  let url = mkServerUrl(protocol, hostname, port);
   // console.log(`protocol: ${protocol}`);
   // console.log(`hostname: ${hostname}`);
   // console.log(`url: ${url}`);
   return url;
 };
+
+export const defaultServerUrl = mkServerUrl('http', defaultHostName, defaultServerPort);
 
 // export const getServerUrl = () => getEnv(ENV_SERVER_URL, defaultServerUrl);
 

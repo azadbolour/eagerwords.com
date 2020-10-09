@@ -4,7 +4,7 @@
 REACT_APP_API=client
 
 # The backend server url.
-REACT_APP_SERVER_URL=http://localhost:xxxx
+REACT_APP_SERVER_PORT=xxxx
 
 # For testing without having to receive emails. Must match server-side configuration parameters.
 REACT_APP_MOCK_EMAIL=

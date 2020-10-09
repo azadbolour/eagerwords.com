@@ -467,7 +467,8 @@ class GameController @Inject() (cc: ControllerComponents, service: GameService, 
 
   // maybeValid.fold(badRequest, validProcessor(userId))
 
-  // TODO. Include kernel exceptions here.
+  // TODO. URGENT. Include kernel exceptions here.
+  // Some are exclusive to Kernel. Perhaps they can be distinguished and not included.
   // TODO. Make unprocessable method of kernel exceptions public.
   // TODO. And move all unprocessable functions out of controller modules.
   /**

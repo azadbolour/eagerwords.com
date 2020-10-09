@@ -6,10 +6,10 @@
 
 namespace=$1
 tag=$2
-serverurl=$3
+serverport=$3
 
-if [ -z "${namespace}" -o -z "${tag}" -o -z "$serverurl" ]; then
-  echo "usage: $0 docker-namespace repository-tag server-url"
+if [ -z "${namespace}" -o -z "${tag}" -o -z "$serverport" ]; then
+  echo "usage: $0 docker-namespace repository-tag server-port"
   exit 1
 fi
 
@@ -45,7 +45,7 @@ cd ${cloneDir}
 dotenv=${PROJECT}/eagerwords-web/.env
 cat <<EOF > ${dotenv}
 REACT_APP_API=client
-REACT_APP_SERVER_URL=$serverurl
+REACT_APP_SERVER_PORT=${serverport}
 EOF
 
 #

@@ -5,20 +5,20 @@
 #
 namespace=$1
 tag=$2
-serverurl=$3
+serverport=$3
 
 if [ -z "$namespace" ]; then 
-  echo "missing namespace - aborting - usage: $0 namespace tag serverurl"
+  echo "missing namespace - aborting - usage: $0 namespace tag serverport"
   exit 1
 fi
 
 if [ -z "$tag" ]; then 
-  echo "missing tag - aborting - usage: $0 namespace tag serverurl"
+  echo "missing tag - aborting - usage: $0 namespace tag serverport"
   exit 1
 fi
 
-if [ -z "$serverurl" ]; then 
-  echo "missing serverurl - aborting - usage: $0 namespace tag serverurl"
+if [ -z "$serverport" ]; then
+  echo "missing serverurl - aborting - usage: $0 namespace tag serverport"
   exit 1
 fi
 
@@ -36,13 +36,13 @@ rm -rf ${build_output}
 # Clean up any existing container or image.
 #
 docker stop $react_builder_container_name || true
-docker rm $react_builder_container_name || true
+docker rm ${react_builder_container_name} || true
 docker rmi "$namespace/$react_builder_image_name:$tag" || true
 
-build-react-builder-image.sh $namespace $tag $serverurl
-run-react-builder-container.sh --tag $tag
+build-react-builder-image.sh ${namespace} ${tag} ${serverport}
+run-react-builder-container.sh --tag ${tag}
 sleep 2         # Startup happens in the background - so wait a little.
-docker wait $react_builder_container_name
+docker wait ${react_builder_container_name}
 
 ls -lt ${build_output}
 
