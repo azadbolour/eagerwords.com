@@ -40,7 +40,7 @@ export const EulaComponent = (props) => {
           </Button>
         </Modal.Body>
         <Modal.Footer>
-          <div>
+          <div style={{overflow: 'scroll', height: '400px'}}>
             <p>
               Welcome to EagerWords!
             </p>

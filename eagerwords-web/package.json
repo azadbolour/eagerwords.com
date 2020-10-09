@@ -1,6 +1,6 @@
 {
   "name": "eagerwords-web",
-  "version": "0.9.3",
+  "version": "0.9.5",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.4.1",
