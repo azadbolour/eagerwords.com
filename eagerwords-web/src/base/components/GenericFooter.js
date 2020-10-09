@@ -29,7 +29,7 @@ export const GenericFooter = (props) => {
   };
 
   const PrivacyModal = () => {
-    let title = "Privacy Statement";
+    let title = "Privacy Policy";
     let closer = () => setShowPrivacy(false);
     return (
       <ModalPresenter show={showPrivacy} title={title} closer={closer}>
@@ -61,7 +61,7 @@ export const GenericFooter = (props) => {
         <div style={{display: 'inlineBlock'}}>
         <div style={{float: 'left', backgroundColor: 'ivory'}}>
         <a onClick={() => setShowEula(true)} style={labelStyle}>Terms of Use</a> &nbsp;&nbsp;&nbsp;&nbsp;
-        <a onClick={() => setShowPrivacy(true)} style={labelStyle}>Privacy Statement</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a onClick={() => setShowPrivacy(true)} style={labelStyle}>Privacy Policy</a> &nbsp;&nbsp;&nbsp;&nbsp;
         <a onClick={() => setShowAbout(true)} style={labelStyle}>About</a> &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         </div>
