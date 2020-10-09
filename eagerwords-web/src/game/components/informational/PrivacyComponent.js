@@ -58,8 +58,7 @@ export const PrivacyComponent = (props) => {
       <p>
         Note that we may be obliged to communicate with you by your email when required by
         law, or if there is important information you need to know about EagerWords
-        that cannot otherwise be provided to you in a timely fashion. EagerWords does
-        not use your email for marketing purposes.
+        that cannot otherwise be provided to you in a timely fashion.
       </p>
 
       <h4>Removing Your Information</h4>
