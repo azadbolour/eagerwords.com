@@ -51,9 +51,8 @@ export const mkServerUrl = (protocol, hostname, port) => `${protocol}//${hostnam
 export const getServerUrl = () => {
   let port = getServerPort();
   let url = mkServerUrl(protocol, hostname, port);
-  // console.log(`protocol: ${protocol}`);
-  // console.log(`hostname: ${hostname}`);
-  // console.log(`url: ${url}`);
+  console.log(`backend server: protocol: ${protocol}, hostname: ${hostname}, port: ${port}`);
+  console.log(`backend server url: ${url}`);
   return url;
 };
 
