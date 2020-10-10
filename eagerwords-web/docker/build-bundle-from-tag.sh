@@ -7,6 +7,8 @@ namespace=$1
 tag=$2
 serverport=$3
 
+# serverport is '' for production.
+
 if [ -z "$namespace" ]; then 
   echo "missing namespace - aborting - usage: $0 namespace tag serverport"
   exit 1
@@ -17,10 +19,6 @@ if [ -z "$tag" ]; then
   exit 1
 fi
 
-if [ -z "$serverport" ]; then
-  echo "missing serverurl - aborting - usage: $0 namespace tag serverport"
-  exit 1
-fi
 
 project="eagerwords.com"
 react_builder_image_name="${project}.react-builder"

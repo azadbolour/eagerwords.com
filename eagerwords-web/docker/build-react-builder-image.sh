@@ -8,7 +8,8 @@ namespace=$1
 tag=$2
 serverport=$3
 
-if [ -z "${namespace}" -o -z "${tag}" -o -z "$serverport" ]; then
+# serverport is '' in production.
+if [ -z "${namespace}" -o -z "${tag}" ]; then
   echo "usage: $0 docker-namespace repository-tag server-port"
   exit 1
 fi
