@@ -41,13 +41,19 @@ export const getApiType = () => getEnv(ENV_API_TYPE, defaultApiType);
 
 export const defaultHostName = 'localhost';
 
-export const defaultServerPort = 6587;
+// No port is used in production deployment!
+// For local deployment, need explicit port.
+export const defaultServerPort = '';
 export const getServerPort = () => getEnv(ENV_SERVER_PORT, defaultServerPort);
 
 export const hostname = window.location.hostname;
 export const protocol = window.location.protocol;
 
-export const mkServerUrl = (protocol, hostname, port) => `${protocol}//${hostname}:${port}`;
+export const mkServerUrl = function(protocol, hostname, port) {
+  let portPart = port ? `:${port}` : '';
+  return `${protocol}//${hostname}${portPart}`;
+};
+
 export const getServerUrl = () => {
   let port = getServerPort();
   let url = mkServerUrl(protocol, hostname, port);
