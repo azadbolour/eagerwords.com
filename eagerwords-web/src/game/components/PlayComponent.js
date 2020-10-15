@@ -452,8 +452,6 @@ class PlayComponent extends React.Component {
     let numWords = this.wordsPlayed().length;
     let it = this;
 
-    console.log(`RawPlayBody - completed initializations`);
-
     return (
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <it.PlayMenu />
