@@ -129,12 +129,11 @@ class SignUpComponent extends Component {
     let showHome = modeEnabled && mode === modes.home;
     let homePath = this.props.homePath;
 
-    let {EulaTextComponent, PrivacyComponent, NoticesComponent, AboutComponent} = this.props;
+    let {EulaTextComponent, PrivacyComponent, AboutComponent} = this.props;
 
     let Footer = () => {return (<GenericFooter
       EulaTextComponent={EulaTextComponent}
       PrivacyComponent={PrivacyComponent}
-      NoticesComponent={NoticesComponent}
       AboutComponent={AboutComponent}
     />)};
 

@@ -69,7 +69,6 @@ class EntryComponent extends Component {
     header: PropTypes.string.isRequired,
     EulaTextComponent: PropTypes.func.isRequired,
     PrivacyComponent: PropTypes.func.isRequired,
-    NoticesComponent: PropTypes.func.isRequired,
     AboutComponent: PropTypes.func.isRequired,
   };
 
@@ -130,7 +129,7 @@ class EntryComponent extends Component {
   render = () => {
     let header = this.props.header;
     let homePath = this.props.homePath;
-    let {EulaTextComponent, PrivacyComponent, NoticesComponent, AboutComponent} = this.props;
+    let {EulaTextComponent, PrivacyComponent, AboutComponent} = this.props;
 
     let processingMessage = opProcessingMsg(this);
     let processing = processingMessage != null;
@@ -183,7 +182,6 @@ class EntryComponent extends Component {
         <GenericFooter
         EulaTextComponent={EulaTextComponent}
         PrivacyComponent={PrivacyComponent}
-        NoticesComponent={NoticesComponent}
         AboutComponent={AboutComponent}
         />
         <div style={{color: 'DarkGoldenRod', fontWeight: 'bold', fontSize: 15}}>
