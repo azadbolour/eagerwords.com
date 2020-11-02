@@ -31,7 +31,7 @@ sudo rm -rf ${PACKAGE_DIR}/*
 NAMESPACE=azadbolour
 REPOSITORY="${PROJECT}.react-builder"
 
-../../remove-container.sh ${REPOSITORY} || true
+../../../remove-container.sh ${REPOSITORY} || true
 
 nohup docker run --restart on-failure:5 --name ${REPOSITORY} \
     --workdir="" \
