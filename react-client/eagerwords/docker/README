@@ -24,7 +24,7 @@ Some details:
 
 The production build is copied to the host directory:
 
-   /opt/data/eagerwords.com/package/eagerwords-web/build/
+   /opt/data/eagerwords.com/package/react-client/build/
 
 The package directory /opt/data/eagerwords.com/package/ is mapped to the same
 path in the host file system. 

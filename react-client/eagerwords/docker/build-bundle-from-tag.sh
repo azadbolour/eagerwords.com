@@ -27,7 +27,7 @@ react_builder_container_name="${react_builder_image_name}"
 #
 # Clean up the output directory.
 # 
-build_output="/opt/data/eagerwords.com/package/eagerwords-web/build"
+build_output="/opt/data/eagerwords.com/package/react-client/build"
 rm -rf ${build_output}
 
 #

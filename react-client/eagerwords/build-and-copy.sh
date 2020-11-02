@@ -16,7 +16,9 @@ set -e
 
 ./build.sh
 
-mkdir -p ${PACKAGE_DIR}/eagerwords-web
+out_dir=${PACKAGE_DIR}/react-client
 
-cp -a build ${PACKAGE_DIR}/eagerwords-web
+mkdir -p ${out_dir}
+
+cp -a build ${out_dir}
 

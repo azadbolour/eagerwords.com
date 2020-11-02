@@ -36,7 +36,7 @@ sudo rm -rf ${cloneDir}/*
 ../../../clone-tag.sh ${cloneDir} ${tag}
 
 repository="${PROJECT}.react-builder"
-dockerfile=${cloneDir}/${PROJECT}/eagerwords-web/docker/Dockerfile.${repository}
+dockerfile=${cloneDir}/${PROJECT}/react-client/eagerwords/docker/Dockerfile.${repository}
 
 # Go to the working directory of docker build - the parent of the clone.
 cd ${cloneDir}
@@ -44,7 +44,7 @@ cd ${cloneDir}
 # Add a .env file to the UI source to provide the server url as an env variable.
 
 today=`date '+%b %d, %Y'`
-dotenv=${PROJECT}/eagerwords-web/.env
+dotenv=${PROJECT}/react-client/eagerwords/.env
 cat <<EOF > ${dotenv}
 REACT_APP_UPDATE_DATE=${today}
 REACT_APP_SERVER_PORT=${serverport}
