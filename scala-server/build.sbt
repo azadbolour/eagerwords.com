@@ -4,20 +4,28 @@ version := "0.9.5"
 publishMavenStyle := true
 publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 
+/*
+ Note. Standard play directory structure uses app and test at the top level.
+ No src! No main! Seems like the play plugin will not understand standard 
+ sbt directory structure: of src/main/scala, etc.
+*/
+
 lazy val scalautil = project
 
-lazy val kernel = (project in file("kernel"))
+lazy val auth = (project in file("auth"))
     .enablePlugins(PlayScala)
+    .disablePlugins(PlayLayoutPlugin)
     .dependsOn(scalautil % "test->test;compile->compile")
 
-lazy val plane = (project in file("plane"))
+lazy val grid = (project in file("grid"))
     .dependsOn(scalautil % "test->test;compile->compile")
 
 lazy val `scala-server` = (project in file("."))
   .enablePlugins(PlayScala)
+    .disablePlugins(PlayLayoutPlugin)
     .dependsOn(scalautil % "test->test;compile->compile")
-    .dependsOn(kernel % "test->test;compile->compile")
-    .dependsOn(plane % "test->test;compile->compile")
+    .dependsOn(auth % "test->test;compile->compile")
+    .dependsOn(grid % "test->test;compile->compile")
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
       

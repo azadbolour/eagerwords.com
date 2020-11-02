@@ -1,0 +1,13 @@
+# See: https://medium.com/better-programming/using-environment-variables-in-reactjs-9ad9c5322408
+
+# The backend server port.
+# No server port is used in production.
+# So exclude this line for the production build.
+REACT_APP_SERVER_PORT=xxxx
+
+# For testing without having to receive emails. Must match server-side configuration parameters.
+REACT_APP_MOCK_EMAIL=
+REACT_APP_MOCK_TOKEN=
+
+# To provide checkboxes in the UI for simulating errors in testing without going to the server.
+REACT_APP_USE_MOCK_TESTING_COMPONENT=false

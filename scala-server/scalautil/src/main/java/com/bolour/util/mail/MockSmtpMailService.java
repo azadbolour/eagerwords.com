@@ -6,9 +6,9 @@
 
 package com.bolour.util.mail;
 
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
 import com.typesafe.config.Config;
+
+import javax.mail.internet.MimeMessage;
 
 public class MockSmtpMailService extends AbstractSmtpMailService implements IMailService {
 

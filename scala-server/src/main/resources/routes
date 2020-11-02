@@ -1,0 +1,34 @@
+
+# Map static resources from the /public folder to the /assets URL path
+# TODO. Fix depecated versioned.
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
+GET     /static/*file                   controllers.Assets.versioned(path="/public/static", file: Asset)
+
+# Note. Calls that just get data but need a body use POST,
+# since some client frameworks disallow body in GET.
+
+GET     /base/hand-shake                com.bolour.eagerwords.controller.GameController.handShake
+
+# API calls for users authenticated passwordless by email and tokens.
+POST    /auth/initsignup                com.bolour.auth.controller.AuthController.initSignUp()
+POST    /auth/confirmsignup             com.bolour.auth.controller.AuthController.confirmSignUp()
+POST    /auth/initlogin                 com.bolour.auth.controller.AuthController.initLogin()
+POST    /auth/confirmlogin              com.bolour.auth.controller.AuthController.confirmLogin()
+POST    /auth/loggedin                  com.bolour.auth.controller.AuthController.isLoggedIn()
+POST    /auth/logout                    com.bolour.auth.controller.AuthController.logout()
+
+POST    /game/settings/save             com.bolour.eagerwords.controller.GameController.saveUserGameSettings()
+POST    /game/settings/get              com.bolour.eagerwords.controller.GameController.getUserGameSettings()
+POST    /game/game                      com.bolour.eagerwords.controller.GameController.startGame
+POST    /game/commit-play/:gameId       com.bolour.eagerwords.controller.GameController.commitPlay(gameId: String)
+POST    /game/machine-play/:gameId      com.bolour.eagerwords.controller.GameController.machinePlay(gameId: String)
+POST    /game/swap-piece/:gameId        com.bolour.eagerwords.controller.GameController.swapPiece(gameId: String)
+POST    /game/cancel/:gameId            com.bolour.eagerwords.controller.GameController.cancelGame(gameId: String)
+POST    /game/resign/:gameId            com.bolour.eagerwords.controller.GameController.resignGame(gameId: String)
+POST    /game/close/:gameId             com.bolour.eagerwords.controller.GameController.closeGame(gameId: String)
+POST    /game/fullgame/:gameId          com.bolour.eagerwords.controller.GameController.getFullGame(gameId: String)
+POST    /game/all                       com.bolour.eagerwords.controller.GameController.getUserGames()
+POST    /game/unfinished                com.bolour.eagerwords.controller.GameController.getUnfinishedUserGames()
+
+# Not an auth API, since it removes signup as well as games, etc.
+POST    /admin/unregister               com.bolour.eagerwords.controller.AdminController.unregisterUser()

@@ -89,7 +89,7 @@ project kernel
 clean
 compile
 test
-project plane
+project grid
 clean
 compile
 test

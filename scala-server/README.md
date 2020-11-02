@@ -1,5 +1,5 @@
 
-# Scala Implementation of the Eager Words Game Server
+# Scala Implementation of the EagerWords Game Server
 
 ## Modules
 
@@ -13,19 +13,38 @@ the following modules for its functions.
 This module implements basic functions needed by many applications, such as
 storing and retrieving user data.
 
-### plane
+### grid
 
-This module supports working with points on the 2-dimensional plane and with grids
-of such points. It implements a data structure called BlackWhiteGrid, a grid 
-of points on the plane that may be enabled or disabled, and if enabled may
-or may not have an associated value of some type. This data structure is used 
-to represent game boards.
+This module supports working with points on the 2-dimensional grid.  It
+implements a data structure called BlackWhiteGrid, a grid of points that may be
+enabled or disabled, and if enabled may or may not have an associated value of
+some type. This data structure is used to represent game boards.
 
 ### scalautil 
 
 This module provides general utility functions that may be of use in a variety of 
 applications.
 
+## Testing Considerations
+
+The transmission and receipt of authentication tokens via email complicates
+tests involving user registration and login. 
+
+For manual testing, a configuration parameter `MOCK_EMAIL` is provided that instructs 
+the server not send emails, but instead to log their content. The manual tester
+can then direct the log to stdout and copy and paste the logged authentication
+tokens to validate signup and login.
+
+For automated testing, two configuration variables, `TESTING_EMAIL`, and 
+`TESTING_TOKEN` are provided. A test that uses `TESTING_EMAIL` as its user's
+identifying email address would cause the server not to send an authentication
+token through email, and accept `TESTING_TOKEN` as the legitimate authentication
+token that would have been sent to the user. Of course, tests would then 
+have to be made aware of the values of these configuration parameters. 
+These settings are ignored if `MOCK_EMAIL` is false.
+
+The server-side code for recognizing `TESTING_EMAIL` and `TESTING_TOKEN` has yet to be 
+implemented. 
 
 ## Production Considerations
 
@@ -80,12 +99,20 @@ server.
   block in application.conf specifying the access details for the given
   type of DBMS. Valid types are: _postgres_, _sqlite_, and _h2mem_.
 
-- `ENCRYPTION_KEY`: For encrypting sennsitive fields in the database.
+- `ENCRYPTION_KEY`: For encrypting sensitive fields in the database.
 
 - `PLAY_SECRET`: The play http secret key.
 
 - `OPTIONAL_ORIGIN`: Add an optional origin to allow testing of remote server 
   from a UI served on your local machine.
+  
+- `TESTING_EMAIL`: The special email address used in automated tests to
+  forgo the authentication email.
+  
+- `TESTING_TOKEN`: The authentication token recognized as that which would 
+  have been sent to the user's email for verification of signin and login.
+  An automated test that uses `TESTING_EMAIL` for user identification can
+  use `TESTING_TOKEN` in confirming of its authenticity to the server. 
 
 ## To Do
 

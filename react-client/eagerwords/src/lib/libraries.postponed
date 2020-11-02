@@ -1,0 +1,140 @@
+
+Using independent libraries was abandoned. Ran out of time dealing
+with various issues. See below.
+
+The basic structure of the library code remains intact. Basically, 
+each pseudo-package under the lib directory includes an index.js
+that exports the public artifacts of the package.
+
+To import an artifact from the pseudo-package, use  a syntax like this:
+
+import {HttpUtil} from "lib/js-util/index";
+
+Note that for that to work we need a jsconfig.json in the root of the 
+main eagerwords package, as follows:
+
+{
+  "compilerOptions": {
+    "baseUrl": "src"
+  },
+  "include": ["src"]
+}
+
+When the libraries become independent, the imports would be simplified:
+
+import {HttpUtil} from "js-util";
+
+To restart the abandoned process of library separation:
+
+- move the lib directory out of the eagerwords hierarchy
+
+- add package.json to each lib package - see abandoned-libraries branch
+  of the repo
+
+- add "file: " dependencies to the library packages in the main eagerwords
+  package.json/
+
+Changing the imports for each library will be an easy global replace as 
+shown above.
+
+My experimenmt with libraries was painful. But it did have the effect 
+of cleaning up the dependency structure. A lot of guesswork was involved.
+One approach that finessed the use of webpack and babel failed when we got to
+tests. Te approach based on webpck and babel failed because I wasn't 
+able to figure out what loaders were needed.
+
+Giving up on libraries for now. Will need an expert if/when we need reuse.
+
+https://github.com/HarveyD/react-component-library
+
+This has jest.configure.js - so hopefully will just work with tests - uses
+rollup - not sure how that affects things
+
+it uses storybook - so another moving part
+
+https://github.com/intricatecloud/reusable-js-demo/commit/cc18f80383093e00451b990bebd9dfdcce1e08b8
+
+This one uses babel and webpack - it also has tests
+
+I guess we can start with this and see if a library test works.
+
+I got stuck on this error. Don't know what loaders I need.
+
+Module parse failed: Unexpected token (1:9)
+File was processed with these loaders:
+ * ./node_modules/babel-loader/lib/index.js
+You may need an additional loader to handle the result of these loaders.
+> export * as ApiAdapters from './domain/ApiAdapters';
+| export * as BaseErrors from './domain/BaseErrors';
+| export * as DeviceTypes from './domain/DeviceTypes'; // Aviod naming conflict with exported Result within the Module.
+
+Best is to forget libraries for the momeent. Installs and builds are painfully
+slow.  Unclear how to set up babel. Tests have issues. Ran out of time.
+
+Simply bring back the libs as is into the eagerwords code, and update 
+imports to them. Should not be too hard.
+
+Then create shell scripts that check imports in library code are always from
+dependennt libraries and never from the main app. 
+
+If and when we need to reuse a library we'll have to pay an expert to 
+set things up for us such that tests work both from inside each library and
+code in the app itself. And maybe installs and builds can be optimized.
+
+- could not get jest tests to work in libraries - 
+  get "cannot use import statement outside of module"
+  coould not figure out what to make of that
+
+  We'll see if we can get the test to run from eagerwords.
+  And add a todo item to move them to corresponding packages.
+
+  The basic structure remains the same. But package.json changes - 
+  we need a real build and test that we can understand.
+
+- unclear what goes into peer dependencies and how to specify dependencies
+  for tests but not for production in libraries such that tests of 
+  the library itself and tests of cleints of the library that use the library
+  will get their dependencies - I guess repeat dependencies in perr and also 
+  in dev for libraries?
+
+Here is how a library package was created and maintained.
+
+
+## Package react-support 
+
+Includes generally useful components and supporting objects for react UI
+development.
+
+To add a new module to this package, place it under source, and provide an
+export statement for it in src/index.js. See export patterns there.
+
+To update eagerwords-web with an updated version of this package:
+
+- build the package: `npm run build`
+
+- `cd ../../eagerwords`
+
+- `npm install react-support`
+
+This package was created by modifying the package.json output of create-react-library.
+
+  `npm install -g create-react-library`
+  `npx create-react-library tmp`
+
+Do that in a temp area. Then copy its package.json to your local package
+directory, and update as appropriate.
+
+Note that the latter provides for the continuous linkage of the library 
+to its client application. But since the library had to be built independently 
+of its client (eagerwords-web was already there) by modifying the output 
+of create-react-library, no attempt has been made to get the continuous 
+development functionality working [as yet].
+
+Note that in the package.json of the client (eagerwords-web) this dependency
+is declared as: `"react-support": "file:../react-support"`.
+
+To see duplications of a package like react:
+
+  `npm ls react`
+
+

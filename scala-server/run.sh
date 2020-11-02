@@ -8,6 +8,7 @@
 #
 # Get application.conf env variables.
 #
+. local.exports.sh
 . env.dev.sh
 
 #

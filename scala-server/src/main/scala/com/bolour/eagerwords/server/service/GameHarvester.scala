@@ -1,0 +1,27 @@
+/*
+ * Copyright 2017-2020 Azad Bolour
+ * Licensed under GNU Affero General Public License v3.0 -
+ *    https://github.com/azadbolour/eagerwords.com/blob/master/LICENSE.md
+ */
+
+package com.bolour.eagerwords.server.service
+
+import javax.inject.Inject
+import scala.concurrent.ExecutionContext
+import scala.concurrent.duration._
+import akka.actor.ActorSystem
+
+/**
+  * Periodically harvests long-running games considering them as abandoned.
+  *
+  * @param actorSystem Needed for scheduling harvesting actor.
+  * @param service The game service.
+  * @param executionContext Context in which to run the harvester.
+  */
+class GameHarvester @Inject() (actorSystem: ActorSystem, service: GameService)(implicit executionContext: ExecutionContext) {
+
+  actorSystem.scheduler.schedule(initialDelay = 10.minutes, interval = 10.minutes) {
+    service.timeoutLongRunningGames()
+  }
+
+}

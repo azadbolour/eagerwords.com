@@ -6,14 +6,14 @@
 
 package com.bolour.util.mail;
 
-import javax.mail.*;
-import javax.mail.event.ConnectionEvent;
-import javax.mail.event.ConnectionListener;
-import javax.mail.internet.*;
-
 import com.typesafe.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.mail.Transport;
+import javax.mail.event.ConnectionEvent;
+import javax.mail.event.ConnectionListener;
+import javax.mail.internet.MimeMessage;
 
 public class SmtpMailService extends AbstractSmtpMailService implements IMailService {
 

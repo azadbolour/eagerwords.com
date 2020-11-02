@@ -1,0 +1,28 @@
+#/bin/sh
+
+npm install react-support
+
+# 
+# Remove duplicate (extraneous) instances of react and react-dom.
+#
+# Since react-support defines react as a peer dependency, and 'npm ls react'
+# reports it as empty, the expectation is that an extraneous copy of react 
+# would not be created upon installing react-support. But it is created. 
+# Similarly for react-dom.
+#
+# This was due to a spurious import of react in index.js. Not sure why that 
+# caused the issue. But the issue has gone away. So this script is obsolete.
+# Keep it just in case the issue resurfaces for osme reason.
+#
+# 'npm prune' should remove the extraneous copies but it does not, likely because 
+# it sees that they are peer dependencies that should not have been copied in
+# the first place.
+#
+# Duplicate copies of react lead to 'Error: Invalid hook call' for hooks in 
+# functional components. Removing the duplicates explicitly appears to solve 
+# the problem.
+# 
+
+rm -rf node_modules/react-support/node_modules/react
+rm -rf node_modules/react-support/node_modules/react-dom
+

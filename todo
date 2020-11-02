@@ -1,0 +1,36 @@
+
+- After copying to eagerwords.com minimally change the scripts
+  to use the new project structure only. No major changes.
+
+  Keep track of all the changes for copying back.
+
+- Once copied back, just change all constants 'eagerwords.com' in scripts
+  to eagerwords2.com.
+
+- update all scripts to work with the new code organization
+
+  repository has to become a parameter to all scripts
+  differentiate between gitRepo and dockerRepo in scripts
+  maybe project becomes gitRepo
+
+  scala-server - has different sub-packages
+
+- create game userId index in next deployed RC
+
+- any changes to eagerwords should be reflected back
+
+- Set up backups from production database.
+
+- Update blurbs about the game in web site etc. to point to eagerwords.
+
+- Use Polly and Pretender for frontend only tests - record fetch requests.
+
+- React is now at version 17 - upgrade it and associated packages.  
+  This might help:
+  https://www.stoutsystems.com/tips-and-tricks-for-npm-package-management/
+
+  And there is only one instance in node_modules.  npm outdated
+
+- reduce UI console logging - add as a later to do - for now 
+  more ogging is useful for debugging - todo later
+

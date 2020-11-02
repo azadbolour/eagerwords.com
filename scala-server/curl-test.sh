@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO. Out-of-date. Needs upgrade.
+
 GAME_SERVER_PORT=6597
 
 creds="admin:admin"
