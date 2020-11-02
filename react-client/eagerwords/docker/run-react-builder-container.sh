@@ -26,7 +26,8 @@ fi
 
 sudo mkdir -p ${PACKAGE_DIR}
 sudo chmod 777 ${PACKAGE_DIR}
-sudo rm -rf ${PACKAGE_DIR}/*
+out_dir="${PACKAGE_DIR}/react-client"
+sudo rm -rf ${out_dir}
 
 NAMESPACE=azadbolour
 REPOSITORY="${PROJECT}.react-builder"

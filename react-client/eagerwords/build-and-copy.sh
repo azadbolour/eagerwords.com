@@ -16,7 +16,7 @@ set -e
 
 ./build.sh
 
-out_dir=${PACKAGE_DIR}/react-client
+out_dir="${PACKAGE_DIR}/react-client"
 
 mkdir -p ${out_dir}
 
