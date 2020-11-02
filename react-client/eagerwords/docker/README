@@ -1,8 +1,10 @@
 
 To build the production UI bundle, first tag the source in git and
 push the tag, then run the script build-bundle-from-tag.sh giving it
-the docker namespace, the docker tag, and the server URL to be
-used.
+the docker namespace, the docker tag, and the server port to be
+used. 
+
+Note that in production, the server port is not used and is left empty.
 
 Some details:
 

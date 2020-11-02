@@ -85,7 +85,7 @@ project scalautil
 clean 
 compile 
 test 
-project kernel
+project auth
 clean
 compile
 test

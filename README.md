@@ -14,7 +14,7 @@ behind the code base at any given time.
 
 ## Versions
 
-Version 0.9.2 - beta.
+Version 0.9.9 - RC4.
 
 ## The Game
 

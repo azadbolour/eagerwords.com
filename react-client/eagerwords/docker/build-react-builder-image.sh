@@ -33,7 +33,7 @@ sudo rm -rf ${cloneDir}/*
 # The repository is cloned externally to the docker file to avoid having to pass
 # github secrets to docker.
 #
-../../clone-tag.sh ${cloneDir} ${tag}
+../../../clone-tag.sh ${cloneDir} ${tag}
 
 repository="${PROJECT}.react-builder"
 dockerfile=${cloneDir}/${PROJECT}/eagerwords-web/docker/Dockerfile.${repository}

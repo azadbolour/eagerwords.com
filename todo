@@ -1,12 +1,4 @@
 
-- After copying to eagerwords.com minimally change the scripts
-  to use the new project structure only. No major changes.
-
-  Keep track of all the changes for copying back.
-
-- Once copied back, just change all constants 'eagerwords.com' in scripts
-  to eagerwords2.com.
-
 - update all scripts to work with the new code organization
 
   repository has to become a parameter to all scripts
