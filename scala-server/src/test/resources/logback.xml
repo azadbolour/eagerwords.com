@@ -47,7 +47,7 @@
   -->
 
   <logger name="play" level="INFO" />
-  <logger name="application" level="DEBUG" />
+  <logger name="application" level="INFO" />
 
   <logger name="ch.qos.logback" level="WARN" >
     <appender-ref ref="ROLLING_FILE" />

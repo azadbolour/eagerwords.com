@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set the test environment. 
-. prodenv.min.sh
+. ../prodenv.min.sh
 
 PROJECT="eagerwords.com"
 # /private needed for he MAC - as docker file sharing changes /var to /private/var!

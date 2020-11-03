@@ -154,7 +154,7 @@ your environment in a gitignored file prodenv.sh.
     . prodenv.sh
     run-server-container.sh --tag 0.5.0 --allowed-host "$host:6597"
 
-For development testing of the container, use prodenv.min.sh, which
+For development testing of the container, use ../prodenv.min.sh, which
 configures the database to be a file-based sqlite database.
 
 Deploy using a different port.

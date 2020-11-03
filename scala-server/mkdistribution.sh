@@ -77,6 +77,9 @@ sudo chmod 777 $PACKAGE_DIR || true
 
 (cd ../dict && ./unzip-masked-words.sh)
 
+# Set the testing environment.
+. prodenv.min.sh
+
 #
 # Build and package the play application.
 #

@@ -43,7 +43,7 @@ dependencyOverrides ++= Seq( // Seq for SBT 1.0.x
 
 libraryDependencies ++= Seq( jdbc , ehcache , ws , guice )
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % "test"
-libraryDependencies += "com.typesafe.slick" %% "slick" % "3.3.2"
+libraryDependencies += "com.typesafe.slick" %% "slick" % "3.3.3"
 libraryDependencies += "com.h2database" % "h2" % "1.4.185"
 libraryDependencies += "io.spray" %%  "spray-json" % "1.3.3"
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.30.1"
