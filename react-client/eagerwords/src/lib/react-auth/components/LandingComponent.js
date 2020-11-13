@@ -135,15 +135,12 @@ class LandingComponent extends Component {
     let EulaTextComponent = this.props.EulaTextComponent;
     let PrivacyComponent = this.props.PrivacyComponent;
 
-    console.log(`GuestEulaModal - show: ${show}`);
-
     let closer = () => this.props.enterAsGuest();
 
     let canceller = () => this.setState((state) => {
         return {...state, showGuestEula: false}
       });
 
-    console.log(`rendering EulaComponent`);
     return (
       <EulaComponent
         show={show} closer={closer} canceller={canceller}

@@ -27,12 +27,12 @@ const serviceWrapper = function(description, mockEffects, api, func, ...args) {
   return Vow(authResponseToResultPromiseMapper(promise1));
 };
 
-export const initSignUpDisplay = 'initializing sign up';
-export const confirmSignUpDisplay = 'confirming sign up';
-export const initLoginDisplay = 'initializing login';
-export const confirmLoginDisplay = 'confirming login';
-export const logoutDisplay = 'logout';
-export const isLoggedInDisplay = 'checking login';
+export const initSignUpDisplay = 'Initializing sign up';
+export const confirmSignUpDisplay = 'Confirming sign up';
+export const initLoginDisplay = 'Initializing login';
+export const confirmLoginDisplay = 'Confirming login';
+export const logoutDisplay = 'Logout';
+export const isLoggedInDisplay = 'Checking login';
 
 export const authService = (function() {
   let api = mkClientApi();

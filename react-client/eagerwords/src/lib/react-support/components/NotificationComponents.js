@@ -188,7 +188,6 @@ export const ModalNotifier = (props) => {
   let label = props.label;
   let buttonTestId = props.buttonTestId;
   let onClick = () => {
-    console.log(`ModalNotifier - onClick called`);
     props.onClick();
   };
 

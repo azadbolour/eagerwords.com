@@ -165,6 +165,8 @@ export const mkResponseToResultPromiseMapper =  (part, errorClassifier, messageT
         return statusResponseToError(response, errorTags.notFound, 'server request target not found');
       case 500:
         return statusResponseToError(response, errorTags.internalError, 'internal server error');
+      case 550: // RestManager.fetchRejectStatusCode
+        return statusResponseToError(response, errorTags.rejection, 'internet communication error');
       default:
         return statusResponseToError(response, errorTags.unclassified, 'internal server error');
     }
@@ -185,7 +187,7 @@ export const mkResponseToResultPromiseMapper =  (part, errorClassifier, messageT
 
   const statusResponseToError = (response, tag, message) => {
     let classifier = errorClassifier[tag];
-    message = (response.json) ? stringify(response.json) : message;
+    message = (response.json && response.json.message) ? response.json.message : message;
     return mkErrorData(part, tag, classifier, message);
   };
 

@@ -4,6 +4,7 @@
  *   https://github.com/azadbolour/eagerwords.com/blob/master/LICENSE.md
  */
 
+import {push} from "connected-react-router";
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ import {NotificationComponents} from "lib/react-support/index";
 import {BareTextInput} from "lib/react-support/index";
 import {TestingComponents} from 'lib/react-support/index';
 import {ComponentProcessingStateManager} from 'lib/react-support/index';
+import {authRoutingPaths} from "./AuthRoutingPaths";
 import {EulaComponent} from "./EulaComponent";
 import {authService, initSignUpDisplay} from "../service/AuthService";
 
@@ -165,7 +167,7 @@ class SignUpStartComponent extends Component {
       let valid = validEmail && validNickname;
       let state = this.state;
 
-      console.log(`state: ${stringify(state)}`);
+      // console.log(`state: ${stringify(state)}`);
 
       let showEula = valid;
       let showInvalidModal = !valid;
@@ -228,6 +230,10 @@ class SignUpStartComponent extends Component {
     )
   };
 
+  startErrorCallback = () => {
+    this.props.onUnrecoverableError()
+  };
+
   render = () => {
     const testingControls= [
       testingControlName.unrecoverable,
@@ -240,7 +246,7 @@ class SignUpStartComponent extends Component {
       <ServiceProcessingDecorator
         comp={it}
         testingControls={testingControls}
-        errorCallback={() => it.props.done(null)}
+        errorCallback={() => it.startErrorCallback()}
       >
         <it.RequestSignUp/><br />
       </ServiceProcessingDecorator>
@@ -268,6 +274,9 @@ export function mapStateToProps(store) {
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onUnrecoverableError: () => {
+      dispatch(push(authRoutingPaths.entry))
+    }
   }
 }
 

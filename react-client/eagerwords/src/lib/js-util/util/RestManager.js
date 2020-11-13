@@ -41,6 +41,17 @@ const processResponse = function(response) {
     })
   }
 };
+
+/**
+ * Extend status code to cover rejections.
+ */
+export const fetchRejectStatusCode = 550;
+
+const rejectMessage = (reason) => {
+  return "The application encountered a (possibly temporary) network disconnect trying to communicate "
+  + "with the server over the internet." + ` Internal message: '${reason}.'`
+};
+
 export const restManager = {
   /**
    * Send a message to the server and process the response into the following
@@ -64,14 +75,14 @@ export const restManager = {
     return fetch(restUrl, request).then(response => {
       return processResponse(response)
     }).catch(reason => {
-      // Reason may not be meaningful to the user - so just log it.
       console.log(`restManager - rejected fetch: ${reason}`);
+      let message = rejectMessage(reason);
       return {
         ok: false,
-        status: 500, // Pretend it is internal server error.
+        status: fetchRejectStatusCode,
         statusText: 'Rejected',
-        json: {message: 'rejected'}
-      }
+        json: {message}
+      };
     });
   },
 

@@ -35,7 +35,7 @@ export const Result = function({ok, data}) {
 };
 
 export const resultMapValue = (func) => (result) => {
-  console.log(`result: ${stringify(result)}`);
+  // console.log(`result: ${stringify(result)}`);
   return result.mapValue(func);
 };
 
