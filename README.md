@@ -16,6 +16,11 @@ behind the code base at any given time.
 
 Version 0.9.9 - RC4.
 
+As of November 12, 2020, this repo is not expected to continue to be actively 
+maintained. Further work on the eargerwords.com online application will proceed
+as a separate effort with an eye towards a commercial offering. And for business 
+reasons, the main IP of that work must remain private. 
+
 ## The Game
 
 Eagerwords is a board game in the same genre as other well-known crossword games:
